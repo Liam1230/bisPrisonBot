@@ -93,7 +93,13 @@ exports.line = functions.https.onRequest(async(request, response) => {
 				const mode = split[0]
 				const command = split[1]
 				if(message.text == "モード選択:行動計画"){
-
+					client.replyMessage(replyToken,messages.test2).then(res=>{
+						console.log(res)
+						response.status(200).send('OK');
+					}).catch(err=>{
+						console.error(err);
+						response.status(400).send(err);
+					})
 				}
 				if(message.text == "モード選択:ワーク"){}
 				if(message.text == "モード選択:アポレポート"){
