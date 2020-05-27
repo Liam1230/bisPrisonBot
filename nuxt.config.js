@@ -14,10 +14,12 @@ export default {
       { hid: 'description', name: 'description', content: process.env.npm_package_description || '' }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      { href:"https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css", rel:"stylesheet"}
     ],
     script:[
-      {src:"https://static.line-scdn.net/liff/edge/2/sdk.js", charset:"utf-8"}
+      {src:"https://static.line-scdn.net/liff/edge/2/sdk.js", charset:"utf-8"},
+      {src:"/js/v-money.js", charset:"utf-8"}
     ]
   },
   /*

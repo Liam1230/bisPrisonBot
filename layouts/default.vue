@@ -57,7 +57,7 @@
         <v-icon>mdi-menu</v-icon>
       </v-btn>
     </v-app-bar>
-    <v-content>
+    <v-content class="bg-col">
       <v-container>
         <nuxt />
       </v-container>
@@ -115,3 +115,8 @@ export default {
   }
 }
 </script>
+<style>
+.bg-col{
+  background-color: #FFB74D;
+}
+</style>
