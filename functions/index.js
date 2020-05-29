@@ -35,7 +35,7 @@ exports.loadMessageObject = functions.https.onRequest(async(request, response) =
 	})
 })
 
-exports.line = functions.https.onRequest(async(request, response) => {
+exports.line = functions.runWith({ memory: "2GB", timeoutSeconds: 540 }).https.onRequest(async(request, response) => {
 	const client = new line.Client({
 		channelAccessToken: "JF7ih96WB4Tfz3MutekMj3LnMmadn0zLdfttCQtm38AFJ6Si1Vec+qypCvHMCNj74VTa+3CXdQquFpUL1ijmNJ2LgZEN9LSzsvlNqZ8eoApPIRbjhjpaN0EhYHAG2DO5n4yt1PFnbm8jhAqecqAKdQdB04t89/1O/w1cDnyilFU=",
 		channelSecret:"d850f126efd1d3f49e6f52727dd7e35e"
