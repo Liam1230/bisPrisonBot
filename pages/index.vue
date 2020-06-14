@@ -175,9 +175,7 @@
 								label="課題"
 							></v-text-field>
 						</v-col>
-						<v-col cols="12">
-							<v-divider :key="'hr-'+idx"></v-divider>
-						</v-col>
+					
 					</v-row>
 				</template>
 				<v-row> 
