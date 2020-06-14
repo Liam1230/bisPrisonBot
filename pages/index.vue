@@ -65,20 +65,22 @@
 			<h3 align="center">
 				アポイント
 			</h3>
-			<h4 align="left">
-				件数
-			</h4>
-			<v-text-field
-				v-model="count"
-				label="件数"
-			></v-text-field>
-			<v-divider></v-divider>
-			<h4 align="left">
-				根拠
-			</h4>
 			<v-container>
 				<v-row>
-					<v-col cols="4" md="4" style="padding:0px">
+					<v-col cols="12" class="pt-0">
+						<v-text-field
+							v-model="count"
+							label="件数"
+						></v-text-field>
+					</v-col>
+				</v-row>
+				<v-row>
+					<v-col cols="12" class="pb-0">
+						<h4 align="left">
+							根拠
+						</h4>
+					</v-col>
+					<v-col class="pt-0" cols="4" md="4" style="padding:0px">
 						<v-checkbox
 							v-model="checkboxItems.sns" 
 							label="SNS" 
