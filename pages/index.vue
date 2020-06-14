@@ -91,10 +91,9 @@
 					</v-col>
 					<v-col cols="4" md="4" style="padding:0px">
 						<v-checkbox
-							v-model="checkboxItems"
+							v-model="checkboxItems.friend"
 							label="知り合い"
 							color="indigo"
-							value="2"
 							hide-details
 							class="pl-3 ml-3"
 							true-value="1"
@@ -105,10 +104,9 @@
 				<v-row>
 					<v-col cols="4" md="4" style="padding:0px">
 						<v-checkbox
-							v-model="checkboxItems"
+							v-model="checkboxItems.introdctioin"
 							label="紹介"
 							color="indigo darken-3"
-							value="3"
 							hide-details
 							class="pl-3 ml-3"
 							true-value="1"
@@ -117,10 +115,9 @@
 					</v-col>
 					<v-col cols="4" md="4" style="padding:0px">
 						<v-checkbox
-							v-model="checkboxItems"
+							v-model="checkboxItems.exchane_meeting"
 							label="交流会"
 							color="orange"
-							value="4"
 							hide-details
 							class="pl-3 ml-3"
 							true-value="1"
@@ -129,10 +126,9 @@
 					</v-col>
 					<v-col cols="4" md="4" style="padding:0px;">
 						<v-checkbox
-							v-model="checkboxItems"
+							v-model="checkboxItems.seminar"
 							label="セミナー"
 							color="orange darken-3"
-							value="5"
 							hide-details
 							class="pl-3 ml-3"
 							true-value="1"
@@ -143,10 +139,9 @@
 				<v-row>
 					<v-col cols="4" md="4" style="padding:0px">
 						<v-checkbox
-							v-model="checkboxItems"
+							v-model="checkboxItems.intermediary"
 							label="仲介サイト"
 							color="indigo darken-3"
-							value="3"
 							hide-details
 							class="pl-3 ml-3"
 							true-value="1"
@@ -180,9 +175,8 @@
 								label="課題"
 							></v-text-field>
 						</v-col>
-
-						<v-divider :key="'hr-'+idx"></v-divider>
 					</v-row>
+					<v-divider :key="'hr-'+idx"></v-divider>
 				</template>
 				<v-row> 
 					<v-layout justify-center style="padding: 10px">
@@ -215,6 +209,10 @@ export default {
 			sns: false,
 			web: false,
 			friend: false,
+			introdctioin: false,
+			exchane_meeting: false,
+			seminar: false,
+			intermediary: false
 		},
 		lineId: null,
 		works:[
