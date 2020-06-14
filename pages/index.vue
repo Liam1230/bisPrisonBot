@@ -171,6 +171,63 @@
 
 		<v-card outlined class="pt-5 mt-5">
 			<h3 align="center">
+				SNS
+			</h3>
+			<v-container>
+				<template v-for="(social,idx) in socials">
+					<v-row :key="idx">
+						<v-col cols="2" md="2">
+							<v-btn color="primary" fab x-small dark @click="onRemoveSnsButton(idx)">
+								<v-icon>mdi-minus</v-icon>
+							</v-btn>
+						</v-col>
+
+						<v-col cols="3" md="3">
+							<v-select
+								:items="selectBoxItems"
+								label="SNS"
+								v-model="social.snsType"
+								dense
+							></v-select>
+						</v-col>
+
+						<v-col cols="3" md="3">
+							<v-text-field
+								v-model="social.accountName"
+								label="アカウント名"
+							></v-text-field>
+						</v-col>
+
+						<v-col cols="3" md="3">
+							<v-text-field
+								v-model="social.follower"
+								label="フォロワー数"
+								type="number"
+							></v-text-field>
+						</v-col>
+
+						<v-col cols="3" md="3">
+							<v-text-field
+								v-model="social.targetFollower"
+								label="目標フォロワー数"
+								type="number"
+							></v-text-field>
+						</v-col>
+					
+					</v-row>
+				</template>
+				<v-row> 
+					<v-layout justify-center style="padding: 10px">
+						<v-btn color="error" fab x-small dark @click="onAddsnsButton()">
+							<v-icon>mdi-plus</v-icon>
+						</v-btn>
+					</v-layout>
+				</v-row>
+			</v-container>
+		</v-card>
+
+		<v-card outlined class="pt-5 mt-5">
+			<h3 align="center">
 				今月の課題
 			</h3>
 			<v-container>
@@ -249,7 +306,16 @@ export default {
 				name:"task1"
 			}
 		],
+		socials:[
+			{
+				snsType:null,
+				accountName:null,
+				follower:0,
+				targetFollower:0
+			}
+		],
 		selectItems:[0,5,10,15,20,25,30,35,40,45,50,55,60,65,70,75,80,85,90,95,100],
+		selectBoxItems:["instagram","twitter"],
 		count:0
 	}),
 	filters: {
@@ -265,6 +331,9 @@ export default {
 		onRemoveTaskButton(idx){
 			this.tasks.splice(idx,1)
 		},
+		onRemoveSnsButton(idx){
+			this.social.splice(idx,1)
+		},
 		onAddProjectButton(){
 			this.works.push({
 				name:"new",
@@ -277,6 +346,14 @@ export default {
 		onAddTaskButton(){
 			this.tasks.push({
 				name:"new"
+			})
+		},
+		onAddSnsButton(){
+			this.socials.push({
+				snsType:null,
+				accountName:null,
+				follower:0,
+				targetFollower:0
 			})
 		},
 		submit(){
