@@ -115,7 +115,7 @@
 					</v-col>
 					<v-col cols="4" md="4" style="padding:0px">
 						<v-checkbox
-							v-model="checkboxItems.exchane_meeting"
+							v-model="checkboxItems.exchangeMeeting"
 							label="交流会"
 							color="orange"
 							hide-details
@@ -210,7 +210,7 @@ export default {
 			web: false,
 			friend: false,
 			introdctioin: false,
-			exchane_meeting: false,
+			exchangeMeeting: false,
 			seminar: false,
 			intermediary: false
 		},
