@@ -1,7 +1,26 @@
 <template>
 	<div>
 		<h1 align="center" class="white-text">行動計画</h1>
+
 		<v-card outlined style="padding: 10px">
+		<h3 align="center">
+			活動年月
+		</h3>
+			<v-container>
+				<template>
+					<v-row>
+						<v-col cols="6" md="6">
+							<v-select :items="years" label="年" v-model="datetime.year"></v-select>
+						</v-col>
+						<v-col cols="6" md="6">
+							<v-select :items="months" label="月" v-model="datetime.month"></v-select>
+						</v-col>
+					</v-row>
+				</template>
+			</v-container>
+		</v-card>
+
+		<v-card outlined class="pt-5 mt-5">
 			<h3 align="center">
 				売上・利益目標
 			</h3>
@@ -191,7 +210,7 @@
 							></v-select>
 						</v-col>
 
-						<v-col cols="12" md="12">
+						<v-col cols="12" md="12"> 
 							<v-text-field
 								v-model="social.accountName"
 								label="アカウント名"
@@ -213,7 +232,7 @@
 								type="number"
 							></v-text-field>
 						</v-col>
-						
+
 						<v-col cols="12" md="12">
 							<v-divider :key="'hr-'+idx"></v-divider>
 						</v-col>
@@ -222,6 +241,50 @@
 				<v-row> 
 					<v-layout justify-center style="padding: 10px">
 						<v-btn color="error" fab x-small dark @click="onAddSnsButton()">
+							<v-icon>mdi-plus</v-icon>
+						</v-btn>
+					</v-layout>
+				</v-row>
+			</v-container>
+		</v-card>
+
+		<v-card outlined class="pt-5 mt-5">
+			<h3 align="center">
+				紹介営業・関係構築
+			</h3>
+			<v-container>
+				<template v-for="(connection,idx) in connections">
+					<v-row :key="idx">
+						<v-col cols="2" md="2">
+							<v-btn color="primary" fab x-small dark @click="onRemoveConnectButton(idx)">
+								<v-icon>mdi-minus</v-icon>
+							</v-btn>
+						</v-col>
+
+						<v-col cols="9" md="9">
+							<v-text-field
+								v-model="connection.introduce"
+								label="紹介営業"
+							></v-text-field>
+						</v-col>
+
+						<v-col cols="2" md="2">
+						</v-col>
+						<v-col cols="9" md="9">
+							<v-text-field
+								v-model="connection.relationship"
+								label="関係構築"
+							></v-text-field>
+						</v-col>
+
+						<v-col cols="12" md="12">
+							<v-divider :key="'hr-'+idx"></v-divider>
+						</v-col>
+					</v-row>
+				</template>
+				<v-row> 
+					<v-layout justify-center style="padding: 10px">
+						<v-btn color="error" fab x-small dark @click="onAddConnectButton()">
 							<v-icon>mdi-plus</v-icon>
 						</v-btn>
 					</v-layout>
@@ -306,7 +369,7 @@ export default {
 		],
 		tasks:[
 			{
-				name:"task1"
+				name:null
 			}
 		],
 		socials:[
@@ -317,8 +380,21 @@ export default {
 				targetFollower:0
 			}
 		],
+		connections:[
+			{
+				introduce: null,
+				relationship:null
+			}
+		],
+		datetime:{
+			year:null,
+			month:null
+		}
+		,
 		selectItems:[0,5,10,15,20,25,30,35,40,45,50,55,60,65,70,75,80,85,90,95,100],
 		selectBoxItems:["instagram","twitter"],
+		years:[],
+		months:[],
 		count:0
 	}),
 	filters: {
@@ -336,6 +412,9 @@ export default {
 		},
 		onRemoveSnsButton(idx){
 			this.socials.splice(idx,1)
+		},
+		onRemoveConnectButton(idx){
+			this.connections.splice(idx,1)
 		},
 		onAddProjectButton(){
 			this.works.push({
@@ -357,6 +436,12 @@ export default {
 				accountName:null,
 				follower:0,
 				targetFollower:0
+			})
+		},
+		onAddConnectButton(){
+			this.connections.push({
+				introduce: null,
+				relationship:null
 			})
 		},
 		submit(){
@@ -390,7 +475,19 @@ export default {
 			// });
 		}
 	},
-	mounted: async()=>{
+	mounted:  function () {
+		 this.$nextTick(function() {
+			for (var i=0; i<100;i++){
+				this.years.push(2019 + i)
+			}
+
+			for (var j=1; j<13;j++){
+				this.months.push(j)
+			}
+		});
+		
+		
+		//async()=>{
 		// liff.init({
 		// 	liffId:"1654259536-9QolwByP"
 		// })
@@ -425,6 +522,7 @@ export default {
 		// .catch(err=>{
 		// 	console.error(err)
 		// })
+		//}
 	}
 }
 </script>
