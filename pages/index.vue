@@ -69,10 +69,9 @@
 				<v-row>
 					<v-col cols="4" md="4" style="padding:0px">
 						<v-checkbox
-							v-model="checkboxItems" 
+							v-model="checkboxItems.sns" 
 							label="SNS" 
 							color="red" 
-							value="0" 
 							hide-details
 							class="pl-3 ml-3 text-caption"
 							true-value="1"
@@ -81,10 +80,9 @@
 					</v-col>
 					<v-col cols="4" md="4" style="padding:0px">
 						<v-checkbox 
-							v-model="checkboxItems" 
+							v-model="checkboxItems.web" 
 							label="Web" 
 							color="red darken-3" 
-							value="1" 
 							hide-details
 							class="pl-3 ml-3"
 							true-value="1"
@@ -142,6 +140,24 @@
 						></v-checkbox>
 					</v-col>
 				</v-row>
+				<v-row>
+					<v-col cols="4" md="4" style="padding:0px">
+						<v-checkbox
+							v-model="checkboxItems"
+							label="仲介サイト"
+							color="indigo darken-3"
+							value="3"
+							hide-details
+							class="pl-3 ml-3"
+							true-value="1"
+							false-value="0"
+						></v-checkbox>
+					</v-col>
+					<v-col cols="4" md="4" style="padding:0px">
+					</v-col>
+					<v-col cols="4" md="4" style="padding:0px;">
+					</v-col>
+				</v-row>
 			</v-container>
 		</v-card>
 
@@ -162,7 +178,11 @@ export default {
 		formData: {
 			name: ''
 		},
-		checkboxItems:[],
+		checkboxItems:{
+			sns: false,
+			web: false,
+			friend: false,
+		},
 		lineId: null,
 		works:[
 			{
@@ -181,7 +201,6 @@ export default {
 			}
 		],
 		selectItems:[0,5,10,15,20,25,30,35,40,45,50,55,60,65,70,75,80,85,90,95,100],
-		
 	}),
 	filters: {
 		moneyFilter(val){
@@ -277,6 +296,6 @@ export default {
 	color: white;
 }
 .v-label {
-    font-size: 0.8rem;
+    font-size: 0.7rem;
 }
 </style>
