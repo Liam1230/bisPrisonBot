@@ -63,8 +63,19 @@
 		</v-card>
 		<v-card outlined class="pt-5 mt-5">
 			<h3 align="center">
-				アポイント根拠
+				アポイント
 			</h3>
+			<h4 align="left">
+				件数
+			</h4>
+			<v-text-field
+				v-model="count"
+				label="件数"
+			></v-text-field>
+			<v-divider></v-divider>
+			<h4 align="left">
+				根拠
+			</h4>
 			<v-container>
 				<v-row>
 					<v-col cols="4" md="4" style="padding:0px">
@@ -237,6 +248,7 @@ export default {
 			}
 		],
 		selectItems:[0,5,10,15,20,25,30,35,40,45,50,55,60,65,70,75,80,85,90,95,100],
+		count:0
 	}),
 	filters: {
 		moneyFilter(val){
