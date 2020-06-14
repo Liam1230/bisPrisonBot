@@ -10,7 +10,7 @@
 					<template v-for="(work,idx) in works">
 						<v-row :key="idx">
 							<v-col cols="2" md="2">
-								<v-btn color="primary" fab x-small dark @click="onRemoveButton(idx)">
+								<v-btn color="primary" fab x-small dark @click="onRemoveProjectButton(idx)">
 									<v-icon>mdi-minus</v-icon>
 								</v-btn>
 							</v-col>
@@ -53,7 +53,7 @@
 					</template>
 					<v-row> 
 						<v-layout justify-center style="padding: 10px">
-							<v-btn color="error" fab x-small dark @click="onAddButton()">
+							<v-btn color="error" fab x-small dark @click="onAddProjectButton()">
 								<v-icon>mdi-plus</v-icon>
 							</v-btn>
 						</v-layout>
@@ -161,6 +161,39 @@
 			</v-container>
 		</v-card>
 
+		<v-card outlined class="pt-5 mt-5">
+			<h3 align="center">
+				今月の課題
+			</h3>
+			<v-container>
+				<template v-for="(task,idx) in tasks">
+					<v-row :key="idx">
+						<v-col cols="2" md="2">
+							<v-btn color="primary" fab x-small dark @click="onRemoveTaskButton(idx)">
+								<v-icon>mdi-minus</v-icon>
+							</v-btn>
+						</v-col>
+
+						<v-col cols="9" md="9">
+							<v-text-field
+								v-model="task.name"
+								label="課題"
+							></v-text-field>
+						</v-col>
+
+						<v-divider :key="'hr-'+idx"></v-divider>
+					</v-row>
+				</template>
+				<v-row> 
+					<v-layout justify-center style="padding: 10px">
+						<v-btn color="error" fab x-small dark @click="onAddTaskButton()">
+							<v-icon>mdi-plus</v-icon>
+						</v-btn>
+					</v-layout>
+				</v-row>
+			</v-container>
+		</v-card>
+
 		<div>
 			<v-layout justify-center style="padding: 10px">
 				<v-btn align="center" @click="submit()">
@@ -200,6 +233,11 @@ export default {
 				cvr: 20
 			}
 		],
+		tasks:[
+			{
+				name:"task1"
+			}
+		],
 		selectItems:[0,5,10,15,20,25,30,35,40,45,50,55,60,65,70,75,80,85,90,95,100],
 	}),
 	filters: {
@@ -209,16 +247,24 @@ export default {
 		}
 	},
 	methods:{
-		onRemoveButton(idx){
+		onRemoveProjectButton(idx){
 			this.works.splice(idx,1)
 		},
-		onAddButton(){
+		onRemoveTaskButton(idx){
+			this.tasks.splice(idx,1)
+		},
+		onAddProjectButton(){
 			this.works.push({
 				name:"new",
 				price:0,
 				cost:0,
 				num:0,
 				cvr:0
+			})
+		},
+		onAddTaskButton(){
+			this.tasks.push({
+				name:"new"
 			})
 		},
 		submit(){
