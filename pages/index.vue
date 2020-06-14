@@ -182,23 +182,23 @@
 							</v-btn>
 						</v-col>
 
-						<v-col cols="3" md="3">
+						<v-col cols="9" md="9">
 							<v-select
 								:items="selectBoxItems"
 								label="SNS"
 								v-model="social.snsType"
-								dense
+								
 							></v-select>
 						</v-col>
 
-						<v-col cols="3" md="3">
+						<v-col cols="12" md="12">
 							<v-text-field
 								v-model="social.accountName"
 								label="アカウント名"
 							></v-text-field>
 						</v-col>
 
-						<v-col cols="3" md="3">
+						<v-col cols="6" md="6">
 							<v-text-field
 								v-model="social.follower"
 								label="フォロワー数"
@@ -206,7 +206,7 @@
 							></v-text-field>
 						</v-col>
 
-						<v-col cols="3" md="3">
+						<v-col cols="6" md="6">
 							<v-text-field
 								v-model="social.targetFollower"
 								label="目標フォロワー数"
@@ -218,7 +218,7 @@
 				</template>
 				<v-row> 
 					<v-layout justify-center style="padding: 10px">
-						<v-btn color="error" fab x-small dark @click="onAddsnsButton()">
+						<v-btn color="error" fab x-small dark @click="onAddSnsButton()">
 							<v-icon>mdi-plus</v-icon>
 						</v-btn>
 					</v-layout>
@@ -332,7 +332,7 @@ export default {
 			this.tasks.splice(idx,1)
 		},
 		onRemoveSnsButton(idx){
-			this.social.splice(idx,1)
+			this.socials.splice(idx,1)
 		},
 		onAddProjectButton(){
 			this.works.push({
