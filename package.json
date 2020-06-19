@@ -12,8 +12,9 @@
     "deploy": "npm run build && firebase deploy --only hosting"
   },
   "dependencies": {
-    "nuxt": "^2.0.0",
-    "@nuxtjs/axios": "^5.3.6"
+    "@nuxtjs/axios": "^5.3.6",
+    "firebase": "^7.15.2",
+    "nuxt": "^2.0.0"
   },
   "devDependencies": {
     "@nuxtjs/vuetify": "^1.0.0"

@@ -326,6 +326,9 @@
 <script>
 export default {
 	data:()=>({
+		userProfile:{
+			userId:null
+		},
 		formData: {
 			name: ''
 		},
@@ -436,14 +439,30 @@ export default {
 			var subject = "行動計画:"	
 			var subject2 = "アポイント:"
 			var textMessage
+
 			for (var i=0; i<this.works.length;i++){
 				
 				textMessage = this.works[i].name + "," + this.works[i].price + "," + this.works[i].cost + "," + this.works[i].num + "," + this.works[i].cvr
-				alert(textMessage);
+				//alert(textMessage);
 			}
 
-			
-			alert(this.checkboxItems);
+			const date = `${this.datetime.year}_${this.datetime.month}`
+			const goal = {}
+			goal[date] = {
+				works:this.works,
+				count:this.count,
+				checkboxItems:this.checkboxItems,
+				socials:this.socials,
+				connections:this.connections,
+				tasks:this.tasks
+			}
+			const db = this.$firebase.firestore();
+			db.doc("users/" + "test").set({
+				"goal:":{goal}
+			},{merge:true}).then(()=>{
+				alert("save")
+			})
+			//alert(this.checkboxItems);
 			
 
 			
@@ -486,13 +505,13 @@ export default {
 		// 	if (!liff.isLoggedIn()) {
 		// 		liff.login();
 		// 	}else{
-		// 		const profile = await liff.getProfile()
-		// 		const {
-		// 			userId,
-		// 			displayName,
-		// 			pictureUrl,
-		// 			statusMessage
-		// 		} = profile
+				// const profile = await liff.getProfile()
+				// const {
+				// 	userId,
+				// 	displayName,
+				// 	pictureUrl,
+				// 	statusMessage
+				// } = profile
 		// 		alert(userId)
 		// 		alert(displayName)
 		// 		alert(pictureUrl)
@@ -502,9 +521,9 @@ export default {
 		// 				text:statusMessage
 		// 			}
 		// 		])
-		// 		.then(() => {
-		// 			alert('message sent');
-		// 		})
+				// .then(() => {
+				// 	this.userProfile.userId = userId
+				// })
 		// 		.catch((err) => {
 		// 			alert(err);
 		// 		});
