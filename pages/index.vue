@@ -264,22 +264,10 @@
 						<v-col cols="9" md="9">
 							<v-text-field
 								v-model="connection.introduce"
-								label="紹介営業"
+								label="紹介営業・関係構築"
 							></v-text-field>
 						</v-col>
 
-						<v-col cols="2" md="2">
-						</v-col>
-						<v-col cols="9" md="9">
-							<v-text-field
-								v-model="connection.relationship"
-								label="関係構築"
-							></v-text-field>
-						</v-col>
-
-						<v-col cols="12" md="12">
-							<v-divider :key="'hr-'+idx"></v-divider>
-						</v-col>
 					</v-row>
 				</template>
 				<v-row> 
@@ -382,8 +370,7 @@ export default {
 		],
 		connections:[
 			{
-				introduce: null,
-				relationship:null
+				introduce: null
 			}
 		],
 		datetime:{
@@ -484,6 +471,9 @@ export default {
 			for (var j=1; j<13;j++){
 				this.months.push(j)
 			}
+			var hiduke =new Date();
+			this.datetime.year = hiduke.getFullYear();
+			this.datetime.month = hiduke.getMonth()+2;
 		});
 		
 		
