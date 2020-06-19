@@ -472,8 +472,9 @@ export default {
 				this.months.push(j)
 			}
 			var hiduke =new Date();
+			hiduke.setMonth( hiduke.getMonth() +1);
 			this.datetime.year = hiduke.getFullYear();
-			this.datetime.month = hiduke.getMonth()+2;
+			this.datetime.month = hiduke.getMonth()+1;
 		});
 		
 		
