@@ -441,12 +441,41 @@ export default {
 			var textMessage
 			var toalPrice
 			var toalCost
+			var profit
+			let message = `${this.datetime.year}年${this.datetime.month}月の売上、利益目標 \n`
+		
 			for (var i=0; i<this.works.length;i++){
-				
 				textMessage = this.works[i].name + "," + this.works[i].price + "," + this.works[i].cost + "," + this.works[i].num + "," + this.works[i].cvr
 				toalPrice = toalPrice + (this.works[i].price * this.works[i].num)
 				toalCost = toalCost + (this.works[i].cost * this.works[i].num)
+				message =  message + `【${this.works[i].name}】\n`
+								     `売上...${this.works[i].price}円 ×  ${this.works[i].num}件 = ${this.works[i].price * this.works[i].num} 円 \n` +
+								     `経費...${this.works[i].cost}円 ×  ${this.works[i].num}件 = ${this.works[i].cost * this.works[i].num} 円 \n` +
+								     `営業利益...(${this.works[i].price}円 - ${this.works[i].cost}円) ×  ${this.works[i].num}件 = ${(this.works[i].price - this.works[i].cost) * this.works[i].num} 円 \n` 
 			}
+
+			message = message + `アポイント${this.count}件 \n` +
+			                    `アポイントの根拠 \n` +
+								`${this.checkboxItems} \n` 
+			
+			for (var j=0; j<this.socials.length;j++){
+				message =  message + `【${this.socials[i].snsType}】\n` + 
+									 `アカウント名 ${this.socials[i].accountName} \n` +
+									 `フォロワー数 ${this.socials[i].follower} \n` +
+									 `目標フォロワー数 ${this.socials[i].targetFollower} \n`
+			}
+
+			for (var k=0; k<this.connections.length;k++){
+				message =  message + `紹介営業・関係構築 \n` + 
+									 `${this.connections[i].introduce} \n`
+			}
+
+			for (var m=0; m<this.connections.length;m++){
+				message =  message + `今月の課題 \n` + 
+									 `${this.tasks[i].name} \n`
+			}
+
+			profit = toalPrice - toalCost
 
 			const date = `${this.datetime.year}_${this.datetime.month}`
 			const goal = {}
@@ -466,7 +495,7 @@ export default {
 			})
 			//alert(this.checkboxItems);
 			
-
+	
 			
 			
 			// liff.sendMessages([
