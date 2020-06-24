@@ -439,11 +439,13 @@ export default {
 			var subject = "行動計画:"	
 			var subject2 = "アポイント:"
 			var textMessage
-
+			var toalPrice
+			var toalCost
 			for (var i=0; i<this.works.length;i++){
 				
 				textMessage = this.works[i].name + "," + this.works[i].price + "," + this.works[i].cost + "," + this.works[i].num + "," + this.works[i].cvr
-				//alert(textMessage);
+				toalPrice = toalPrice + (this.works[i].price * this.works[i].num)
+				toalCost = toalCost + (this.works[i].cost * this.works[i].num)
 			}
 
 			const date = `${this.datetime.year}_${this.datetime.month}`
