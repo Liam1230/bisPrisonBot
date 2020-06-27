@@ -484,8 +484,6 @@ export default {
 									 `${this.tasks[i].name} \n`
 			}
 
-			
-
 			const date = `${this.datetime.year}_${this.datetime.month}`
 			const goal = {}
 			goal[date] = {
@@ -504,76 +502,75 @@ export default {
 			})
 			//alert(this.checkboxItems);
 			
-	
-			
-			
-			// liff.sendMessages([
-			// 	{
-			// 		type:'text',
-			// 		text:statusMessage
-			// 	}
-			// ])
-			// .then(() => {
-			// 	alert('message sent');
-			// })
-			// .catch((err) => {
-			// 	alert(err);
-			// });
+			liff.sendMessages([
+				{
+					type:'text',
+					text:message
+				}
+			])
+			.then(() => {
+				alert('message sent');
+			})
+			.catch((err) => {
+				alert(err);
+			});
 		}
 	},
-	mounted:  function () {
-		 this.$nextTick(function() {
-			for (var i=0; i<100;i++){
-				this.years.push(2019 + i)
-			}
+	mounted:
+		function () {
+		 	this.$nextTick(function() {
+				for (var i=0; i<100;i++){
+					this.years.push(2019 + i)
+				}
 
-			for (var j=1; j<13;j++){
-				this.months.push(j)
-			}
-			var hiduke =new Date();
-			hiduke.setMonth( hiduke.getMonth() +1);
-			this.datetime.year = hiduke.getFullYear();
-			this.datetime.month = hiduke.getMonth()+1;
-		});
-		
-		
-		//async()=>{
-		// liff.init({
-		// 	liffId:"1654259536-9QolwByP"
-		// })
-		// .then(async data=>{
-		// 	if (!liff.isLoggedIn()) {
-		// 		liff.login();
-		// 	}else{
-				// const profile = await liff.getProfile()
-				// const {
-				// 	userId,
-				// 	displayName,
-				// 	pictureUrl,
-				// 	statusMessage
-				// } = profile
-		// 		alert(userId)
-		// 		alert(displayName)
-		// 		alert(pictureUrl)
-		// 		liff.sendMessages([
-		// 			{
-		// 				type:'text',
-		// 				text:statusMessage
-		// 			}
-		// 		])
-				// .then(() => {
-				// 	this.userProfile.userId = userId
-				// })
-		// 		.catch((err) => {
-		// 			alert(err);
-		// 		});
-		// 	}
-		// }).bind(this)
-		// .catch(err=>{
-		// 	console.error(err)
-		// })
-		//}
+				for (var j=1; j<13;j++){
+					this.months.push(j)
+				}
+				var hiduke =new Date();
+				hiduke.setMonth( hiduke.getMonth() +1);
+				this.datetime.year = hiduke.getFullYear();
+				this.datetime.month = hiduke.getMonth()+1;
+			}),
+
+			async()=>{
+			liff.init({
+				liffId:"1654259536-9QolwByP"
+			})
+			.then(async data=>{
+				if (!liff.isLoggedIn()) {
+					liff.login();
+				}else{
+					// const profile = await liff.getProfile()
+					// const {
+					// 	userId,
+					// 	displayName,
+					// 	pictureUrl,
+					// 	statusMessage
+					// } = profile
+					// alert(userId)
+					// alert(displayName)
+					// alert(pictureUrl)
+					// liff.sendMessages([
+					// 	{
+					// 		type:'text',
+					// 		text:statusMessage
+					// 	}
+					// ])
+					// .then(() => {
+					// 	this.userProfile.userId = userId
+					// })
+					// .catch((err) => {
+					// 	alert(err);
+					// });
+				}
+			}).bind(this)
+			.catch(err=>{
+				console.error(err)
+			})	
+		}
+			
 	}
+	
 }
 </script>
 
