@@ -434,57 +434,87 @@ export default {
 				relationship:null
 			})
 		},
-		submit(){
+		async submit(){
 			//TODO: テキストをデータからいい感じに作成		
 			let subject = "行動計画:"	
 			let subject2 = "アポイント:"
-			let textMessage
-			let toalPrice
-			let toalCost
-			let profit
-			let message = `${this.datetime.year}年${this.datetime.month}月の売上、利益目標 \n`
-		
-			for (let i=0; i<this.works.length;i++){
-				toalPrice = toalPrice + (this.works[i].price * this.works[i].num)
-				toalCost = toalCost + (this.works[i].cost * this.works[i].num)
+			let toalPrice = 0
+			let toalCost = 0
+			let profit = 0
+			let message = `■${this.datetime.month}月の売上、利益目標 \n\n`
+
+			const formatter = new Intl.NumberFormat('ja-JP');
+
+			// alert(message)
+
+			try{
+				for (let i=0; i<this.works.length;i++){
+					toalPrice = toalPrice + (this.works[i].price * this.works[i].num)
+					toalCost = toalCost + (this.works[i].cost * this.works[i].num)
+				}
+				profit = toalPrice - toalCost
+
+				message =  message + `【売上】${formatter.format(toalPrice)}円 \n` + 
+									`【経費】${formatter.format(toalCost)}円 \n` +
+									`【営業利益】${formatter.format(profit)}円 \n\n` +
+									`■売上と利益それぞれの内訳\n\n`
+
+				for (let i=0; i<this.works.length;i++){
+					// alert(this.works[i].name)
+					message =  message + `【${this.works[i].name}】\n`+
+										`売上...${formatter.format(this.works[i].price)}円 × ${formatter.format(this.works[i].num)}件 = ${formatter.format(this.works[i].price * this.works[i].num)} 円 \n` +
+										`経費...${formatter.format(this.works[i].cost)}円 × ${formatter.format(this.works[i].num)}件 = ${formatter.format(this.works[i].cost * this.works[i].num)} 円 \n\n`
+										// `営業利益...(${this.works[i].price}円 - ${this.works[i].cost}円) ×  ${this.works[i].num}件 = ${(this.works[i].price - this.works[i].cost) * this.works[i].num} 円 \n\n` 
+				}
+
+				message = message + `■アポ${formatter.format(this.count)}件 \n\n` +
+									`■アポの根拠 \n`
+
+				if(this.checkboxItems.sns){
+					message = message + `・SNS\n`
+				}
+				if(this.checkboxItems.web){
+					message = message + `Web\n`
+				}
+				if(this.checkboxItems.friend){
+					message = message + `知り合い\n`
+				}
+				if(this.checkboxItems.introdctioin){
+					message = message + `紹介\n`
+				}
+				if(this.checkboxItems.exchangeMeeting){
+					message = message + `交流会\n`
+				}
+				if(this.checkboxItems.seminar){
+					message = message + `セミナー\n`
+				}
+				if(this.checkboxItems.intermediary){
+					message = message + `仲介サイト\n`
+				}
+
+				message = message + `\n■SNS\n\n`
+
+				for (let i=0; i<this.socials.length;i++){
+					message =  message + `【${this.socials[i].snsType}】\n` + 
+										`アカウント名 ${this.socials[i].accountName} \n` +
+										`フォロワー数 ${formatter.format(this.socials[i].follower)} \n` +
+										`目標フォロワー数 ${formatter.format(this.socials[i].targetFollower)} \n\n`
+				}
+
+				for (let i=0; i<this.connections.length;i++){
+					message =  message + `■紹介営業・関係構築 \n` + 
+										`${this.connections[i].introduce} \n\n`
+				}
+
+				for (let i=0; i<this.connections.length;i++){
+					message =  message + `■今月の課題 \n` + 
+										`・${this.tasks[i].name} \n`
+				}
+			}catch(e){
+				alert(e)
 			}
 
-			profit = toalPrice - toalCost
-
-			message =  message + `【売上】${this.toalPrice}円 \n` + 
-								 `【経費】${this.toalCost}円 \n` +
-								 `【営業利益】${this.profit}円 \n` +
-								 ` 売上と利益それぞれの内訳 \n`
-
-			for (let i=0; i<this.works.length;i++){
-				message =  message + `【${this.works[i].name}】\n`
-								     `売上...${this.works[i].price}円 ×  ${this.works[i].num}件 = ${this.works[i].price * this.works[i].num} 円 \n` +
-								     `経費...${this.works[i].cost}円 ×  ${this.works[i].num}件 = ${this.works[i].cost * this.works[i].num} 円 \n` +
-								     `営業利益...(${this.works[i].price}円 - ${this.works[i].cost}円) ×  ${this.works[i].num}件 = ${(this.works[i].price - this.works[i].cost) * this.works[i].num} 円 \n` 
-			}
-
-			message = message + `アポイント${this.count}件 \n` +
-			                    `アポイントの根拠 \n` +
-								`${this.checkboxItems} \n` 
-			
-			for (let j=0; j<this.socials.length;j++){
-				message =  message + `【${this.socials[i].snsType}】\n` + 
-									 `アカウント名 ${this.socials[i].accountName} \n` +
-									 `フォロワー数 ${this.socials[i].follower} \n` +
-									 `目標フォロワー数 ${this.socials[i].targetFollower} \n`
-			}
-
-			for (let k=0; k<this.connections.length;k++){
-				message =  message + `紹介営業・関係構築 \n` + 
-									 `${this.connections[i].introduce} \n`
-			}
-
-			for (let m=0; m<this.connections.length;m++){
-				message =  message + `今月の課題 \n` + 
-									 `${this.tasks[i].name} \n`
-			}
-
-			
+			alert(message)
 
 			const date = `${this.datetime.year}_${this.datetime.month}`
 			const goal = {}
@@ -497,22 +527,19 @@ export default {
 				tasks:this.tasks
 			}
 			const db = this.$firebase.firestore();
-			db.doc("users/" + "test").set({
-				"goal:":{goal}
-			},{merge:true}).then(()=>{
-				alert("save")
-			})
+			await db.doc("users/" + "test").set({"goal:":{goal}},{merge:true})
 			//alert(this.checkboxItems);
-			
-	
-			
-			
-			// liff.sendMessages([
-			// 	{
-			// 		type:'text',
-			// 		text:statusMessage
-			// 	}
-			// ])
+
+			try{
+				await liff.sendMessages([
+					{
+						type:'text',
+						text:message
+					}
+				])
+			}catch(e){
+				alert(e)
+			}
 			// .then(() => {
 			// 	alert('message sent');
 			// })
@@ -521,7 +548,7 @@ export default {
 			// });
 		}
 	},
-	mounted:  function () {
+	mounted: async function () {
 		 this.$nextTick(function() {
 			for (var i=0; i<100;i++){
 				this.years.push(2019 + i)
@@ -536,43 +563,44 @@ export default {
 			this.datetime.month = hiduke.getMonth()+1;
 		});
 		
-		
-		//async()=>{
-		// liff.init({
-		// 	liffId:"1654259536-9QolwByP"
-		// })
+		// async()=>{
+		await liff.init({
+			liffId:"1654259536-9QolwByP"
+		})
+		alert("liffInit")
 		// .then(async data=>{
 		// 	if (!liff.isLoggedIn()) {
 		// 		liff.login();
-		// 	}else{
-				// const profile = await liff.getProfile()
-				// const {
-				// 	userId,
-				// 	displayName,
-				// 	pictureUrl,
-				// 	statusMessage
-				// } = profile
-		// 		alert(userId)
-		// 		alert(displayName)
-		// 		alert(pictureUrl)
-		// 		liff.sendMessages([
-		// 			{
-		// 				type:'text',
-		// 				text:statusMessage
-		// 			}
-		// 		])
-				// .then(() => {
-				// 	this.userProfile.userId = userId
-				// })
-		// 		.catch((err) => {
-		// 			alert(err);
-		// 		});
 		// 	}
+			// else{
+			// 	const profile = await liff.getProfile()
+			// 	const {
+			// 		userId,
+			// 		displayName,
+			// 		pictureUrl,
+			// 		statusMessage
+			// 	} = profile
+			// 	alert(userId)
+			// 	alert(displayName)
+			// 	alert(pictureUrl)
+			// 	liff.sendMessages([
+			// 		{
+			// 			type:'text',
+			// 			text:statusMessage
+			// 		}
+			// 	])
+			// 	.then(() => {
+			// 		this.userProfile.userId = userId
+			// 	})
+			// 	.catch((err) => {
+			// 		alert(err);
+			// 	});
+			// }
 		// }).bind(this)
 		// .catch(err=>{
 		// 	console.error(err)
 		// })
-		//}
+		// }
 	}
 }
 </script>
