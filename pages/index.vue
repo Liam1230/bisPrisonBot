@@ -502,58 +502,57 @@ export default {
 			})
 			//alert(this.checkboxItems);
 			
-			liff.sendMessages([
-				{
-					type:'text',
-					text:message
-				}
-			])
-			.then(() => {
-				alert('message sent');
-			})
-			.catch((err) => {
-				alert(err);
-			});
+			// liff.sendMessages([
+			// 	{
+			// 		type:'text',
+			// 		text:message
+			// 	}
+			// ])
+			// .then(() => {
+			// 	alert('message sent');
+			// })
+			// .catch((err) => {
+			// 	alert(err);
+			// });
 		}
 	},
 	mounted:
-
-		async()=>{
+		async function asyncCall(){
 			liff.init({
 				liffId:"1654259536-9QolwByP"
-			})
-			.then(async data=>{
-				if (!liff.isLoggedIn()) {
-					liff.login({ redirectUri: "http://localhost:3000" });
-				}else{
-					initializeApp()
-					// const profile = await liff.getProfile()
-					// const {
-					// 	userId,
-					// 	displayName,
-					// 	pictureUrl,
-					// 	statusMessage
-					// } = profile
-					// alert(userId)
-					// alert(displayName)
-					// alert(pictureUrl)
-					// liff.sendMessages([
-					// 	{
-					// 		type:'text',
-					// 		text:statusMessage
-					// 	}
-					// ])
-					// .then(() => {
-					// 	this.userProfile.userId = userId
-					// })
-					// .catch((err) => {
-					// 	alert(err);
-					// });
-				}
-			}).bind(this)
-			.catch(err=>{
-				console.error(err)
 			}),
+			// .then(async data=>{
+			// 	if (!liff.isLoggedIn()) {
+			// 		//liff.login({ redirectUri: "https://bizprison-a9fc9.web.app" });
+			// 	}else{
+			// 		//initializeApp()
+			// 		// const profile = await liff.getProfile()
+			// 		// const {
+			// 		// 	userId,
+			// 		// 	displayName,
+			// 		// 	pictureUrl,
+			// 		// 	statusMessage
+			// 		// } = profile
+			// 		// alert(userId)
+			// 		// alert(displayName)
+			// 		// alert(pictureUrl)
+			// 		// liff.sendMessages([
+			// 		// 	{
+			// 		// 		type:'text',
+			// 		// 		text:statusMessage
+			// 		// 	}
+			// 		// ])
+			// 		// .then(() => {
+			// 		// 	this.userProfile.userId = userId
+			// 		// })
+			// 		// .catch((err) => {
+			// 		// 	alert(err);
+			// 		// });
+			// 	}
+			// }).bind(this)
+			// .catch(err=>{
+			// 	console.error(err)
+			// }),
 
 			function () {
 				this.$nextTick(function() {
