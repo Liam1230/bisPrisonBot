@@ -567,7 +567,7 @@ export default {
 		await liff.init({
 			liffId:"1654259536-9QolwByP"
 		})
-		alert("liffInit")
+		// alert("liffInit")
 		// .then(async data=>{
 		// 	if (!liff.isLoggedIn()) {
 		// 		liff.login();
