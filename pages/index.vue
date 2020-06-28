@@ -442,8 +442,8 @@ export default {
 			let toalPrice
 			let toalCost
 			let profit
-			let message = `${this.datetime.year}年${this.datetime.month}月の売上、利益目標 \n`
-		
+			let message = `${this.datetime.year}年${this.datetime.month}月の売上、利益目標 \n\n`
+
 			for (let i=0; i<this.works.length;i++){
 				toalPrice = toalPrice + (this.works[i].price * this.works[i].num)
 				toalCost = toalCost + (this.works[i].cost * this.works[i].num)
@@ -453,35 +453,41 @@ export default {
 
 			message =  message + `【売上】${this.toalPrice}円 \n` + 
 								 `【経費】${this.toalCost}円 \n` +
-								 `【営業利益】${this.profit}円 \n` +
-								 ` 売上と利益それぞれの内訳 \n`
+								 `【営業利益】${this.profit}円 \n\n` +
+								 `■売上と利益それぞれの内訳 \n\n` 
+								
 
 			for (let i=0; i<this.works.length;i++){
-				message =  message + `【${this.works[i].name}】\n`
-								     `売上...${this.works[i].price}円 ×  ${this.works[i].num}件 = ${this.works[i].price * this.works[i].num} 円 \n` +
-								     `経費...${this.works[i].cost}円 ×  ${this.works[i].num}件 = ${this.works[i].cost * this.works[i].num} 円 \n` +
-								     `営業利益...(${this.works[i].price}円 - ${this.works[i].cost}円) ×  ${this.works[i].num}件 = ${(this.works[i].price - this.works[i].cost) * this.works[i].num} 円 \n` 
+				message =  message +  `【${this.works[i].name}】\n` +
+								      `売上...${this.works[i].price}円 ×  ${this.works[i].num}件 = ${this.works[i].price * this.works[i].num} 円 \n` +
+								      `経費...${this.works[i].cost}円 ×  ${this.works[i].num}件 = ${this.works[i].cost * this.works[i].num} 円 \n` +
+									  `営業利益...(${this.works[i].price}円 - ${this.works[i].cost}円) ×  ${this.works[i].num}件 = ${(this.works[i].price - this.works[i].cost) * this.works[i].num} 円 \n\n`
+									  
 			}
 
-			message = message + `アポイント${this.count}件 \n` +
-			                    `アポイントの根拠 \n` +
-								`${this.checkboxItems} \n` 
+			message = message + `■アポイント${this.count}件 \n` +
+			                    `■アポイントの根拠 \n` +
+								`${this.checkboxItems} \n\n` 
+								
 			
-			for (let j=0; j<this.socials.length;j++){
+			for (let i=0; i<this.socials.length;i++){
 				message =  message + `【${this.socials[i].snsType}】\n` + 
 									 `アカウント名 ${this.socials[i].accountName} \n` +
 									 `フォロワー数 ${this.socials[i].follower} \n` +
-									 `目標フォロワー数 ${this.socials[i].targetFollower} \n`
+									 `目標フォロワー数 ${this.socials[i].targetFollower} \n\n`
+									 
 			}
 
-			for (let k=0; k<this.connections.length;k++){
-				message =  message + `紹介営業・関係構築 \n` + 
-									 `${this.connections[i].introduce} \n`
+			for (let i=0; i<this.connections.length;i++){
+				message =  message + ` ■紹介営業・関係構築 \n` + 
+									 `${this.connections[i].introduce} \n\n` 
+								
 			}
 
-			for (let m=0; m<this.connections.length;m++){
-				message =  message + `今月の課題 \n` + 
-									 `${this.tasks[i].name} \n`
+			for (let i=0; i<this.connections.length;i++){
+				message =  message + `■今月の課題 \n` + 
+									 `${this.tasks[i].name} \n\n` 
+									 
 			}
 
 			const date = `${this.datetime.year}_${this.datetime.month}`
@@ -500,26 +506,27 @@ export default {
 			},{merge:true}).then(()=>{
 				alert("save")
 			})
-			//alert(this.checkboxItems);
+
+			alert(message);
 			
-			// liff.sendMessages([
-			// 	{
-			// 		type:'text',
-			// 		text:message
-			// 	}
-			// ])
-			// .then(() => {
-			// 	alert('message sent');
-			// })
-			// .catch((err) => {
-			// 	alert(err);
-			// });
+			liff.sendMessages([
+				{
+					type:'text',
+					text:message
+				}
+			])
+			.then(() => {
+				alert('message sent');
+			})
+			.catch((err) => {
+				alert(err);
+			});
 		}
 	},
 	mounted: async function(){
 		liff.init({
 			liffId:"1654259536-9QolwByP"
-		}),
+		})
 		// .then(async data=>{
 		// 	if (!liff.isLoggedIn()) {
 		// 		//liff.login({ redirectUri: "https://bizprison-a9fc9.web.app" });
@@ -552,22 +559,21 @@ export default {
 		// .catch(err=>{
 		// 	console.error(err)
 		// }),
-
-		function () {
-			this.$nextTick(function() {
-				for (var i=0; i<100;i++){
-					this.years.push(2019 + i)
-				}
-
-				for (var j=1; j<13;j++){
-					this.months.push(j)
-				}
-				var hiduke =new Date();
-				hiduke.setMonth( hiduke.getMonth() +1);
-				this.datetime.year = hiduke.getFullYear();
-				this.datetime.month = hiduke.getMonth()+1;
-			})
+		
+		for (var i=0; i<100;i++){
+			this.years.push(2019 + i)
 		}
+
+		for (var j=1; j<13;j++){
+			this.months.push(j)
+		}
+
+		var hiduke =new Date();
+		hiduke.setMonth( hiduke.getMonth() +1);
+		this.datetime.year = hiduke.getFullYear();
+		this.datetime.month = hiduke.getMonth()+1;
+			
+		
 		
 	}
 	
