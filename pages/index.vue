@@ -106,8 +106,8 @@
 							color="red" 
 							hide-details
 							class="pl-3 ml-3 text-caption"
-							true-value="1"
-							false-value="0"
+							value="SNS"
+							
 						></v-checkbox>
 					</v-col>
 					<v-col cols="4" md="4" style="padding:0px">
@@ -117,8 +117,7 @@
 							color="red darken-3" 
 							hide-details
 							class="pl-3 ml-3"
-							true-value="1"
-							false-value="0"
+							value="Web"
 						></v-checkbox>
 					</v-col>
 					<v-col cols="4" md="4" style="padding:0px">
@@ -128,8 +127,7 @@
 							color="indigo"
 							hide-details
 							class="pl-3 ml-3"
-							true-value="1"
-							false-value="0"
+							value="知り合い"
 						></v-checkbox>
 					</v-col>
 				</v-row>	
@@ -141,8 +139,7 @@
 							color="indigo darken-3"
 							hide-details
 							class="pl-3 ml-3"
-							true-value="1"
-							false-value="0"
+							value="紹介"
 						></v-checkbox>
 					</v-col>
 					<v-col cols="4" md="4" style="padding:0px">
@@ -152,8 +149,7 @@
 							color="orange"
 							hide-details
 							class="pl-3 ml-3"
-							true-value="1"
-							false-value="0"
+							value="交流会"
 						></v-checkbox>
 					</v-col>
 					<v-col cols="4" md="4" style="padding:0px;">
@@ -163,8 +159,7 @@
 							color="orange darken-3"
 							hide-details
 							class="pl-3 ml-3"
-							true-value="1"
-							false-value="0"
+							value="セミナー"
 						></v-checkbox>
 					</v-col>
 				</v-row>
@@ -176,8 +171,7 @@
 							color="indigo darken-3"
 							hide-details
 							class="pl-3 ml-3"
-							true-value="1"
-							false-value="0"
+							value="仲介サイト"
 						></v-checkbox>
 					</v-col>
 					<v-col cols="4" md="4" style="padding:0px">
@@ -439,9 +433,9 @@ export default {
 			let subject = "行動計画:"	
 			let subject2 = "アポイント:"
 			let textMessage
-			let toalPrice
-			let toalCost
-			let profit
+			let toalPrice = 0
+			let toalCost = 0
+			let profit = 0
 			let message = `${this.datetime.year}年${this.datetime.month}月の売上、利益目標 \n\n`
 
 			for (let i=0; i<this.works.length;i++){
@@ -451,10 +445,11 @@ export default {
 
 			profit = toalPrice - toalCost
 
-			message =  message + `【売上】${this.toalPrice}円 \n` + 
-								 `【経費】${this.toalCost}円 \n` +
-								 `【営業利益】${this.profit}円 \n\n` +
+			message =  message + `【売上】${toalPrice}円 \n` + 
+								 `【経費】${toalCost}円 \n` +
+								 `【営業利益】${profit}円 \n\n` +
 								 `■売上と利益それぞれの内訳 \n\n` 
+							
 								
 
 			for (let i=0; i<this.works.length;i++){
@@ -465,13 +460,17 @@ export default {
 									  
 			}
 
-			message = message + `■アポイント${this.count}件 \n` +
-			                    `■アポイントの根拠 \n` +
-								`${this.checkboxItems} \n\n` 
-								
+			message = message + `■アポイント${this.count}件 \n\n` +
+								`■アポイントの根拠 \n` 
+
+			for (const [key, value] of Object.entries(this.checkboxItems)) {
+				if(value !== false){
+					message =  message + `${value}\n`
+				}
+			}
 			
 			for (let i=0; i<this.socials.length;i++){
-				message =  message + `【${this.socials[i].snsType}】\n` + 
+				message =  message + `\n【${this.socials[i].snsType}】\n` + 
 									 `アカウント名 ${this.socials[i].accountName} \n` +
 									 `フォロワー数 ${this.socials[i].follower} \n` +
 									 `目標フォロワー数 ${this.socials[i].targetFollower} \n\n`
