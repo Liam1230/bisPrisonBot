@@ -429,7 +429,8 @@ export default {
 			})
 		},
 		submit(){
-			//TODO: テキストをデータからいい感じに作成		
+			//TODO: テキストをデータからいい感じに作成	
+			const formatter = new Intl.NumberFormat('ja-JP');	
 			let subject = "行動計画:"	
 			let subject2 = "アポイント:"
 			let textMessage
@@ -445,22 +446,22 @@ export default {
 
 			profit = toalPrice - toalCost
 
-			message =  message + `【売上】${toalPrice}円 \n` + 
-								 `【経費】${toalCost}円 \n` +
-								 `【営業利益】${profit}円 \n\n` +
+			message =  message + `【売上】${formatter.format(toalPrice)}円 \n` + 
+								 `【経費】${formatter.format(toalCost)}円 \n` +
+								 `【営業利益】${formatter.format(profit)}円 \n\n` +
 								 `■売上と利益それぞれの内訳 \n\n` 
 							
 								
 
 			for (let i=0; i<this.works.length;i++){
 				message =  message +  `【${this.works[i].name}】\n` +
-								      `売上...${this.works[i].price}円 ×  ${this.works[i].num}件 = ${this.works[i].price * this.works[i].num} 円 \n` +
-								      `経費...${this.works[i].cost}円 ×  ${this.works[i].num}件 = ${this.works[i].cost * this.works[i].num} 円 \n` +
-									  `営業利益...(${this.works[i].price}円 - ${this.works[i].cost}円) ×  ${this.works[i].num}件 = ${(this.works[i].price - this.works[i].cost) * this.works[i].num} 円 \n\n`
+								      `売上...${formatter.format(this.works[i].price)}円 ×  ${formatter.format(this.works[i].num)}件 =` + formatter.format((this.works[i].price * this.works[i].num))  +  `円 \n` +
+								      `経費...${formatter.format(this.works[i].cost)}円 ×  ${formatter.format(this.works[i].num)}件 =` +  formatter.format((this.works[i].cost  * this.works[i].num))  +  `円 \n\n` 
+									  //`営業利益...(${this.works[i].price}円 - ${this.works[i].cost}円) ×  ${this.works[i].num}件 = ${(this.works[i].price - this.works[i].cost) * this.works[i].num} 円 \n\n`
 									  
 			}
 
-			message = message + `■アポイント${this.count}件 \n\n` +
+			message = message + `■アポイント${formatter.format(this.count)}件 \n\n` +
 								`■アポイントの根拠 \n` 
 
 			for (const [key, value] of Object.entries(this.checkboxItems)) {
@@ -472,8 +473,8 @@ export default {
 			for (let i=0; i<this.socials.length;i++){
 				message =  message + `\n【${this.socials[i].snsType}】\n` + 
 									 `アカウント名 ${this.socials[i].accountName} \n` +
-									 `フォロワー数 ${this.socials[i].follower} \n` +
-									 `目標フォロワー数 ${this.socials[i].targetFollower} \n\n`
+									 `フォロワー数 ${formatter.format(this.socials[i].follower)} \n` +
+									 `目標フォロワー数 ${formatter.format(this.socials[i].targetFollower)} \n\n`
 									 
 			}
 
