@@ -455,8 +455,8 @@ export default {
 
 			for (let i=0; i<this.works.length;i++){
 				message =  message +  `【${this.works[i].name}】\n` +
-								      `売上...${formatter.format(this.works[i].price)}円 ×  ${formatter.format(this.works[i].num)}件 =` + formatter.format((this.works[i].price * this.works[i].num))  +  `円 \n` +
-								      `経費...${formatter.format(this.works[i].cost)}円 ×  ${formatter.format(this.works[i].num)}件 =` +  formatter.format((this.works[i].cost  * this.works[i].num))  +  `円 \n\n` 
+								      `売上...${formatter.format(this.works[i].price)}円 × ${formatter.format(this.works[i].num)}件 = ${formatter.format(this.works[i].price * this.works[i].num)}円 \n` +
+								      `経費...${formatter.format(this.works[i].cost)}円 × ${formatter.format(this.works[i].num)}件 = ${formatter.format(this.works[i].cost  * this.works[i].num)}円 \n\n` 
 									  //`営業利益...(${this.works[i].price}円 - ${this.works[i].cost}円) ×  ${this.works[i].num}件 = ${(this.works[i].price - this.works[i].cost) * this.works[i].num} 円 \n\n`
 									  
 			}
