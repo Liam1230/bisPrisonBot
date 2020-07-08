@@ -24,62 +24,94 @@
 			<h3 align="center">
 				売上・利益目標
 			</h3>
-			<v-form>
-				<v-container>
-					<template v-for="(work,idx) in works">
+		</v-card>
+		
+		<v-form>
+			<v-container>
+				<template v-for="(category,idx) in categorys">	
+					<v-card :key="idx">
 						<v-row :key="idx">
-							<v-col cols="2" md="2">
-								<v-btn color="primary" fab x-small dark @click="onRemoveProjectButton(idx)">
+							<v-col cols="1" md="1">
+								<v-btn color="primary" fab x-small dark @click="onRemoveCategoryButton(idx)">
 									<v-icon>mdi-minus</v-icon>
 								</v-btn>
 							</v-col>
-							<v-col cols="4" md="3">
+							<v-col cols="11" md="10">
 								<v-text-field
-									v-model="work.name"
-									label="案件名"
+									v-model="category.task"
+									label="カテゴリ名"
 								></v-text-field>
 							</v-col>
-							<v-col cols="3" md="3">
-								<v-text-field
-									v-model="work.price"
-									label="売上"
-									type="number"
-								></v-text-field>
-							</v-col>
-							<v-col cols="3" md="3">
-								<v-text-field
-									v-model="work.cost"
-									label="費用"
-									type="number"
-								></v-text-field>
-							</v-col>
-							<v-col cols="3" md="3">
-								<v-text-field
-									v-model="work.num"
-									label="受注数"
-									type="number"
-								></v-text-field>
-							</v-col>
-							<v-col cols="3" md="3">
-								<v-select
-									:items="selectItems"
-									label="CVR"
-									v-model="work.cvr"
-								></v-select>
-							</v-col>
+							<v-container>
+								<template v-for="(work,idx2) in category.works">
+									<v-row :key="idx2">
+										<v-col cols="1" md="1">
+										</v-col>
+										<v-col cols="1" md="1">
+											<v-btn color="primary" fab x-small dark @click="onRemoveProjectButton(idx,idx2)">
+												<v-icon>mdi-minus</v-icon>
+											</v-btn>
+										</v-col>
+										<v-col cols="4" md="3">
+											<v-text-field
+												v-model="work.name"
+												label="案件名"
+											></v-text-field>
+										</v-col>
+										<v-col cols="3" md="3">
+											<v-text-field
+												v-model="work.price"
+												label="売上"
+												type="number"
+											></v-text-field>
+										</v-col>
+										<v-col cols="3" md="3">
+											<v-text-field
+												v-model="work.cost"
+												label="費用"
+												type="number"
+											></v-text-field>
+										</v-col>
+										<v-col cols="2" md="2">
+										</v-col>	
+										<v-col cols="3" md="3">
+											<v-text-field
+												v-model="work.num"
+												label="受注数"
+												type="number"
+											></v-text-field>
+										</v-col>
+										<v-col cols="3" md="3">
+											<v-select
+												:items="selectItems"
+												label="CVR"
+												v-model="work.cvr"
+											></v-select>
+										</v-col>
+									</v-row>
+									<v-divider :key="'hr-'+idx2"></v-divider>
+								</template>
+								<v-row> 
+									<v-layout justify-center style="padding: 10px">
+										<v-btn color="error" fab x-small dark @click="onAddProjectButton(idx)">
+											<v-icon>mdi-plus</v-icon>
+										</v-btn>
+									</v-layout>
+								</v-row>
+							</v-container>
 						</v-row>
-						<v-divider :key="'hr-'+idx"></v-divider>
-					</template>
-					<v-row> 
-						<v-layout justify-center style="padding: 10px">
-							<v-btn color="error" fab x-small dark @click="onAddProjectButton()">
-								<v-icon>mdi-plus</v-icon>
-							</v-btn>
-						</v-layout>
-					</v-row>
-				</v-container>
-			</v-form>
-		</v-card>
+					</v-card>
+				</template>
+				<v-row> 
+					<v-layout justify-center style="padding: 10px">
+						<v-btn color="error" fab x-small dark @click="onAddCategoryButton()">
+							<v-icon>mdi-plus</v-icon>
+						</v-btn>
+					</v-layout>
+				</v-row>
+			</v-container>
+		</v-form>
+		
 		<v-card outlined class="pt-5 mt-5">
 			<h3 align="center">
 				アポイント
@@ -336,22 +368,43 @@ export default {
 			intermediary: false
 		},
 		lineId: null,
-		works:[
+		categorys:[
 			{
-				name:"testName",
-				price:100000,
-				cost: 50000,
-				num: 5,
-				cvr: 25
-			},
-			{
-				name:"testName2",
-				price:200000,
-				cost: 30000,
-				num: 3,
-				cvr: 20
+				task:null,
+				works:[
+					{
+						name:"testName",
+						price:100000,
+						cost: 50000,
+						num: 5,
+						cvr: 25
+					},
+					{
+						name:"testName2",
+						price:200000,
+						cost: 30000,
+						num: 3,
+						cvr: 20
+					}
+				]
 			}
 		],
+		// works:[
+		// 	{
+		// 		name:"testName",
+		// 		price:100000,
+		// 		cost: 50000,
+		// 		num: 5,
+		// 		cvr: 25
+		// 	},
+		// 	{
+		// 		name:"testName2",
+		// 		price:200000,
+		// 		cost: 30000,
+		// 		num: 3,
+		// 		cvr: 20
+		// 	}
+		// ],
 		tasks:[
 			{
 				name:null
@@ -388,8 +441,8 @@ export default {
 		}
 	},
 	methods:{
-		onRemoveProjectButton(idx){
-			this.works.splice(idx,1)
+		onRemoveProjectButton(idx,idx2){
+			this.categorys[idx].works.splice(idx2,1)
 		},
 		onRemoveTaskButton(idx){
 			this.tasks.splice(idx,1)
@@ -400,8 +453,11 @@ export default {
 		onRemoveConnectButton(idx){
 			this.connections.splice(idx,1)
 		},
-		onAddProjectButton(){
-			this.works.push({
+		onRemoveCategoryButton(idx){
+			this.categorys.splice(idx,1)
+		},
+		onAddProjectButton(idx){
+			this.categorys[idx].works.push({
 				name:"new",
 				price:0,
 				cost:0,
@@ -426,6 +482,20 @@ export default {
 			this.connections.push({
 				introduce: null,
 				relationship:null
+			})
+		},
+		onAddCategoryButton(){
+			this.categorys.push({
+				task:null,
+				works:[
+					{
+						name:"testName",
+						price:100000,
+						cost: 50000,
+						num: 5,
+						cvr: 25
+					}
+				]
 			})
 		},
 		submit(){
