@@ -26,91 +26,91 @@
 			</h3>
 		</v-card>
 		
-		<v-form>
-			<v-container>
-				<template v-for="(category,idx) in categorys">	
-					<v-card :key="idx">
-						<v-row :key="idx">
-							<v-col cols="1" md="1">
-								<v-btn color="primary" fab x-small dark @click="onRemoveCategoryButton(idx)">
-									<v-icon>mdi-minus</v-icon>
-								</v-btn>
-							</v-col>
-							<v-col cols="11" md="10">
-								<v-text-field
-									v-model="category.task"
-									label="カテゴリ名"
-								></v-text-field>
-							</v-col>
-							<v-container>
-								<template v-for="(work,idx2) in category.works">
-									<v-row :key="idx2">
-										<v-col cols="1" md="1">
-										</v-col>
-										<v-col cols="1" md="1">
-											<v-btn color="primary" fab x-small dark @click="onRemoveProjectButton(idx,idx2)">
-												<v-icon>mdi-minus</v-icon>
-											</v-btn>
-										</v-col>
-										<v-col cols="4" md="3">
-											<v-text-field
-												v-model="work.name"
-												label="案件名"
-											></v-text-field>
-										</v-col>
-										<v-col cols="3" md="3">
-											<v-text-field
-												v-model="work.price"
-												label="売上"
-												type="number"
-											></v-text-field>
-										</v-col>
-										<v-col cols="3" md="3">
-											<v-text-field
-												v-model="work.cost"
-												label="費用"
-												type="number"
-											></v-text-field>
-										</v-col>
-										<v-col cols="2" md="2">
-										</v-col>	
-										<v-col cols="3" md="3">
-											<v-text-field
-												v-model="work.num"
-												label="受注数"
-												type="number"
-											></v-text-field>
-										</v-col>
-										<v-col cols="3" md="3">
-											<v-select
-												:items="selectItems"
-												label="CVR"
-												v-model="work.cvr"
-											></v-select>
-										</v-col>
-									</v-row>
-									<v-divider :key="'hr-'+idx2"></v-divider>
-								</template>
-								<v-row> 
-									<v-layout justify-center style="padding: 10px">
-										<v-btn color="error" fab x-small dark @click="onAddProjectButton(idx)">
-											<v-icon>mdi-plus</v-icon>
+		
+		
+			<template v-for="(category,idx) in categorys">	
+				<v-card :key="idx">
+					<v-row :key="idx">
+						<v-col cols="1" md="1">
+							<v-btn color="primary" fab x-small dark @click="onRemoveCategoryButton(idx)">
+								<v-icon>mdi-minus</v-icon>
+							</v-btn>
+						</v-col>
+						<v-col cols="11" md="10">
+							<v-text-field
+								v-model="category.task"
+								label="カテゴリ名"
+							></v-text-field>
+						</v-col>
+						<v-container>
+							<template v-for="(work,idx2) in category.works">
+								<v-row :key="idx2">
+									<v-col cols="1" md="1">
+									</v-col>
+									<v-col cols="1" md="1">
+										<v-btn color="primary" fab x-small dark @click="onRemoveProjectButton(idx,idx2)">
+											<v-icon>mdi-minus</v-icon>
 										</v-btn>
-									</v-layout>
+									</v-col>
+									<v-col cols="4" md="3">
+										<v-text-field
+											v-model="work.name"
+											label="案件名"
+										></v-text-field>
+									</v-col>
+									<v-col cols="3" md="3">
+										<v-text-field
+											v-model="work.price"
+											label="売上"
+											type="number"
+										></v-text-field>
+									</v-col>
+									<v-col cols="3" md="3">
+										<v-text-field
+											v-model="work.cost"
+											label="費用"
+											type="number"
+										></v-text-field>
+									</v-col>
+									<v-col cols="2" md="2">
+									</v-col>	
+									<v-col cols="3" md="3">
+										<v-text-field
+											v-model="work.num"
+											label="受注数"
+											type="number"
+										></v-text-field>
+									</v-col>
+									<v-col cols="3" md="3">
+										<v-select
+											:items="selectItems"
+											label="CVR"
+											v-model="work.cvr"
+										></v-select>
+									</v-col>
 								</v-row>
-							</v-container>
-						</v-row>
-					</v-card>
-				</template>
-				<v-row> 
-					<v-layout justify-center style="padding: 10px">
-						<v-btn color="error" fab x-small dark @click="onAddCategoryButton()">
-							<v-icon>mdi-plus</v-icon>
-						</v-btn>
-					</v-layout>
-				</v-row>
-			</v-container>
-		</v-form>
+								<v-divider :key="'hr-'+idx2"></v-divider>
+							</template>
+							<v-row> 
+								<v-layout justify-center style="padding: 10px">
+									<v-btn color="error" fab x-small dark @click="onAddProjectButton(idx)">
+										<v-icon>mdi-plus</v-icon>
+									</v-btn>
+								</v-layout>
+							</v-row>
+						</v-container>
+					</v-row>
+				</v-card>
+			</template>
+			<v-row> 
+				<v-layout justify-center style="padding: 10px">
+					<v-btn color="error" fab x-small dark @click="onAddCategoryButton()">
+						<v-icon>mdi-plus</v-icon>
+					</v-btn>
+				</v-layout>
+			</v-row>
+		
+		
 		
 		<v-card outlined class="pt-5 mt-5">
 			<h3 align="center">
