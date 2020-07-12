@@ -38,7 +38,7 @@
 						</v-col>
 						<v-col cols="11" md="10">
 							<v-text-field
-								v-model="category.task"
+								v-model="category.categoryname"
 								label="カテゴリ名"
 							></v-text-field>
 						</v-col>
@@ -369,7 +369,7 @@ export default {
 		lineId: null,
 		categorys:[
 			{
-				task:null,
+				categoryname:null,
 				works:[
 					{
 						name:"testName",
@@ -485,7 +485,7 @@ export default {
 		},
 		onAddCategoryButton(){
 			this.categorys.push({
-				task:null,
+				categoryname:null,
 				works:[
 					{
 						name:"testName",
@@ -508,9 +508,11 @@ export default {
 			let profit = 0
 			let message = `${this.datetime.year}年${this.datetime.month}月の売上、利益目標 \n\n`
 
-			for (let i=0; i<this.works.length;i++){
-				toalPrice = toalPrice + (this.works[i].price * this.works[i].num)
-				toalCost = toalCost + (this.works[i].cost * this.works[i].num)
+			for (let j=0; j<this.categorys.length;j++){
+				for (let i=0; i<this.categorys[j].works.length;i++){
+					toalPrice = toalPrice + (this.categorys[j].works[i].price * this.categorys[j].works[i].num)
+					toalCost = toalCost + (this.categorys[j].works[i].cost * this.categorys[j].works[i].num)
+				}
 			}
 
 			profit = toalPrice - toalCost
@@ -521,13 +523,15 @@ export default {
 								 `■売上と利益それぞれの内訳 \n\n` 
 							
 								
-
-			for (let i=0; i<this.works.length;i++){
-				message =  message +  `【${this.works[i].name}】\n` +
-								      `売上...${formatter.format(this.works[i].price)}円 × ${formatter.format(this.works[i].num)}件 = ${formatter.format(this.works[i].price * this.works[i].num)}円 \n` +
-								      `経費...${formatter.format(this.works[i].cost)}円 × ${formatter.format(this.works[i].num)}件 = ${formatter.format(this.works[i].cost  * this.works[i].num)}円 \n\n` 
-									  //`営業利益...(${this.works[i].price}円 - ${this.works[i].cost}円) ×  ${this.works[i].num}件 = ${(this.works[i].price - this.works[i].cost) * this.works[i].num} 円 \n\n`
-									  
+			for (let j=0; j<this.categorys.length;j++){
+				for (let i=0; i<this.categorys[j].works.length;i++){
+					message =  message +`【${this.categorys[j].categoryname}】\n` +
+					                    `□${this.categorys[j].works[i].name}\n` +
+										`売上...${formatter.format(this.categorys[j].works[i].price)}円 × ${formatter.format(this.categorys[j].works[i].num)}件 = ${formatter.format(this.categorys[j].works[i].price * this.categorys[j].works[i].num)}円 \n` +
+										`経費...${formatter.format(this.categorys[j].works[i].cost)}円 × ${formatter.format(this.categorys[j].works[i].num)}件 = ${formatter.format(this.categorys[j].works[i].cost  * this.categorys[j].works[i].num)}円 \n\n` 
+										//`営業利益...(${this.works[i].price}円 - ${this.works[i].cost}円) ×  ${this.works[i].num}件 = ${(this.works[i].price - this.works[i].cost) * this.works[i].num} 円 \n\n`
+										
+				}
 			}
 
 			message = message + `■アポイント${formatter.format(this.count)}件 \n\n` +
