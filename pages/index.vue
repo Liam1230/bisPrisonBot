@@ -111,7 +111,6 @@
 			</v-row>
 		
 		
-		
 		<v-card outlined class="pt-5 mt-5">
 			<h3 align="center">
 				アポイント
@@ -563,7 +562,7 @@ export default {
 			const date = `${this.datetime.year}_${this.datetime.month}`
 			const goal = {}
 			goal[date] = {
-				works:this.works,
+				categorys:this.categorys,
 				count:this.count,
 				checkboxItems:this.checkboxItems,
 				socials:this.socials,
