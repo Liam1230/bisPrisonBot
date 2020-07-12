@@ -603,13 +603,13 @@ export default {
 	mounted: async function(){
 
 		console.log(liff)
-		liff.init({
+		await liff.init({
 			liffId:"1654259536-9QolwByP"
 		})
 		try{
 			this.userProfile = await liff.getProfile()
 		}catch(e){
-			this.userProfile = profile = null
+			this.userProfile = null
 		}
 		
 		// .then(async data=>{
