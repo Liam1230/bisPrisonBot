@@ -543,6 +543,8 @@ export default {
 				}
 			}
 			
+			message =  message + `\n ■SNS` 
+
 			for (let i=0; i<this.socials.length;i++){
 				message =  message + `\n【${this.socials[i].snsType}】\n` + 
 									 `アカウント名 ${this.socials[i].accountName} \n` +
