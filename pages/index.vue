@@ -547,19 +547,21 @@ export default {
 				message =  message + `\n【${this.socials[i].snsType}】\n` + 
 									 `アカウント名 ${this.socials[i].accountName} \n` +
 									 `フォロワー数 ${formatter.format(this.socials[i].follower)} \n` +
-									 `目標フォロワー数 ${formatter.format(this.socials[i].targetFollower)} \n\n`
+									 `目標フォロワー数 ${formatter.format(this.socials[i].targetFollower)} \n`
 									 
 			}
 
+			message =  message + ` \n ■紹介営業・関係構築 \n`
+
 			for (let i=0; i<this.connections.length;i++){
-				message =  message + ` ■紹介営業・関係構築 \n` + 
-									 `${this.connections[i].introduce} \n\n` 
+				message =  message + `${this.connections[i].introduce} \n` 
 								
 			}
 
+			message =  message + `\n ■今月の課題 \n` 
+
 			for (let i=0; i<this.connections.length;i++){
-				message =  message + `■今月の課題 \n` + 
-									 `${this.tasks[i].name} \n\n` 
+				message =  message +`${this.tasks[i].name} \n` 
 									 
 			}
 
