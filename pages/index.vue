@@ -578,8 +578,8 @@ export default {
 				tasks:this.tasks
 			}
 			const db = this.$firebase.firestore();
-			db.doc("users/" + "test").set({
-				"goal:":{goal}
+			db.doc("users/" + this.userProfile.userId).set({
+				"goal:":goal
 			},{merge:true}).then(()=>{
 				alert("save")
 			})
@@ -601,41 +601,64 @@ export default {
 		}
 	},
 	mounted: async function(){
+
+		let profile = null
+
 		liff.init({
 			liffId:"1654259536-9QolwByP"
 		})
-		// .then(async data=>{
-		// 	if (!liff.isLoggedIn()) {
-		// 		//liff.login({ redirectUri: "https://bizprison-a9fc9.web.app" });
-		// 	}else{
-		// 		//initializeApp()
-		// 		// const profile = await liff.getProfile()
-		// 		// const {
-		// 		// 	userId,
-		// 		// 	displayName,
-		// 		// 	pictureUrl,
-		// 		// 	statusMessage
-		// 		// } = profile
-		// 		// alert(userId)
-		// 		// alert(displayName)
-		// 		// alert(pictureUrl)
-		// 		// liff.sendMessages([
-		// 		// 	{
-		// 		// 		type:'text',
-		// 		// 		text:statusMessage
-		// 		// 	}
-		// 		// ])
-		// 		// .then(() => {
-		// 		// 	this.userProfile.userId = userId
-		// 		// })
-		// 		// .catch((err) => {
-		// 		// 	alert(err);
-		// 		// });
-		// 	}
+		.then(async data=>{
+			//initializeApp()
+			profile = await liff.getProfile()
+			const {
+				userId,
+				displayName,
+				pictureUrl,
+				statusMessage
+			} = profile
+
+			alert(profile)
+		})
+		.catch(err=>{
+			console.log(err);
+			alert(err)
+		})
+	
+		(profile === null ? this.userProfile.userId = "test" : this.userProfile.userId = userId);
+			// if (!liff.isLoggedIn()) {
+			// 	//liff.login({ redirectUri: "https://bizprison-a9fc9.web.app" });
+			// 	this.userProfile.userId = "test"
+			// }else{
+			// 	initializeApp()
+			// 	const profile = await liff.getProfile()
+			// 	const {
+			// 		userId,
+			// 		displayName,
+			// 		pictureUrl,
+			// 		statusMessage
+			// 	} = profile
+
+			// 	this.userProfile.userId = userId
+			// 	// alert(userId)
+			// 	// alert(displayName)
+			// 	// alert(pictureUrl)
+			// 	// liff.sendMessages([
+			// 	// 	{
+			// 	// 		type:'text',
+			// 	// 		text:statusMessage
+			// 	// 	}
+			// 	// ])
+			// 	// .then(() => {
+			// 	// 	this.userProfile.userId = userId
+			// 	// })
+			// 	// .catch((err) => {
+			// 	// 	alert(err);
+			// 	// });
+			// }
 		// }).bind(this)
 		// .catch(err=>{
 		// 	console.error(err)
-		// }),
+		
 		
 		for (var i=0; i<100;i++){
 			this.years.push(2019 + i)
