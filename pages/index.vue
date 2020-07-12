@@ -101,6 +101,7 @@
 						</v-container>
 					</v-row>
 				</v-card>
+				<v-divider :key="'hr-'+idx"></v-divider>
 			</template>
 			<v-row> 
 				<v-layout justify-center style="padding: 10px">
