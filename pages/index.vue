@@ -602,29 +602,34 @@ export default {
 	},
 	mounted: async function(){
 
-		let profile = null
-
+		console.log(liff)
 		liff.init({
 			liffId:"1654259536-9QolwByP"
 		})
-		.then(async data=>{
-			//initializeApp()
-			profile = await liff.getProfile()
-			const {
-				userId,
-				displayName,
-				pictureUrl,
-				statusMessage
-			} = profile
+		try{
+			this.userProfile = await liff.getProfile()
+		}catch(e){
+			this.userProfile = profile = null
+		}
+		
+		// .then(async data=>{
+		// 	//initializeApp()
+		// 	profile = await liff.getProfile()
+		// 	const {
+		// 		userId,
+		// 		displayName,
+		// 		pictureUrl,
+		// 		statusMessage
+		// 	} = profile
 
-			alert(profile)
-		})
-		.catch(err=>{
-			console.log(err);
-			alert(err)
-		})
+		// 	alert(profile)
+		// })
+		// .catch(err=>{
+		// 	console.log(err);
+		// 	alert(err)
+		// })
 	
-		(profile === null ? this.userProfile.userId = "test" : this.userProfile.userId = userId);
+		// (profile === null ? this.userProfile.userId = "test" : this.userProfile.userId = userId);
 			// if (!liff.isLoggedIn()) {
 			// 	//liff.login({ redirectUri: "https://bizprison-a9fc9.web.app" });
 			// 	this.userProfile.userId = "test"
