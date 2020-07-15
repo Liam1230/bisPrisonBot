@@ -361,10 +361,20 @@
 			</v-row>
 		</template>
 
+		<template>
+			<div class="text-center">
+				<v-dialog v-model="dialog" hide-overlay persistent width="300" origin="top left" >
+					<v-card color="primary" dark>
+						<v-card-text>ロード中
+							<v-progress-linear ndeterminate color="white" class="mb-0"></v-progress-linear>
+						</v-card-text>
+					</v-card>
+				</v-dialog>
+			</div>
+		</template>
 
 	</div>
 </template>
-
 
 
 <script>
@@ -452,7 +462,7 @@ export default {
 		months:[],
 		count:0,
 		dialog: false,
-		dataFlg: false
+		load: false
       
 	}),
 	filters: {
@@ -520,19 +530,22 @@ export default {
 			})
 		},
 		async onChangeInput(year,month){
-			
+			this.load = true
 			const db = this.$firebase.firestore();
 			const doc = await db.doc("users/" + this.userProfile.userId).get();
 			const data = doc.data()
 			console.log(data.goal)
-
+			this.load = false
 			// const current = data.goal[`${year}_${month}`]
 
 			if(`${year}_${month}` in data.goal){
 				this.dialog = true
 			}
+
+			
 		},
 		async onDialogYes(){
+			this.load = true
 			const db = this.$firebase.firestore();
 			const doc = await db.doc("users/" + this.userProfile.userId).get();
 			const data = doc.data()
@@ -545,6 +558,7 @@ export default {
 			this.connections = current.connections
 			this.tasks = current.tasks
 
+			this.load = false
 			this.dialog = false
 
 		},
