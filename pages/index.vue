@@ -356,8 +356,8 @@
 						<v-card-text>「はい」を選択すると登録済みのデータを呼び出します。</v-card-text>
 						<v-card-actions>
 						<v-spacer></v-spacer>
-						<v-btn color="green darken-1" text @click="dialog = false, dataFlg = false">いいえ</v-btn>
-						<v-btn color="green darken-1" text @click="dialog = false, dataFlg = true">はい</v-btn>
+						<v-btn color="green darken-1" text @click="onDialogNo()">いいえ</v-btn>
+						<v-btn color="green darken-1" text @click="onDialogYes()">はい</v-btn>
 						</v-card-actions>
 					</v-card>
 				</v-dialog>
@@ -522,19 +522,37 @@ export default {
 				]
 			})
 		},
-
 		async onChangeInput(year,month){
 			
 			const db = this.$firebase.firestore();
 			const doc = await db.doc("users/" + this.userProfile.userId).get();
 			const data = doc.data()
-			
+			// const current = data.goal[`${year}_${month}`]
 
-			this.dialog = true
-
-			
-			
+			if(`${year}_${month}` in data.goal){
+				this.dialog = true
+			}
 		},
+		async onDialogYes(){
+			const db = this.$firebase.firestore();
+			const doc = await db.doc("users/" + this.userProfile.userId).get();
+			const data = doc.data()
+			const current = data.goal[`${this.datetime.year}_${this.datetime.month}`]
+
+			this.categorys = current.categorys
+			this.count = current.count
+			this.checkboxItems = current.checkboxItems
+			this.socials = current.socials
+			this.connections = current.connections
+			this.tasks = current.tasks
+
+			this.dialog = false
+
+		},
+		onDialogNo(){
+			this.dialog = false
+		},
+
 		submit(){
 			//TODO: テキストをデータからいい感じに作成	
 			const formatter = new Intl.NumberFormat('ja-JP');	
