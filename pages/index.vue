@@ -363,7 +363,7 @@
 
 		<template>
 			<div class="text-center">
-				<v-dialog v-model="dialog" hide-overlay persistent width="300" origin="top left" >
+				<v-dialog v-model="load" hide-overlay persistent width="300" origin="top left" >
 					<v-card color="primary" dark>
 						<v-card-text>ロード中
 							<v-progress-linear ndeterminate color="white" class="mb-0"></v-progress-linear>
