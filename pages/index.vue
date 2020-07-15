@@ -10,10 +10,10 @@
 				<template>
 					<v-row>
 						<v-col cols="6" md="6">
-							<v-select :items="years" label="年" v-model="datetime.year"></v-select>
+							<v-select :items="years" label="年" v-model="datetime.year" @change="onChangeInput(datetime.year,datetime.month)"></v-select>
 						</v-col>
 						<v-col cols="6" md="6">
-							<v-select :items="months" label="月" v-model="datetime.month"></v-select>
+							<v-select :items="months" label="月" v-model="datetime.month" @change="onChangeInput(datetime.year,datetime.month)"></v-select>
 						</v-col>
 					</v-row>
 				</template>
@@ -344,8 +344,31 @@
 				{{lineId}}
 			</v-layout>
 		</div>
+
+		<template>
+			<v-row justify="center">
+				<v-dialog v-model="dialog" persistent max-width="290">
+					<template v-slot:activator="{ on, attrs }">
+						<v-btn color="primary" dark v-bind="attrs" v-on="on">Open Dialog</v-btn>
+					</template>
+					<v-card>
+						<v-card-title class="headline">登録済みのデータを呼び出しますか?</v-card-title>
+						<v-card-text>「はい」を選択すると登録済みのデータを呼び出します。</v-card-text>
+						<v-card-actions>
+						<v-spacer></v-spacer>
+						<v-btn color="green darken-1" text @click="dialog = false, dataFlg = false">いいえ</v-btn>
+						<v-btn color="green darken-1" text @click="dialog = false, dataFlg = true">はい</v-btn>
+						</v-card-actions>
+					</v-card>
+				</v-dialog>
+			</v-row>
+		</template>
+
+
 	</div>
 </template>
+
+
 
 <script>
 export default {
@@ -430,7 +453,10 @@ export default {
 		selectBoxItems:["instagram","twitter"],
 		years:[],
 		months:[],
-		count:0
+		count:0,
+		dialog: false,
+		dataFlg: false
+      
 	}),
 	filters: {
 		moneyFilter(val){
@@ -495,6 +521,19 @@ export default {
 					}
 				]
 			})
+		},
+
+		async onChangeInput(year,month){
+			
+			const db = this.$firebase.firestore();
+			const doc = await db.doc("users/" + this.userProfile.userId).get();
+			const data = doc.data()
+			
+
+			this.dialog = true
+
+			
+			
 		},
 		submit(){
 			//TODO: テキストをデータからいい感じに作成	
@@ -609,7 +648,7 @@ export default {
 		try{
 			this.userProfile = await liff.getProfile()
 		}catch(e){
-			this.userProfile = null
+			this.userProfile.userId = "test"
 		}
 		
 		// .then(async data=>{
