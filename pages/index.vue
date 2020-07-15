@@ -365,7 +365,7 @@
 			<div class="text-center">
 				<v-dialog v-model="load" hide-overlay persistent width="300" origin="top left" >
 					<v-card color="primary" dark>
-						<v-card-text>ロード中
+						<v-card-text>loding
 							<v-progress-linear ndeterminate color="white" class="mb-0"></v-progress-linear>
 						</v-card-text>
 					</v-card>
@@ -566,8 +566,9 @@ export default {
 			this.dialog = false
 		},
 
-		submit(){
+		async submit(){
 			//TODO: テキストをデータからいい感じに作成	
+			this.load = true
 			const formatter = new Intl.NumberFormat('ja-JP');	
 			let subject = "行動計画:"	
 			let subject2 = "アポイント:"
@@ -651,10 +652,11 @@ export default {
 			db.doc("users/" + this.userProfile.userId).set({
 				"goal":goal
 			},{merge:true}).then(()=>{
-				alert("save")
+				this.load = false
+				//alert("save")
 			})
 
-			alert(message);
+			//alert(message);
 			
 			liff.sendMessages([
 				{
@@ -663,11 +665,14 @@ export default {
 				}
 			])
 			.then(() => {
-				alert('message sent');
+				
+				//alert('message sent');
 			})
 			.catch((err) => {
-				alert(err);
+				//alert(err);
 			});
+
+			
 		}
 	},
 	mounted: async function(){
