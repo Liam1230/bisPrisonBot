@@ -348,9 +348,6 @@
 		<template>
 			<v-row justify="center">
 				<v-dialog v-model="dialog" persistent max-width="290">
-					<template v-slot:activator="{ on, attrs }">
-						<v-btn color="primary" dark v-bind="attrs" v-on="on">Open Dialog</v-btn>
-					</template>
 					<v-card>
 						<v-card-title class="headline">登録済みのデータを呼び出しますか?</v-card-title>
 						<v-card-text>「はい」を選択すると登録済みのデータを呼び出します。</v-card-text>
@@ -527,6 +524,8 @@ export default {
 			const db = this.$firebase.firestore();
 			const doc = await db.doc("users/" + this.userProfile.userId).get();
 			const data = doc.data()
+			console.log(data.goal)
+
 			// const current = data.goal[`${year}_${month}`]
 
 			if(`${year}_${month}` in data.goal){
@@ -538,7 +537,7 @@ export default {
 			const doc = await db.doc("users/" + this.userProfile.userId).get();
 			const data = doc.data()
 			const current = data.goal[`${this.datetime.year}_${this.datetime.month}`]
-
+			
 			this.categorys = current.categorys
 			this.count = current.count
 			this.checkboxItems = current.checkboxItems
@@ -636,7 +635,7 @@ export default {
 			}
 			const db = this.$firebase.firestore();
 			db.doc("users/" + this.userProfile.userId).set({
-				"goal:":goal
+				"goal":goal
 			},{merge:true}).then(()=>{
 				alert("save")
 			})
