@@ -280,11 +280,18 @@ export default {
 			// }
 
 			const current = data.goal[`${this.datetime.year}_${this.datetime.month}`]
-			
-			this.categorys.categoryname = current.categorys.categoryname
-			this.categorys.works.name = current.categorys.works.name
-			
+			console.log(current)
+			for (var i=0; i<current.categorys.length;i++){
 
+				this.selectItemsCategoryname.push(current.categorys[i].categoryname)
+
+				for (var j=0; i<current.categorys[i].works.length;j++){
+					this.selectItemsWorksname.push(current.categorys[i].work[j].name)
+				}
+			}
+
+			//this.categorys.categoryname = current.categorys.categoryname
+			//this.works.name = current.categorys.works.name
 			
 		},
 
