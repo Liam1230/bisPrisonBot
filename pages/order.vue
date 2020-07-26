@@ -41,7 +41,7 @@
 					<v-col cols="11" md="10">
 						<v-select :items="selectItemsCategoryname" label="カテゴリ名" v-model="category.categorynameselect" ></v-select>
 					</v-col>
-					<div v-if="work.nameselect === '自由入力'">
+					<div v-if="category.nameselect === '自由入力'">
 						<v-col cols="11" md="10">
 							<v-text-field
 								v-model="category.categoryname"
@@ -187,7 +187,7 @@ export default {
 				works:[
 					{
 						name:"",
-						nameselect,
+						nameselect:"",
 						price:0,
 						cost: 0,
 						profit: 0,
@@ -195,7 +195,7 @@ export default {
 					},
 					{
 						name:"",
-						nameselect,
+						nameselect:"",
 						price:0,
 						cost: 0,
 						profit: 0,
