@@ -285,7 +285,7 @@ export default {
 
 				this.selectItemsCategoryname.push(current.categorys[i].categoryname)
 
-				for (var j=0; i<current.categorys[i].works.length;j++){
+				for (var j=0; j<current.categorys[i].works.length;j++){
 					this.selectItemsWorksname.push(current.categorys[i].work[j].name)
 				}
 			}
