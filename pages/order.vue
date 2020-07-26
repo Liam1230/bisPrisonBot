@@ -52,7 +52,7 @@
 
 					<v-container>
 						<template v-for="(work,idx2) in category.works">
-							<v-row :key="idx2">
+							<v-row :key="idx2+'work1'" >
 								<v-col cols="1" md="1">
 								</v-col>
 								<v-col cols="1" md="1">
@@ -72,7 +72,7 @@
 									</v-col>
 								</div>
 							</v-row>
-							<v-row :key="idx2">
+							<v-row :key="idx2+'work2'">
 								<v-col cols="2" md="2">
 								</v-col>
 								<v-col cols="3" md="3">
