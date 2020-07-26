@@ -263,7 +263,7 @@ export default {
 		},
 
 		onClacProfit(idx,idx2){
-			this.categorys[idx].works[idx2].profit = his.categorys[idx].works[idx2].price - his.categorys[idx].works[idx2].cost
+			this.categorys[idx].works[idx2].profit = this.categorys[idx].works[idx2].price - this.categorys[idx].works[idx2].cost
 		},
 
 		async onChangeInput(year,month){
