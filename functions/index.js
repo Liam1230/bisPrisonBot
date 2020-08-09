@@ -6,6 +6,7 @@ const nodemailer = require('nodemailer');
 const axios = require('axios');
 admin.initializeApp();
 const firestore = admin.firestore();
+const fs = require('fs');
 
 exports.saveMessageObject = functions.https.onRequest(async(request, response) => {
 	await cors(request, response, async() =>{
@@ -32,6 +33,58 @@ exports.loadMessageObject = functions.https.onRequest(async(request, response) =
 		var json = data[objName]
 
 		response.status(200).send(json);
+	})
+})
+
+exports.creatRichMenu = functions.https.onRequest(async(request, response) => {
+	await cors(request, response, async() =>{
+		const client = new line.Client({
+			channelAccessToken: "JF7ih96WB4Tfz3MutekMj3LnMmadn0zLdfttCQtm38AFJ6Si1Vec+qypCvHMCNj74VTa+3CXdQquFpUL1ijmNJ2LgZEN9LSzsvlNqZ8eoApPIRbjhjpaN0EhYHAG2DO5n4yt1PFnbm8jhAqecqAKdQdB04t89/1O/w1cDnyilFU=",
+			channelSecret:"d850f126efd1d3f49e6f52727dd7e35e"
+		})
+
+		const richmenu = {
+			size: {
+			  width: 2500,
+			  height: 1686
+			},
+			areas: [
+				{
+					bounds: {
+						x: 197,
+						y: 237,
+						width: 268,
+						height: 268
+					},
+					action: {
+						type:"uri",
+   						uri:"https://liff.line.me/1654259536-9QolwByP",
+					}
+				},
+				{
+					bounds: {
+						x: 197,
+						y: 505,
+						width: 268,
+						height: 268
+					},
+					action: {
+						type:"uri",
+   						uri:"https://liff.line.me/1654259536-XY8BvwZ1",
+					}
+				},
+				
+			]
+		}
+
+		client.createRichMenu(richmenu).then((richMenuId) =>
+			console.log(richMenuId)
+			,client.setRichMenuImage(richMenuId, fs.createReadStream('https://ruller.lsv.jp/wp-content/uploads/2020/05/bizMenu.png'))
+			,client.setDefaultRichMenu(richMenuId)
+		)
+
+		
+		  
 	})
 })
 
