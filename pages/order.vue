@@ -287,18 +287,27 @@ export default {
 			console.log(current)
 
 			if(current != null){
-				for (let i=0; i<current.categorys.length;i++){
+
+				for (let i=0; i<this.categorys.length;i++){
 
 					this.categorys[i].nameselect = ""
+
+					for (let j=0; j<this.categorys[i].works.length;j++){
+						this.categorys[i].works[j].nameselect = ""
+					}
+				}
+
+				for (let i=0; i<current.categorys.length;i++){
+
+					//this.categorys[i].nameselect = ""
 
 					if(current.categorys[i].categoryname != null){
 						this.selectItemsCategoryname.push(current.categorys[i].categoryname)
 					}
-
-					
+	
 					for (let j=0; j<current.categorys[i].works.length;j++){
 
-						this.categorys[i].works[j].nameselect = ""
+						//this.categorys[i].works[j].nameselect = ""
 
 						if(current.categorys[i].works[j].name != null){
 							this.selectItemsWorksname.push(current.categorys[i].works[j].name)
