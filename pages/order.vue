@@ -16,7 +16,7 @@
 							<v-select :items="months" label="月" v-model="datetime.month" @change="onChangeInput(datetime.year,datetime.month)"></v-select>
 						</v-col>
 						<v-col cols="4" md="4">
-							<v-select :items="dates" label="日" v-model="datetime.date" @change="onChangeInput(datetime.year,datetime.month)"></v-select>
+							<v-select :items="dates" label="日" v-model="datetime.date"></v-select>
 						</v-col>
 					</v-row>
 				</template>
@@ -60,10 +60,10 @@
 										<v-icon>mdi-minus</v-icon>
 									</v-btn>
 								</v-col>
-								<v-col cols="4" md="3">
+								<v-col cols="5" md="5">
 									<v-select :items="selectItemsWorksname" label="案件名" v-model="work.nameselect" ></v-select>
 								</v-col>
-								<v-col cols="4" md="3" v-if="work.nameselect === '自由入力'">
+								<v-col cols="5" md="5" v-if="work.nameselect === '自由入力'">
 									<v-text-field
 										v-model="work.name"
 										label="案件名"
@@ -73,7 +73,7 @@
 							<v-row :key="idx2+'work2'">
 								<v-col cols="2" md="2">
 								</v-col>
-								<v-col cols="3" md="3">
+								<v-col cols="5" md="5">
 									<v-text-field
 										v-model="work.price"
 										label="売上"
@@ -81,7 +81,7 @@
 										@change="onClacProfit(idx,idx2)"
 									></v-text-field>
 								</v-col>
-								<v-col cols="2" md="2">
+								<v-col cols="5" md="5">
 									<v-text-field
 										v-model="work.cost"
 										label="原価"
@@ -89,14 +89,18 @@
 										@change="onClacProfit(idx,idx2)"
 									></v-text-field>
 								</v-col>
+							</v-row>
+							<v-row :key="idx2+'work3'">
 								<v-col cols="2" md="2">
+								</v-col>
+								<v-col cols="5" md="5">
 									<v-text-field
 										v-model="work.profit"
 										label="粗利"
 										type="number"
 									></v-text-field>
 								</v-col>
-								<v-col cols="2" md="2">
+								<v-col cols="5" md="5">
 									<v-text-field
 										label="営業利益"
 										v-model="work.income"
@@ -271,49 +275,11 @@ export default {
 			const data = doc.data()
 			console.log(data.goal)
 
-			for (let i=0; i<this.selectItemsCategoryname.length;i++){
-				if(this.selectItemsCategoryname[i] != "自由入力"){
-					this.selectItemsCategoryname.splice(1,i)
-				}
-			}
-
-			for (let i=0; i<this.selectItemsWorksname.length;i++){
-				if(this.selectItemsWorksname[i] != "自由入力"){
-					this.selectItemsCategoryname.splice(1,i)
-				}
-			}
-
 			const current = data.goal[`${this.datetime.year}_${this.datetime.month}`]
 			console.log(current)
 
 			if(current != null){
-
-				for (let i=0; i<this.categorys.length;i++){
-
-					this.categorys[i].nameselect = ""
-
-					for (let j=0; j<this.categorys[i].works.length;j++){
-						this.categorys[i].works[j].nameselect = ""
-					}
-				}
-
-				for (let i=0; i<current.categorys.length;i++){
-
-					//this.categorys[i].nameselect = ""
-
-					if(current.categorys[i].categoryname != null){
-						this.selectItemsCategoryname.push(current.categorys[i].categoryname)
-					}
-	
-					for (let j=0; j<current.categorys[i].works.length;j++){
-
-						//this.categorys[i].works[j].nameselect = ""
-
-						if(current.categorys[i].works[j].name != null){
-							this.selectItemsWorksname.push(current.categorys[i].works[j].name)
-						}
-					}
-				}
+				this.dialog = true
 			}else{
 				for (let i=0; i<this.categorys.length;i++){
 
@@ -325,26 +291,60 @@ export default {
 				}
 			}
 
-			
-			
+
 		},
 
 		async onDialogYes(){
-			//this.load = true
+			this.load = true
+
 			const db = this.$firebase.firestore();
 			const doc = await db.doc("users/" + this.userProfile.userId).get();
 			const data = doc.data()
+			console.log(data.goal)
 			const current = data.goal[`${this.datetime.year}_${this.datetime.month}`]
-			
-			this.categorys = current.categorys
-			this.count = current.count
-			this.checkboxItems = current.checkboxItems
-			this.socials = current.socials
-			this.connections = current.connections
-			this.tasks = current.tasks
+			console.log(current)
 
-			//this.load = false
-			//this.dialog = false
+			for (let i=0; i<this.selectItemsCategoryname.length;i++){
+				if(this.selectItemsCategoryname[i] != "自由入力"){
+					this.selectItemsCategoryname.splice(1,i)
+				}
+			}
+
+			for (let i=0; i<this.selectItemsWorksname.length;i++){
+				if(this.selectItemsWorksname[i] != "自由入力"){
+					this.selectItemsCategoryname.splice(1,i)
+				}
+			}
+			
+			for (let i=0; i<this.categorys.length;i++){
+
+				this.categorys[i].nameselect = ""
+
+				for (let j=0; j<this.categorys[i].works.length;j++){
+					this.categorys[i].works[j].nameselect = ""
+				}
+			}
+
+			for (let i=0; i<current.categorys.length;i++){
+
+				//this.categorys[i].nameselect = ""
+
+				if(current.categorys[i].categoryname != null){
+					this.selectItemsCategoryname.push(current.categorys[i].categoryname)
+				}
+
+				for (let j=0; j<current.categorys[i].works.length;j++){
+
+					//this.categorys[i].works[j].nameselect = ""
+
+					if(current.categorys[i].works[j].name != null){
+						this.selectItemsWorksname.push(current.categorys[i].works[j].name)
+					}
+				}
+			}
+
+			this.load = false
+			this.dialog = false
 
 		},
 
