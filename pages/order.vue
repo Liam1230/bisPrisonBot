@@ -39,16 +39,16 @@
 					</v-col>
 
 					<v-col cols="11" md="10">
-						<v-select :items="selectItemsCategoryname" label="カテゴリ名" v-model="category.categorynameselect" ></v-select>
+						<v-select :items="selectItemsCategoryname" label="カテゴリ名" v-model="category.nameselect" ></v-select>
 					</v-col>
-					<div v-if="category.nameselect === '自由入力'">
-						<v-col cols="11" md="10">
-							<v-text-field
-								v-model="category.categoryname"
-								label="カテゴリ名"
-							></v-text-field>
-						</v-col>
-					</div>
+					<v-col cols="1" md="1" v-if="category.nameselect === '自由入力'">
+					</v-col>
+					<v-col cols="11" md="10" v-if="category.nameselect === '自由入力'">
+						<v-text-field
+							v-model="category.categoryname"
+							label="カテゴリ名"
+						></v-text-field>
+					</v-col>
 
 					<v-container>
 						<template v-for="(work,idx2) in category.works">
@@ -63,14 +63,12 @@
 								<v-col cols="4" md="3">
 									<v-select :items="selectItemsWorksname" label="案件名" v-model="work.nameselect" ></v-select>
 								</v-col>
-								<div v-if="work.nameselect === '自由入力'">
-									<v-col cols="4" md="3">
-										<v-text-field
-											v-model="work.name"
-											label="案件名"
-										></v-text-field>
-									</v-col>
-								</div>
+								<v-col cols="4" md="3" v-if="work.nameselect === '自由入力'">
+									<v-text-field
+										v-model="work.name"
+										label="案件名"
+									></v-text-field>
+								</v-col>
 							</v-row>
 							<v-row :key="idx2+'work2'">
 								<v-col cols="2" md="2">
@@ -267,31 +265,58 @@ export default {
 		},
 
 		async onChangeInput(year,month){
-			//this.load = true
+		
 			const db = this.$firebase.firestore();
 			const doc = await db.doc("users/" + this.userProfile.userId).get();
 			const data = doc.data()
 			console.log(data.goal)
-			//this.load = false
-			
 
-			// if(`${year}_${month}` in data.goal){
-			// 	this.dialog = true
-			// }
-
-			const current = data.goal[`${this.datetime.year}_${this.datetime.month}`]
-			console.log(current)
-			for (var i=0; i<current.categorys.length;i++){
-
-				this.selectItemsCategoryname.push(current.categorys[i].categoryname)
-
-				for (var j=0; j<current.categorys[i].works.length;j++){
-					this.selectItemsWorksname.push(current.categorys[i].work[j].name)
+			for (let i=0; i<this.selectItemsCategoryname.length;i++){
+				if(this.selectItemsCategoryname[i] != "自由入力"){
+					this.selectItemsCategoryname.splice(1,i)
 				}
 			}
 
-			//this.categorys.categoryname = current.categorys.categoryname
-			//this.works.name = current.categorys.works.name
+			for (let i=0; i<this.selectItemsWorksname.length;i++){
+				if(this.selectItemsWorksname[i] != "自由入力"){
+					this.selectItemsCategoryname.splice(1,i)
+				}
+			}
+
+			const current = data.goal[`${this.datetime.year}_${this.datetime.month}`]
+			console.log(current)
+
+			if(current != null){
+				for (let i=0; i<current.categorys.length;i++){
+
+					this.categorys[i].nameselect = ""
+
+					if(current.categorys[i].categoryname != null){
+						this.selectItemsCategoryname.push(current.categorys[i].categoryname)
+					}
+
+					
+					for (let j=0; j<current.categorys[i].works.length;j++){
+
+						this.categorys[i].works[j].nameselect = ""
+
+						if(current.categorys[i].works[j].name != null){
+							this.selectItemsWorksname.push(current.categorys[i].works[j].name)
+						}
+					}
+				}
+			}else{
+				for (let i=0; i<this.categorys.length;i++){
+
+					this.categorys[i].nameselect = "自由入力"
+
+					for (let j=0; j<this.categorys[i].works.length;j++){
+						this.categorys[i].works[j].nameselect = "自由入力"
+					}
+				}
+			}
+
+			
 			
 		},
 
@@ -456,19 +481,19 @@ export default {
 		// 	console.error(err)
 		
 		
-		for (var i=0; i<100;i++){
+		for (let i=0; i<100;i++){
 			this.years.push(2019 + i)
 		}
 
-		for (var j=1; j<13;j++){
+		for (let j=1; j<13;j++){
 			this.months.push(j)
 		}
 
-		for (var k=1; k<32;k++){
+		for (let k=1; k<32;k++){
 			this.dates.push(k)
 		}
 
-		var hiduke =new Date();
+		let hiduke =new Date();
 		hiduke.setMonth( hiduke.getMonth() +1);
 		this.datetime.year = hiduke.getFullYear();
 		this.datetime.month = hiduke.getMonth();
