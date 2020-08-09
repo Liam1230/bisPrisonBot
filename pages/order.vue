@@ -290,8 +290,6 @@ export default {
 					}
 				}
 			}
-
-
 		},
 
 		async onDialogYes(){
@@ -429,7 +427,7 @@ export default {
 
 		console.log(liff)
 		await liff.init({
-			liffId:"1654259536-9QolwByP"
+			liffId:"1654259536-XY8BvwZ1"
 		})
 		try{
 			this.userProfile = await liff.getProfile()
@@ -503,10 +501,10 @@ export default {
 		}
 
 		let hiduke =new Date();
-		hiduke.setMonth( hiduke.getMonth() +1);
+		hiduke.setMonth( hiduke.getMonth()+ 1);
 		this.datetime.year = hiduke.getFullYear();
 		this.datetime.month = hiduke.getMonth();
-		this.datetime.month = hiduke.getDate();	
+		this.datetime.date = hiduke.getDate();	
 		
 		
 	}
