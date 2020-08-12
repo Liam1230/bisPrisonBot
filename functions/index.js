@@ -7,6 +7,7 @@ const axios = require('axios');
 admin.initializeApp();
 const firestore = admin.firestore();
 const fs = require('fs');
+const { Buffer } = require('buffer');
 
 exports.saveMessageObject = functions.https.onRequest(async(request, response) => {
 	await cors(request, response, async() =>{
@@ -77,11 +78,16 @@ exports.creatRichMenu = functions.https.onRequest(async(request, response) => {
 			]
 		}
 
-		client.createRichMenu(richmenu).then((richMenuId) =>
+		client.createRichMenu(richmenu).then(async(richMenuId) =>{
 			console.log(richMenuId)
-			,client.setRichMenuImage(richMenuId, fs.createReadStream('https://ruller.lsv.jp/wp-content/uploads/2020/05/bizMenu.png'))
-			,client.setDefaultRichMenu(richMenuId)
-		)
+			const imgUrl = 'https://ruller.lsv.jp/wp-content/uploads/2020/05/bizMenu.png'
+			const {data} = await axios.get(imgUrl,{responseType:"arraybuffer"})
+			const tmpfilePath = "/tmp/tmp.png"
+			fs.writeFileSync(tmpfilePath, new Buffer.from(data),'binary')
+			await client.setRichMenuImage(richMenuId, fs.createReadStream(tmpfilePath))
+			fs.unlinkSync(tmpfilePath)
+			client.setDefaultRichMenu(richMenuId)
+		})
 
 		
 		  
