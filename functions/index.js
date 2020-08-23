@@ -46,9 +46,12 @@ exports.creatRichMenu = functions.https.onRequest(async(request, response) => {
 
 		const richmenu = {
 			size: {
-			  width: 2500,
-			  height: 1686
+			  width: 1200,
+			  height: 810
 			},
+			selected: false,
+			name: "richmenuShow",
+			chatBarText: "メニュー表示",
 			areas: [
 				{
 					bounds: {
@@ -59,37 +62,40 @@ exports.creatRichMenu = functions.https.onRequest(async(request, response) => {
 					},
 					action: {
 						type:"uri",
-   						uri:"https://liff.line.me/1654259536-9QolwByP",
+   						uri:"https://liff.line.me/1654259536-9QolwByP"
 					}
 				},
 				{
 					bounds: {
 						x: 197,
-						y: 505,
+						y: 506,
 						width: 268,
 						height: 268
 					},
 					action: {
 						type:"uri",
-   						uri:"https://liff.line.me/1654259536-XY8BvwZ1",
+   						uri:"https://liff.line.me/1654259536-XY8BvwZ1"
 					}
-				},
+				}
 				
 			]
 		}
 
 		client.createRichMenu(richmenu).then(async(richMenuId) =>{
 			console.log(richMenuId)
-			const imgUrl = 'https://ruller.lsv.jp/wp-content/uploads/2020/05/bizMenu.png'
+			const imgUrl = 'https://firebasestorage.googleapis.com/v0/b/bizprison-a9fc9.appspot.com/o/bizMenu.png?alt=media&token=93e426c4-a6c3-4bc2-8522-ef2c6b02ad1c'
 			const {data} = await axios.get(imgUrl,{responseType:"arraybuffer"})
 			const tmpfilePath = "/tmp/tmp.png"
 			fs.writeFileSync(tmpfilePath, new Buffer.from(data),'binary')
 			await client.setRichMenuImage(richMenuId, fs.createReadStream(tmpfilePath))
+			await client.setDefaultRichMenu(richMenuId)
 			fs.unlinkSync(tmpfilePath)
-			client.setDefaultRichMenu(richMenuId)
+		}).catch(err=>{
+			console.error(err);
+			response.status(400).send(err);
 		})
 
-		
+		response.status(200).send('OK');
 		  
 	})
 })
@@ -170,7 +176,15 @@ exports.line = functions.runWith({ memory: "2GB", timeoutSeconds: 540 }).https.o
 						response.status(400).send(err);
 					})
 				}
-				if(message.text == "モード選択:受注レポート"){}
+				if(message.text == "モード選択:受注レポート"){
+					client.replyMessage(replyToken,messages.test2).then(res=>{
+						console.log(res)
+						response.status(200).send('OK');
+					}).catch(err=>{
+						console.error(err);
+						response.status(400).send(err);
+					})
+				}
 				if(message.text == "モード選択:案件一覧"){}
 				if(message.text == "モード選択:メンバー紹介"){}
 				if(mode == "アポレポート1"){
