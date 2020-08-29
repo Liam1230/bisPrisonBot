@@ -41,9 +41,8 @@
 					<v-col cols="11" md="10">
 						<v-select :items="selectItemsCategoryname" label="カテゴリ名" v-model="category.nameselect" ></v-select>
 					</v-col>
-					<v-col cols="1" md="1" v-if="category.nameselect === '自由入力'">
-					</v-col>
-					<v-col cols="11" md="10" v-if="category.nameselect === '自由入力'">
+					
+					<v-col cols="11" md="10" offset-md="1" v-if="category.nameselect === '自由入力'">
 						<v-text-field
 							v-model="category.categoryname"
 							label="カテゴリ名"
@@ -427,7 +426,7 @@ export default {
 
 		console.log(liff)
 		await liff.init({
-			liffId:"1654259536-XY8BvwZ1"
+			liffId:"1654259536-2xMyYEz0"
 		})
 		try{
 			this.userProfile = await liff.getProfile()
