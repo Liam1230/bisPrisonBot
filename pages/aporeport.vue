@@ -11,13 +11,14 @@
 		<template v-for="(category,idx) in categorys">	
 			<v-card class="mb-3 px-3" :key="idx">
 				<v-row :key="idx" align-content="center" justify="center">
-					<v-col cols="1" md="1">
+					<v-col cols="1" md="1" class="d-flex align-center">
 						<v-btn color="primary" fab x-small dark @click="onRemoveCategoryButton(idx)">
 							<v-icon>mdi-minus</v-icon>
 						</v-btn>
 					</v-col>
 					<v-col cols="11" md="10">
 						<v-text-field
+							class="pl-3"
 							v-model="category.companyname"
 							label="訪問先名"
 						></v-text-field>
@@ -77,13 +78,14 @@
 							<v-row :key="idx2+'cost'">
 								<v-col cols="1" md="1">
 								</v-col>
-								<v-col cols="1" md="1">
+								<v-col cols="1" md="1" class="d-flex align-center">
 									<v-btn color="primary" fab x-small dark @click="onRemoveCostButton(idx,idx2)">
 										<v-icon>mdi-minus</v-icon>
 									</v-btn>
 								</v-col>
 								<v-col cols="6" md="6">
 									<v-text-field
+										class="pl-3"
 										v-model="cost.name"
 										label="費目"
 									></v-text-field>
@@ -112,13 +114,13 @@
 							<v-row :key="idx3+'sale'">
 								<v-col cols="1" md="1">
 								</v-col>
-								<v-col cols="1" md="1">
+								<v-col cols="1" md="1" class="d-flex align-center">
 									<v-btn color="primary" fab x-small dark @click="onRemoveSaleButton(idx,idx3)">
 										<v-icon>mdi-minus</v-icon>
 									</v-btn>
 								</v-col>
 								<v-col cols="8" md="8">
-									<v-select :items="categorys[idx].selectItemsProductname" label="製品名" v-model="sale.productselect" ></v-select>
+									<v-select :items="categorys[idx].selectItemsProductname" label="製品名" v-model="sale.productselect" class="pl-3"></v-select>
 								</v-col>
 								<v-col cols="2" md="2">
 								</v-col>
