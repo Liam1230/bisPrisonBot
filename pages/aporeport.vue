@@ -74,6 +74,55 @@
 					</v-col>
 				
 					<v-container>
+						<div v-if="category.ordertype === '受注'">
+							<template v-for="(sale,idx3) in category.sales" >
+								<v-row :key="idx3+'sale'">
+									<v-col cols="1" md="1">
+									</v-col>
+									<v-col cols="1" md="1" class="d-flex align-center">
+										<v-btn color="primary" fab x-small dark @click="onRemoveSaleButton(idx,idx3)">
+											<v-icon>mdi-minus</v-icon>
+										</v-btn>
+									</v-col>
+									<v-col cols="8" md="8">
+										<v-select :items="categorys[idx].selectItemsProductname" label="製品名" v-model="sale.productselect" class="pl-3"></v-select>
+									</v-col>
+									<v-col cols="2" md="2">
+									</v-col>
+
+									<v-col cols="2" md="2" v-if="sale.productselect === '自由入力'">
+									</v-col>
+									<v-col cols="8" md="8" v-if="sale.productselect === '自由入力'">
+										<v-text-field
+											v-model="sale.product"
+											label="製品名"
+										></v-text-field>
+									</v-col>
+									
+								</v-row>
+								<v-row :key="idx3+'sale2'">
+									<v-col cols="2" md="2">
+									</v-col>
+									<v-col cols="5" md="5">
+										<v-text-field
+											v-model="sale.price"
+											label="売上"
+											type="number"
+										></v-text-field>
+									</v-col>
+								</v-row>
+								<!--
+								<v-divider :key="'hr-'+idx3"></v-divider>
+								-->
+							</template>
+							<v-row> 
+								<v-layout justify-center style="padding: 10px">
+									<v-btn color="error" fab x-small dark @click="onAddSaleButton(idx)">
+										<v-icon>mdi-plus</v-icon>
+									</v-btn>
+								</v-layout>
+							</v-row>
+						</div>
 						<template v-for="(cost,idx2) in category.costs">
 							<v-row :key="idx2+'cost'">
 								<v-col cols="1" md="1">
@@ -110,53 +159,7 @@
 							</v-layout>
 						</v-row>
 
-						<template v-for="(sale,idx3) in category.sales">
-							<v-row :key="idx3+'sale'">
-								<v-col cols="1" md="1">
-								</v-col>
-								<v-col cols="1" md="1" class="d-flex align-center">
-									<v-btn color="primary" fab x-small dark @click="onRemoveSaleButton(idx,idx3)">
-										<v-icon>mdi-minus</v-icon>
-									</v-btn>
-								</v-col>
-								<v-col cols="8" md="8">
-									<v-select :items="categorys[idx].selectItemsProductname" label="製品名" v-model="sale.productselect" class="pl-3"></v-select>
-								</v-col>
-								<v-col cols="2" md="2">
-								</v-col>
-
-								<v-col cols="2" md="2" v-if="sale.productselect === '自由入力'">
-								</v-col>
-								<v-col cols="8" md="8" v-if="sale.productselect === '自由入力'">
-									<v-text-field
-										v-model="sale.product"
-										label="製品名"
-									></v-text-field>
-								</v-col>
-								
-							</v-row>
-							<v-row :key="idx3+'sale2'">
-								<v-col cols="2" md="2">
-								</v-col>
-								<v-col cols="5" md="5">
-									<v-text-field
-										v-model="sale.price"
-										label="売上"
-										type="number"
-									></v-text-field>
-								</v-col>
-							</v-row>
-							<!--
-							<v-divider :key="'hr-'+idx3"></v-divider>
-							-->
-						</template>
-						<v-row> 
-							<v-layout justify-center style="padding: 10px">
-								<v-btn color="error" fab x-small dark @click="onAddSaleButton(idx)">
-									<v-icon>mdi-plus</v-icon>
-								</v-btn>
-							</v-layout>
-						</v-row>
+					
 					</v-container>
 				</v-row>
 			</v-card>
