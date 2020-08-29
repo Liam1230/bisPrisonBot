@@ -9,7 +9,7 @@
 		</v-card>
 		
 		<template v-for="(category,idx) in categorys">	
-			<v-card class="mb-3" :key="idx">
+			<v-card class="mb-3 px-3" :key="idx">
 				<v-row :key="idx" align-content="center" justify="center">
 					<v-col cols="1" md="1">
 						<v-btn color="primary" fab x-small dark @click="onRemoveCategoryButton(idx)">
@@ -22,9 +22,10 @@
 							label="訪問先名"
 						></v-text-field>
 					</v-col>
-
 					
-					<v-col cols="3" md="3" offset-md="2" >
+					<v-col cols="1" md="1"  >
+					</v-col>
+					<v-col cols="3" md="3"  >
 						<v-select :items="years" label="年" v-model="category.year" @change="onChangeInput(category.year,category.month,idx)"></v-select>
 					</v-col>
 					<v-col cols="3" md="3" >
@@ -33,28 +34,35 @@
 					<v-col cols="3" md="3">
 						<v-select :items="dates" label="日" v-model="category.date"></v-select>
 					</v-col>
-					
+					<v-col cols="2" md="2">
+					</v-col>
 				
 					<v-col cols="1" md="1">
 					</v-col>
-					<v-col cols="2" md="2" offset-md="1" >
+					<v-col cols="3" md="3" offset-md="1" >
 						<v-select :items="times" label="時" v-model="category.timefrom"></v-select>
 					</v-col>
-					<v-col cols="2" md="2" offset-md="1">
+					<v-col cols="3" md="3" offset-md="1">
 						<v-select :items="minutes" label="分" v-model="category.minutefrom"></v-select>
 					</v-col>
 					<v-col cols="1" md="1" class="flex-center" offset-md="1">〜</v-col>
-					<v-col cols="2" md="2" offset-md="1">
+					<v-col cols="4" md="4">
+					</v-col>
+
+					<v-col cols="1" md="1">
+					</v-col>
+					<v-col cols="3" md="3">
 						<v-select :items="times" label="時" v-model="category.timeto"></v-select>
 					</v-col>
-					<v-col cols="2" md="2" offset-md="1">
+					<v-col cols="3" md="3" >
 						<v-select :items="minutes" label="分" v-model="category.minuteto"></v-select>
 					</v-col>
-					
-				
-					<v-col cols="2" md="2">
+					<v-col cols="5" md="5">
 					</v-col>
-					<v-col cols="5" md="5" offset-md="1">
+					
+					<v-col cols="1" md="1">
+					</v-col>
+					<v-col cols="7" md="7" offset-md="1">
 						<v-text-field
 							v-model="category.place"
 							label="場所"
@@ -63,7 +71,7 @@
 					<v-col cols="4" md="4">
 						<v-select :items="ordertypeSelect" label="状況" v-model="category.ordertype"></v-select>
 					</v-col>
-					
+				
 					<v-container>
 						<template v-for="(cost,idx2) in category.costs">
 							<v-row :key="idx2+'cost'">
@@ -74,7 +82,7 @@
 										<v-icon>mdi-minus</v-icon>
 									</v-btn>
 								</v-col>
-								<v-col cols="5" md="5">
+								<v-col cols="6" md="6">
 									<v-text-field
 										v-model="cost.name"
 										label="費目"
@@ -109,10 +117,15 @@
 										<v-icon>mdi-minus</v-icon>
 									</v-btn>
 								</v-col>
-								<v-col cols="5" md="5">
+								<v-col cols="8" md="8">
 									<v-select :items="categorys[idx].selectItemsProductname" label="製品名" v-model="sale.productselect" ></v-select>
 								</v-col>
-								<v-col cols="5" md="5" v-if="sale.productselect === '自由入力'">
+								<v-col cols="2" md="2">
+								</v-col>
+
+								<v-col cols="2" md="2" v-if="sale.productselect === '自由入力'">
+								</v-col>
+								<v-col cols="8" md="8" v-if="sale.productselect === '自由入力'">
 									<v-text-field
 										v-model="sale.product"
 										label="製品名"
@@ -321,7 +334,9 @@ export default {
 				this.dialog = true
 				this.categorysIndex = idx
 			}else{
-				this.categorys[idx].productselect = "自由入力"
+				for (let i=0; i<this.categorys[idx].sales.length;i++){
+					this.categorys[idx].sales[i].productselect = "自由入力"
+				}
 			}
 		},
 
