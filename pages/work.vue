@@ -3,9 +3,9 @@
 		<h1 align="center" class="white-text">ワーク</h1>
 
 		<v-card outlined style="padding: 10px">
-		<h3 align="center">
-			報告年月
-		</h3>
+            <h3 align="center">
+                報告年月
+            </h3>
 			<v-container>
 				<template>
 					<v-row>
@@ -24,15 +24,52 @@
 			<h3 align="center">
 				売上・利益目標
 			</h3>
+            <v-container>
+				<template>
+					<v-row>
+						<v-col cols="1" md="1" class="flex-center">
+                            <label class="flex-center">売上</label>
+                        </v-col>
+                        <v-col cols="11" md="11">
+                            <v-text-field
+                                
+                                v-model="sale"
+                                label="実績/目標"
+                            ></v-text-field>
+                        </v-col>
+                        <v-col cols="1" md="1" class="flex-center">
+                            <label class="flex-center">経費</label>
+                        </v-col>
+                        <v-col cols="11" md="11">
+                            <v-text-field
+                               
+                                v-model="price"
+                                label="実績/目標"
+                            ></v-text-field>
+                        </v-col>
+                    　<v-col cols="1" md="1" class="flex-center">
+                            <label class="flex-center">営業利益</label>
+                        </v-col>
+                        <v-col cols="11" md="11">
+                            <v-text-field
+                                
+                                v-model="profit"
+                                label="実績/目標"
+                            ></v-text-field>
+                        </v-col>
+					</v-row>
+				</template>
+			</v-container>
 		</v-card>
 		
 		<template v-for="(category,idx) in categorys">	
-			<v-card class="mb-3" :key="idx">
+			<v-card class="mb-3 px-3　pt-5 mt-5" :key="idx">
+                <h3 align="center">
+                    内訳
+                </h3>
 				<v-row :key="idx">
 					<v-col cols="1" md="1">
-						<v-btn color="primary" fab x-small dark @click="onRemoveCategoryButton(idx)">
-							<v-icon>mdi-minus</v-icon>
-						</v-btn>
+                        
 					</v-col>
 					<v-col cols="11" md="10">
 						<v-text-field
@@ -43,264 +80,230 @@
 					<v-container>
 						<template v-for="(work,idx2) in category.works">
 							<v-row :key="idx2">
-								<v-col cols="1" md="1">
+                                <v-col cols="1" md="1">
 								</v-col>
 								<v-col cols="1" md="1">
-									<v-btn color="primary" fab x-small dark @click="onRemoveProjectButton(idx,idx2)">
-										<v-icon>mdi-minus</v-icon>
-									</v-btn>
+                                    <label class="flex-center">案件名</label>
 								</v-col>
-								<v-col cols="4" md="3">
+								<v-col cols="9" md="9">
 									<v-text-field
 										v-model="work.name"
-										label="案件名"
 									></v-text-field>
 								</v-col>
-								<v-col cols="3" md="3">
+                                <v-col cols="1" md="1">
+								</v-col>
+								<v-col cols="1" md="1">
+								</v-col>
+								<v-col cols="1" md="1">
+                                    <label class="flex-center">売上</label>
+								</v-col>
+								<v-col cols="9" md="9">
 									<v-text-field
-										v-model="work.price"
-										label="売上"
-										type="number"
+										v-model="work.name"
+										label="売上✖️件数"
 									></v-text-field>
 								</v-col>
-								<v-col cols="3" md="3">
+                                <v-col cols="1" md="1">
+								</v-col>
+							    <v-col cols="1" md="1">
+								</v-col>
+								<v-col cols="1" md="1">
+                                    <label class="flex-center">費用</label>
+								</v-col>
+								<v-col cols="9" md="9">
 									<v-text-field
-										v-model="work.cost"
-										label="費用"
-										type="number"
+										v-model="work.name"
+										label="費用✖️件数"
 									></v-text-field>
 								</v-col>
-								<v-col cols="2" md="2">
-								</v-col>	
-								<v-col cols="3" md="3">
-									<v-text-field
-										v-model="work.num"
-										label="受注数"
-										type="number"
-									></v-text-field>
-								</v-col>
-								<v-col cols="3" md="3">
-									<v-select
-										:items="selectItems"
-										label="CVR"
-										v-model="work.cvr"
-									></v-select>
+                                <v-col cols="1" md="1">
 								</v-col>
 							</v-row>
 							<v-divider :key="'hr-'+idx2"></v-divider>
 						</template>
-						<v-row> 
-							<v-layout justify-center style="padding: 10px">
-								<v-btn color="error" fab x-small dark @click="onAddProjectButton(idx)">
-									<v-icon>mdi-plus</v-icon>
-								</v-btn>
-							</v-layout>
-						</v-row>
+						
 					</v-container>
 				</v-row>
 			</v-card>
 			<v-divider :key="'hr-'+idx"></v-divider>
 		</template>
-		<v-row> 
-			<v-layout justify-center style="padding: 10px">
-				<v-btn color="error" fab x-small dark @click="onAddCategoryButton()">
-					<v-icon>mdi-plus</v-icon>
-				</v-btn>
-			</v-layout>
-		</v-row>
-		
-		
-		<v-card outlined class="pt-5 mt-5">
-			<h3 align="center">
-				アポイント
-			</h3>
+
+		<v-card outlined style="padding: 10px">
+            <h3 align="center">
+                達成率
+            </h3>
 			<v-container>
-				<v-row>
-					<v-col cols="12" class="pt-0">
-						<v-text-field
-							v-model="count"
-							label="件数"
-						></v-text-field>
-					</v-col>
-				</v-row>
-				<v-row>
-					<v-col cols="12" class="pb-0">
-						<h4 align="left">
-							根拠
-						</h4>
-					</v-col>
-					<v-col class="pt-0" cols="4" md="4" style="padding:0px">
-						<v-checkbox
-							v-model="checkboxItems.sns" 
-							label="SNS" 
-							color="red" 
-							hide-details
-							class="pl-3 ml-3 text-caption"
-							value="SNS"
-							
-						></v-checkbox>
-					</v-col>
-					<v-col cols="4" md="4" style="padding:0px">
-						<v-checkbox 
-							v-model="checkboxItems.web" 
-							label="Web" 
-							color="red darken-3" 
-							hide-details
-							class="pl-3 ml-3"
-							value="Web"
-						></v-checkbox>
-					</v-col>
-					<v-col cols="4" md="4" style="padding:0px">
-						<v-checkbox
-							v-model="checkboxItems.friend"
-							label="知り合い"
-							color="indigo"
-							hide-details
-							class="pl-3 ml-3"
-							value="知り合い"
-						></v-checkbox>
-					</v-col>
-				</v-row>	
-				<v-row>
-					<v-col cols="4" md="4" style="padding:0px">
-						<v-checkbox
-							v-model="checkboxItems.introdctioin"
-							label="紹介"
-							color="indigo darken-3"
-							hide-details
-							class="pl-3 ml-3"
-							value="紹介"
-						></v-checkbox>
-					</v-col>
-					<v-col cols="4" md="4" style="padding:0px">
-						<v-checkbox
-							v-model="checkboxItems.exchangeMeeting"
-							label="交流会"
-							color="orange"
-							hide-details
-							class="pl-3 ml-3"
-							value="交流会"
-						></v-checkbox>
-					</v-col>
-					<v-col cols="4" md="4" style="padding:0px;">
-						<v-checkbox
-							v-model="checkboxItems.seminar"
-							label="セミナー"
-							color="orange darken-3"
-							hide-details
-							class="pl-3 ml-3"
-							value="セミナー"
-						></v-checkbox>
-					</v-col>
-				</v-row>
-				<v-row>
-					<v-col cols="4" md="4" style="padding:0px">
-						<v-checkbox
-							v-model="checkboxItems.intermediary"
-							label="仲介サイト"
-							color="indigo darken-3"
-							hide-details
-							class="pl-3 ml-3"
-							value="仲介サイト"
-						></v-checkbox>
-					</v-col>
-					<v-col cols="4" md="4" style="padding:0px">
-					</v-col>
-					<v-col cols="4" md="4" style="padding:0px;">
-					</v-col>
-				</v-row>
-			</v-container>
-		</v-card>
-
-		<v-card outlined class="pt-5 mt-5">
-			<h3 align="center">
-				SNS
-			</h3>
-			<v-container>
-				<template v-for="(social,idx) in socials">
-					<v-row :key="idx">
-						<v-col cols="2" md="2">
-							<v-btn color="primary" fab x-small dark @click="onRemoveSnsButton(idx)">
-								<v-icon>mdi-minus</v-icon>
-							</v-btn>
+				<template>
+					<v-row>
+                        <v-col cols="1" md="1">
 						</v-col>
-
-						<v-col cols="9" md="9">
-							<v-select
-								:items="selectBoxItems"
-								label="SNS"
-								v-model="social.snsType"
-								
-							></v-select>
-						</v-col>
-
-						<v-col cols="12" md="12"> 
-							<v-text-field
-								v-model="social.accountName"
-								label="アカウント名"
-							></v-text-field>
-						</v-col>
-
-						<v-col cols="6" md="6">
-							<v-text-field
-								v-model="social.follower"
-								label="フォロワー数"
-								type="number"
-							></v-text-field>
-						</v-col>
-
-						<v-col cols="6" md="6">
-							<v-text-field
-								v-model="social.targetFollower"
-								label="目標フォロワー数"
-								type="number"
-							></v-text-field>
-						</v-col>
-
-						<v-col cols="12" md="12">
-							<v-divider :key="'hr-'+idx"></v-divider>
+						<v-col cols="10" md="10">
+                            <v-text-field
+                                
+                                label="費用✖️件数"
+                            ></v-text-field>
+                        </v-col>
+                        <v-col cols="1" md="1">
 						</v-col>
 					</v-row>
 				</template>
-				<v-row> 
-					<v-layout justify-center style="padding: 10px">
-						<v-btn color="error" fab x-small dark @click="onAddSnsButton()">
-							<v-icon>mdi-plus</v-icon>
-						</v-btn>
-					</v-layout>
-				</v-row>
 			</v-container>
 		</v-card>
 
-		<v-card outlined class="pt-5 mt-5">
-			<h3 align="center">
-				紹介営業・関係構築
-			</h3>
+        <v-card outlined style="padding: 10px" class="mb-3 px-3　pt-5 mt-5">
+            <h3 align="center">
+                アポ件数
+            </h3>
 			<v-container>
-				<template v-for="(connection,idx) in connections">
-					<v-row :key="idx">
-						<v-col cols="2" md="2">
-							<v-btn color="primary" fab x-small dark @click="onRemoveConnectButton(idx)">
-								<v-icon>mdi-minus</v-icon>
-							</v-btn>
-						</v-col>
-
-						<v-col cols="9" md="9">
-							<v-text-field
-								v-model="connection.introduce"
-								label="紹介営業・関係構築"
-							></v-text-field>
-						</v-col>
-
+				<template>
+					<v-row>
+						<v-col cols="3" md="3">
+                            <v-text-field
+                                
+                                label="受注"
+                            ></v-text-field>
+                        </v-col>
+                        <v-col cols="3" md="3">
+                            <v-text-field
+                                
+                                label="失注"
+                            ></v-text-field>
+                        </v-col>
+						<v-col cols="3" md="3">
+                            <v-text-field
+                                
+                                label="検討"
+                            ></v-text-field>
+                        </v-col>
+                        <v-col cols="3" md="3">
+                            <v-text-field
+                                
+                                label="合計"
+                            ></v-text-field>
+                        </v-col>
 					</v-row>
 				</template>
-				<v-row> 
-					<v-layout justify-center style="padding: 10px">
-						<v-btn color="error" fab x-small dark @click="onAddConnectButton()">
-							<v-icon>mdi-plus</v-icon>
-						</v-btn>
-					</v-layout>
-				</v-row>
+			</v-container>
+		</v-card>
+
+         <v-card outlined style="padding: 10px" class="mb-3 px-3　pt-5 mt-5">
+            <h3 align="center">
+                交流会・セミナー
+            </h3>
+			<v-container>
+				<template>
+					<v-row>
+						<v-col cols="4" md="4">
+                            <v-text-field
+                                
+                                label="交流会"
+                            ></v-text-field>
+                        </v-col>
+                        <v-col cols="4" md="4">
+                            <v-text-field
+                                
+                                label="アポ数"
+                            ></v-text-field>
+                        </v-col>
+						 <v-col cols="4" md="4">
+                            <v-text-field
+                                
+                                label="決定率"
+                            ></v-text-field>
+                        </v-col>
+                        <v-col cols="4" md="4">
+                            <v-text-field
+                                
+                                label="セミナー"
+                            ></v-text-field>
+                        </v-col>
+                        <v-col cols="4" md="4">
+                            <v-text-field
+                                
+                                label="アポ数"
+                            ></v-text-field>
+                        </v-col>
+						<v-col cols="4" md="4">
+                            <v-text-field
+                                
+                                label="決定率"
+                            ></v-text-field>
+                        </v-col>
+					</v-row>
+				</template>
+			</v-container>
+		</v-card>
+		
+		<v-card outlined style="padding: 10px" class="mb-3 px-3　pt-5 mt-5">
+            <h3 align="center">
+                紹介営業
+            </h3>
+			<v-container>
+				<template>
+					<v-row>
+						<v-col cols="4" md="4">
+                            <v-text-field
+                                
+                                label="交流会"
+                            ></v-text-field>
+                        </v-col>
+                        <v-col cols="4" md="4">
+                            <v-text-field
+                                
+                                label="アポ数"
+                            ></v-text-field>
+                        </v-col>
+						<v-col cols="4" md="4">
+                            <v-text-field
+                                
+                                label="決定率"
+                            ></v-text-field>
+                        </v-col>
+                       
+					</v-row>
+				</template>
+			</v-container>
+		</v-card>
+
+        <v-card outlined style="padding: 10px" class="mb-3 px-3　pt-5 mt-5">
+            <h3 align="center">
+                SNS
+            </h3>
+			<v-container>
+				<template>
+					<v-row>
+						<v-col cols="4" md="4">
+                            <v-text-field
+                                
+                                label="総フォロワー"
+                            ></v-text-field>
+                        </v-col>
+                        <v-col cols="4" md="4">
+                            <v-text-field
+                                
+                                label="追加フォロワー"
+                            ></v-text-field>
+                        </v-col>
+						<v-col cols="4" md="4">
+                            <v-text-field
+                                
+                                label="増加フォロワー"
+                            ></v-text-field>
+                        </v-col>
+                        <v-col cols="4" md="4">
+                            <v-text-field
+                                
+                                label="フォロパ率"
+                            ></v-text-field>
+                        </v-col>
+                        <v-col cols="4" md="4">
+                            <v-text-field
+                                
+                                label="仕事に繋がった件数"
+                            ></v-text-field>
+                        </v-col>
+					</v-row>
+				</template>
 			</v-container>
 		</v-card>
 
@@ -311,13 +314,11 @@
 			<v-container>
 				<template v-for="(task,idx) in tasks">
 					<v-row :key="idx">
-						<v-col cols="2" md="2">
-							<v-btn color="primary" fab x-small dark @click="onRemoveTaskButton(idx)">
-								<v-icon>mdi-minus</v-icon>
-							</v-btn>
+						<v-col cols="1" md="1">
+							
 						</v-col>
 
-						<v-col cols="9" md="9">
+						<v-col cols="10" md="10">
 							<v-text-field
 								v-model="task.name"
 								label="課題"
@@ -328,22 +329,11 @@
 				</template>
 				<v-row> 
 					<v-layout justify-center style="padding: 10px">
-						<v-btn color="error" fab x-small dark @click="onAddTaskButton()">
-							<v-icon>mdi-plus</v-icon>
-						</v-btn>
+						
 					</v-layout>
 				</v-row>
 			</v-container>
 		</v-card>
-
-		<div>
-			<v-layout justify-center style="padding: 10px">
-				<v-btn align="center" @click="submit()">
-					Submit
-				</v-btn>
-				{{lineId}}
-			</v-layout>
-		</div>
 
 		<template>
 			<v-row justify="center">
@@ -386,53 +376,29 @@ export default {
 		formData: {
 			name: ''
 		},
-		checkboxItems:{
-			sns: false,
-			web: false,
-			friend: false,
-			introdctioin: false,
-			exchangeMeeting: false,
-			seminar: false,
-			intermediary: false
-		},
 		lineId: null,
 		categorys:[
 			{
 				categoryname:null,
 				works:[
 					{
-						name:"testName",
-						price:100000,
-						cost: 50000,
-						num: 5,
-						cvr: 25
+						name:null,
+						price:null,
+						cost: null,
+						num: null,
+						cvr: null
 					},
 					{
-						name:"testName2",
-						price:200000,
-						cost: 30000,
-						num: 3,
-						cvr: 20
+						name:null,
+						price:null,
+						cost: null,
+						num: null,
+						cvr: null
 					}
 				]
 			}
 		],
-		// works:[
-		// 	{
-		// 		name:"testName",
-		// 		price:100000,
-		// 		cost: 50000,
-		// 		num: 5,
-		// 		cvr: 25
-		// 	},
-		// 	{
-		// 		name:"testName2",
-		// 		price:200000,
-		// 		cost: 30000,
-		// 		num: 3,
-		// 		cvr: 20
-		// 	}
-		// ],
+		
 		tasks:[
 			{
 				name:null
@@ -456,13 +422,14 @@ export default {
 			month:null
 		}
 		,
-		selectItems:[0,5,10,15,20,25,30,35,40,45,50,55,60,65,70,75,80,85,90,95,100],
-		selectBoxItems:["instagram","twitter"],
 		years:[],
 		months:[],
 		count:0,
 		dialog: false,
-		load: false
+        load: false,
+        sale:null,
+        price:null,
+        profit:null,
       
 	}),
 	filters: {
@@ -472,84 +439,78 @@ export default {
 		}
 	},
 	methods:{
-		onRemoveProjectButton(idx,idx2){
-			this.categorys[idx].works.splice(idx2,1)
-		},
-		onRemoveTaskButton(idx){
-			this.tasks.splice(idx,1)
-		},
-		onRemoveSnsButton(idx){
-			this.socials.splice(idx,1)
-		},
-		onRemoveConnectButton(idx){
-			this.connections.splice(idx,1)
-		},
-		onRemoveCategoryButton(idx){
-			this.categorys.splice(idx,1)
-		},
-		onAddProjectButton(idx){
-			this.categorys[idx].works.push({
-				name:"new",
-				price:0,
-				cost:0,
-				num:0,
-				cvr:0
-			})
-		},
-		onAddTaskButton(){
-			this.tasks.push({
-				name:"new"
-			})
-		},
-		onAddSnsButton(){
-			this.socials.push({
-				snsType:null,
-				accountName:null,
-				follower:0,
-				targetFollower:0
-			})
-		},
-		onAddConnectButton(){
-			this.connections.push({
-				introduce: null,
-				relationship:null
-			})
-		},
-		onAddCategoryButton(){
-			this.categorys.push({
-				categoryname:null,
-				works:[
-					{
-						name:"testName",
-						price:100000,
-						cost: 50000,
-						num: 5,
-						cvr: 25
-					}
-				]
-			})
-		},
+	
 		async onChangeInput(year,month){
 			this.load = true
 			const db = this.$firebase.firestore();
 			const doc = await db.doc("users/" + this.userProfile.userId).get();
 			const data = doc.data()
-			console.log(data.goal)
 			this.load = false
-			// const current = data.goal[`${year}_${month}`]
+			let toalGoalPrice = 0
+			let toalGoalCost = 0
+            let totalGoalProfit = 0
+            let toalReportPrice = 0
+			let toalReportCost = 0
+            let totalReportProfit = 0
+            let toalAporeportPrice = 0
+			let toalAporeportCost = 0
+			let totalAporeportProfit = 0
 
+            //目標
 			if(`${year}_${month}` in data.goal){
-				this.dialog = true
+                const goal = data.goal[`${this.datetime.year}_${this.datetime.month}`]
+                console.log(data.goal) 
+                for (let j=0; j<goal.categorys.length;j++){
+                    for (let i=0; i<goal.categorys[j].works.length;i++){
+                        toalGoalPrice = toalGoalPrice + (goal.categorys[j].works[i].price * goal.categorys[j].works[i].num)
+                        toalGoalCost = toalGoalCost + (goal.categorys[j].works[i].cost * goal.categorys[j].works[i].num)
+                    }
+                }
+                totalGoalProfit = toalGoalPrice - toalGoalCost
+            }
+            
+            //受注レポート
+			for (let k=1; k<32;k++){
+				if(`${year}_${month}_${k}` in data.report){
+					const report = data.report[`${year}_${month}_${k}`]
+					console.log(data.report) 
+					for (let j=0; j<report.categorys.length;j++){
+						for (let i=0; i<report.categorys[j].works.length;i++){
+							toalReportPrice = Number(toalReportPrice) + Number(report.categorys[j].works[i].price)
+							toalReportCost = Number(toalReportCost) + Number(report.categorys[j].works[i].cost)
+						}
+					}
+				}
 			}
+			totalReportProfit = toalReportPrice - toalReportCost
+            
+            
+            // if(`${year}_${month}` in data.aporeport){
+            //      const aporeport = data.aporeport[`${this.datetime.year}_${this.datetime.month}`]
+            //      for (let j=0; j<aporeport.categorys.length;j++){
+            //         for (let i=0; i<aporeport.categorys[j].works.length;i++){
+            //             toalAporeportPrice = toalAporeportPrice + (aporeport.categorys[j].works[i].price * aporeport.categorys[j].works[i].num)
+            //             toalAporeportCost = toalAporeportCost + (aporeport.categorys[j].works[i].cost * aporeport.categorys[j].works[i].num)
+            //         }
+            //     }
+            //     totalAporeportProfit = toalAporeportPrice - toalAporeportCost
 
+            // }
+            
+            this.sale = `${toalReportPrice}/${toalGoalPrice}`
+            this.price = `${toalReportCost}/${toalGoalCost}`
+            this.profit = `${totalReportProfit}/${totalGoalProfit}`
 			
-		},
+        },
+        
 		async onDialogYes(){
 			this.load = true
 			const db = this.$firebase.firestore();
 			const doc = await db.doc("users/" + this.userProfile.userId).get();
 			const data = doc.data()
-			const current = data.goal[`${this.datetime.year}_${this.datetime.month}`]
+            const goal = data.goal[`${this.datetime.year}_${this.datetime.month}`]
+            const report = data.report[`${this.datetime.year}_${this.datetime.month}`]
+            const aporeport = data.aporeport[`${this.datetime.year}_${this.datetime.month}`]
 			
 			this.categorys = current.categorys
 			this.count = current.count
@@ -561,119 +522,13 @@ export default {
 			this.load = false
 			this.dialog = false
 
-		},
+        },
+        
 		onDialogNo(){
 			this.dialog = false
 		},
 
-		async submit(){
-			//TODO: テキストをデータからいい感じに作成	
-			this.load = true
-			const formatter = new Intl.NumberFormat('ja-JP');	
-			let subject = "行動計画:"	
-			let subject2 = "アポイント:"
-			let textMessage
-			let toalPrice = 0
-			let toalCost = 0
-			let profit = 0
-			let message = `${this.datetime.year}年${this.datetime.month}月の売上、利益目標 \n\n`
-
-			for (let j=0; j<this.categorys.length;j++){
-				for (let i=0; i<this.categorys[j].works.length;i++){
-					toalPrice = toalPrice + (this.categorys[j].works[i].price * this.categorys[j].works[i].num)
-					toalCost = toalCost + (this.categorys[j].works[i].cost * this.categorys[j].works[i].num)
-				}
-			}
-
-			profit = toalPrice - toalCost
-
-			message =  message + `【売上】${formatter.format(toalPrice)}円 \n` + 
-								 `【経費】${formatter.format(toalCost)}円 \n` +
-								 `【営業利益】${formatter.format(profit)}円 \n\n` +
-								 `■売上と利益それぞれの内訳 \n\n` 
-							
-								
-			for (let j=0; j<this.categorys.length;j++){
-				message =  message +`【${this.categorys[j].categoryname}】\n` 
-				
-				for (let i=0; i<this.categorys[j].works.length;i++){
-					message =  message +`□${this.categorys[j].works[i].name}\n` +
-										`売上...${formatter.format(this.categorys[j].works[i].price)}円 × ${formatter.format(this.categorys[j].works[i].num)}件 = ${formatter.format(this.categorys[j].works[i].price * this.categorys[j].works[i].num)}円 \n` +
-										`経費...${formatter.format(this.categorys[j].works[i].cost)}円 × ${formatter.format(this.categorys[j].works[i].num)}件 = ${formatter.format(this.categorys[j].works[i].cost  * this.categorys[j].works[i].num)}円 \n\n` 
-										//`営業利益...(${this.works[i].price}円 - ${this.works[i].cost}円) ×  ${this.works[i].num}件 = ${(this.works[i].price - this.works[i].cost) * this.works[i].num} 円 \n\n`
-										
-				}
-			}
-
-			message = message + `■アポイント${formatter.format(this.count)}件 \n\n` +
-								`■アポイントの根拠 \n` 
-
-			for (const [key, value] of Object.entries(this.checkboxItems)) {
-				if(value !== false){
-					message =  message + `${value}\n`
-				}
-			}
-			
-			message =  message + `\n ■SNS` 
-
-			for (let i=0; i<this.socials.length;i++){
-				message =  message + `\n【${this.socials[i].snsType}】\n` + 
-									 `アカウント名 ${this.socials[i].accountName} \n` +
-									 `フォロワー数 ${formatter.format(this.socials[i].follower)} \n` +
-									 `目標フォロワー数 ${formatter.format(this.socials[i].targetFollower)} \n`
-									 
-			}
-
-			message =  message + ` \n ■紹介営業・関係構築 \n`
-
-			for (let i=0; i<this.connections.length;i++){
-				message =  message + `${this.connections[i].introduce} \n` 
-								
-			}
-
-			message =  message + `\n ■今月の課題 \n` 
-
-			for (let i=0; i<this.connections.length;i++){
-				message =  message +`${this.tasks[i].name} \n` 
-									 
-			}
-
-			const date = `${this.datetime.year}_${this.datetime.month}`
-			const goal = {}
-			goal[date] = {
-				categorys:this.categorys,
-				count:this.count,
-				checkboxItems:this.checkboxItems,
-				socials:this.socials,
-				connections:this.connections,
-				tasks:this.tasks
-			}
-			const db = this.$firebase.firestore();
-			db.doc("users/" + this.userProfile.userId).set({
-				"goal":goal
-			},{merge:true}).then(()=>{
-				this.load = false
-				//alert("save")
-			})
-
-			//alert(message);
-			
-			liff.sendMessages([
-				{
-					type:'text',
-					text:message
-				}
-			])
-			.then(() => {
-				
-				//alert('message sent');
-			})
-			.catch((err) => {
-				//alert(err);
-			});
-
-			
-		}
+	
 	},
 	mounted: async function(){
 
@@ -686,59 +541,6 @@ export default {
 		}catch(e){
 			this.userProfile.userId = "test"
 		}
-		
-		// .then(async data=>{
-		// 	//initializeApp()
-		// 	profile = await liff.getProfile()
-		// 	const {
-		// 		userId,
-		// 		displayName,
-		// 		pictureUrl,
-		// 		statusMessage
-		// 	} = profile
-
-		// 	alert(profile)
-		// })
-		// .catch(err=>{
-		// 	console.log(err);
-		// 	alert(err)
-		// })
-	
-		// (profile === null ? this.userProfile.userId = "test" : this.userProfile.userId = userId);
-			// if (!liff.isLoggedIn()) {
-			// 	//liff.login({ redirectUri: "https://bizprison-a9fc9.web.app" });
-			// 	this.userProfile.userId = "test"
-			// }else{
-			// 	initializeApp()
-			// 	const profile = await liff.getProfile()
-			// 	const {
-			// 		userId,
-			// 		displayName,
-			// 		pictureUrl,
-			// 		statusMessage
-			// 	} = profile
-
-			// 	this.userProfile.userId = userId
-			// 	// alert(userId)
-			// 	// alert(displayName)
-			// 	// alert(pictureUrl)
-			// 	// liff.sendMessages([
-			// 	// 	{
-			// 	// 		type:'text',
-			// 	// 		text:statusMessage
-			// 	// 	}
-			// 	// ])
-			// 	// .then(() => {
-			// 	// 	this.userProfile.userId = userId
-			// 	// })
-			// 	// .catch((err) => {
-			// 	// 	alert(err);
-			// 	// });
-			// }
-		// }).bind(this)
-		// .catch(err=>{
-		// 	console.error(err)
-		
 		
 		for (var i=0; i<100;i++){
 			this.years.push(2019 + i)

@@ -3,9 +3,9 @@
 		<h1 align="center" class="white-text">行動計画</h1>
 
 		<v-card outlined style="padding: 10px">
-		<h3 align="center">
-			活動年月
-		</h3>
+			<h3 align="center">
+				活動年月
+			</h3>
 			<v-container>
 				<template>
 					<v-row>
