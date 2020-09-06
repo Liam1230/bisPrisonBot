@@ -68,8 +68,10 @@
 										label="案件名"
 									></v-text-field>
 								</v-col>
-							</v-row>
-							<v-row :key="idx2+'work2'">
+								<v-col cols="5" md="5" v-else>
+								</v-col>
+							
+							
 								<v-col cols="2" md="2">
 								</v-col>
 								<v-col cols="5" md="5">
@@ -88,8 +90,8 @@
 										@change="onClacProfit(idx,idx2)"
 									></v-text-field>
 								</v-col>
-							</v-row>
-							<v-row :key="idx2+'work3'">
+							
+							
 								<v-col cols="2" md="2">
 								</v-col>
 								<v-col cols="5" md="5">
@@ -103,6 +105,15 @@
 									<v-text-field
 										label="営業利益"
 										v-model="work.income"
+										type="number"
+									></v-text-field>
+								</v-col>
+								<v-col cols="2" md="2">
+								</v-col>
+								<v-col cols="5" md="5">
+									<v-text-field
+										v-model="work.num"
+										label="件数"
 										type="number"
 									></v-text-field>
 								</v-col>
@@ -192,7 +203,8 @@ export default {
 						price:0,
 						cost: 0,
 						profit: 0,
-						income: 0
+						income: 0,
+						num:0,
 					},
 					{
 						name:"",
@@ -200,7 +212,8 @@ export default {
 						price:0,
 						cost: 0,
 						profit: 0,
-						income: 0
+						income: 0,
+						num:0,
 					}
 				]
 			}
@@ -242,7 +255,8 @@ export default {
 				price:0,
 				cost:0,
 				profit:0,
-				income:0
+				income:0,
+				num:0
 			})
 		},
 		
@@ -257,7 +271,8 @@ export default {
 						price:0,
 						cost: 0,
 						profit: 0,
-						income: 0
+						income: 0,
+						num:0
 					}
 				]
 			})
@@ -362,10 +377,10 @@ export default {
 
 			for (let j=0; j<this.categorys.length;j++){
 				for (let i=0; i<this.categorys[j].works.length;i++){
-					toalPrice = toalPrice + this.categorys[j].works[i].price
-					toalCost = toalCost + this.categorys[j].works[i].cost 
-					toalProfit = toalProfit + this.categorys[j].works[i].profit 
-					toalIncome = toalIncome + this.categorys[j].works[i].income
+					toalPrice = toalPrice + (this.categorys[j].works[i].price * this.categorys[j].works[i].num)
+					toalCost = toalCost + (this.categorys[j].works[i].cost) * this.categorys[j].works[i].num
+					toalProfit = toalProfit + (this.categorys[j].works[i].profit * this.categorys[j].works[i].num)
+					toalIncome = toalIncome + (this.categorys[j].works[i].income * this.categorys[j].works[i].num)
 				}
 			}
 
@@ -381,10 +396,10 @@ export default {
 				
 				for (let i=0; i<this.categorys[j].works.length;i++){
 					message =  message +`□${this.categorys[j].works[i].name}\n` +
-										`売上...${formatter.format(this.categorys[j].works[i].price)}円  \n` +
-										`経費...${formatter.format(this.categorys[j].works[i].cost)}円  \n` +
-										`粗利...${formatter.format(this.categorys[j].works[i].profit)}円  \n` +
-										`営業利益...${formatter.format(this.categorys[j].works[i].income)}円  \n\n` 
+										`売上...${formatter.format(this.categorys[j].works[i].price)}円 × ${formatter.format(this.categorys[j].works[i].num)}件 = ${formatter.format(this.categorys[j].works[i].price * this.categorys[j].works[i].num)}円 \n` +
+										`経費...${formatter.format(this.categorys[j].works[i].cost)}円 × ${formatter.format(this.categorys[j].works[i].num)}件 = ${formatter.format(this.categorys[j].works[i].cost * this.categorys[j].works[i].num)}円 \n` +
+										`粗利...${formatter.format(this.categorys[j].works[i].profit)}円 × ${formatter.format(this.categorys[j].works[i].num)}件 = ${formatter.format(this.categorys[j].works[i].profit * this.categorys[j].works[i].num)}円 \n` +
+										`営業利益...${formatter.format(this.categorys[j].works[i].income)}円 × ${formatter.format(this.categorys[j].works[i].num)}件 = ${formatter.format(this.categorys[j].works[i].income * this.categorys[j].works[i].num)}円 \n\n` 
 										//`営業利益...(${this.works[i].price}円 - ${this.works[i].cost}円) ×  ${this.works[i].num}件 = ${(this.works[i].price - this.works[i].cost) * this.works[i].num} 円 \n\n`
 										
 				}

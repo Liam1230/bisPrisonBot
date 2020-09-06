@@ -99,7 +99,7 @@
 								</v-col>
 								<v-col cols="9" md="9">
 									<v-text-field
-										v-model="work.name"
+										v-model="work.price"
 										label="売上✖️件数"
 									></v-text-field>
 								</v-col>
@@ -112,7 +112,7 @@
 								</v-col>
 								<v-col cols="9" md="9">
 									<v-text-field
-										v-model="work.name"
+										v-model="work.cost"
 										label="費用✖️件数"
 									></v-text-field>
 								</v-col>
@@ -139,7 +139,7 @@
 						</v-col>
 						<v-col cols="10" md="10">
                             <v-text-field
-                                
+                                v-model="achievement"
                                 label="費用✖️件数"
                             ></v-text-field>
                         </v-col>
@@ -159,25 +159,25 @@
 					<v-row>
 						<v-col cols="3" md="3">
                             <v-text-field
-                                
+                                v-model="ordercount"
                                 label="受注"
                             ></v-text-field>
                         </v-col>
                         <v-col cols="3" md="3">
                             <v-text-field
-                                
+                                v-model="lostcount"
                                 label="失注"
                             ></v-text-field>
                         </v-col>
 						<v-col cols="3" md="3">
                             <v-text-field
-                                
+                                v-model="considerationcount"
                                 label="検討"
                             ></v-text-field>
                         </v-col>
                         <v-col cols="3" md="3">
                             <v-text-field
-                                
+                                v-model="sumcount"
                                 label="合計"
                             ></v-text-field>
                         </v-col>
@@ -195,37 +195,37 @@
 					<v-row>
 						<v-col cols="4" md="4">
                             <v-text-field
-                                
+                                v-model="exchangeMeeting"
                                 label="交流会"
                             ></v-text-field>
                         </v-col>
                         <v-col cols="4" md="4">
                             <v-text-field
-                                
+                                v-model="exchangeMeetingApo"
                                 label="アポ数"
                             ></v-text-field>
                         </v-col>
 						 <v-col cols="4" md="4">
                             <v-text-field
-                                
+                                v-model="exchangeMeetingDecision"
                                 label="決定率"
                             ></v-text-field>
                         </v-col>
                         <v-col cols="4" md="4">
                             <v-text-field
-                                
+                                v-model="seminar"
                                 label="セミナー"
                             ></v-text-field>
                         </v-col>
                         <v-col cols="4" md="4">
                             <v-text-field
-                                
+                                v-model="seminarApo"
                                 label="アポ数"
                             ></v-text-field>
                         </v-col>
 						<v-col cols="4" md="4">
                             <v-text-field
-                                
+                                v-model="seminarDecision"
                                 label="決定率"
                             ></v-text-field>
                         </v-col>
@@ -243,23 +243,22 @@
 					<v-row>
 						<v-col cols="4" md="4">
                             <v-text-field
-                                
-                                label="交流会"
+                                v-model="introdctioin"
+                                label="紹介営業"
                             ></v-text-field>
                         </v-col>
                         <v-col cols="4" md="4">
                             <v-text-field
-                                
+                                v-model="introdctioinApo"
                                 label="アポ数"
                             ></v-text-field>
                         </v-col>
 						<v-col cols="4" md="4">
                             <v-text-field
-                                
+                                v-model="introdctioinDecision"
                                 label="決定率"
                             ></v-text-field>
                         </v-col>
-                       
 					</v-row>
 				</template>
 			</v-container>
@@ -274,31 +273,31 @@
 					<v-row>
 						<v-col cols="4" md="4">
                             <v-text-field
-                                
+                                v-model="sumfollower"
                                 label="総フォロワー"
                             ></v-text-field>
                         </v-col>
                         <v-col cols="4" md="4">
                             <v-text-field
-                                
+                                v-model="addfollower"
                                 label="追加フォロワー"
                             ></v-text-field>
                         </v-col>
 						<v-col cols="4" md="4">
                             <v-text-field
-                                
+                                v-model="increasefollower"
                                 label="増加フォロワー"
                             ></v-text-field>
                         </v-col>
                         <v-col cols="4" md="4">
                             <v-text-field
-                                
+                                v-model="followerrate"
                                 label="フォロパ率"
                             ></v-text-field>
                         </v-col>
                         <v-col cols="4" md="4">
                             <v-text-field
-                                
+                                v-model="followertowork"
                                 label="仕事に繋がった件数"
                             ></v-text-field>
                         </v-col>
@@ -315,25 +314,30 @@
 				<template v-for="(task,idx) in tasks">
 					<v-row :key="idx">
 						<v-col cols="1" md="1">
-							
 						</v-col>
-
 						<v-col cols="10" md="10">
 							<v-text-field
 								v-model="task.name"
 								label="課題"
 							></v-text-field>
 						</v-col>
-					
 					</v-row>
 				</template>
 				<v-row> 
 					<v-layout justify-center style="padding: 10px">
-						
 					</v-layout>
 				</v-row>
 			</v-container>
 		</v-card>
+
+		<div>
+			<v-layout justify-center style="padding: 10px">
+				<v-btn align="center" @click="submit()">
+					Submit
+				</v-btn>
+				{{lineId}}
+			</v-layout>
+		</div>
 
 		<template>
 			<v-row justify="center">
@@ -429,8 +433,28 @@ export default {
         load: false,
         sale:null,
         price:null,
-        profit:null,
-      
+		profit:null,
+		achievement:null,
+		ordercount:null,
+		lostcount:null,
+		considerationcount:null,
+		sumcount:null, 
+		exchangeMeeting:null,
+		seminar:null,
+		exchangeMeetingApo:null,
+		seminarApo:null,
+		exchangeMeetingDecision:null,
+		seminarDecision:null,
+		introdctioin:null,
+		introdctioinApo:null,
+		introdctioinDecision:null,
+		sumfollower:null,
+		addfollower:null,
+		increasefollower:null,
+		followerrate:null,
+		followertowork:null,
+		  
+
 	}),
 	filters: {
 		moneyFilter(val){
@@ -455,6 +479,20 @@ export default {
             let toalAporeportPrice = 0
 			let toalAporeportCost = 0
 			let totalAporeportProfit = 0
+			let totalOrder = 0
+			let totalLost = 0
+			let totalonCsideration = 0
+			let sumCount = 0
+			let Inputcategorys = [
+					categoryname=null,
+					works=[
+						{
+							name:null,
+							price:null,
+							cost: null,
+						},
+					]
+				]
 
             //目標
 			if(`${year}_${month}` in data.goal){
@@ -476,26 +514,52 @@ export default {
 					console.log(data.report) 
 					for (let j=0; j<report.categorys.length;j++){
 						for (let i=0; i<report.categorys[j].works.length;i++){
-							toalReportPrice = Number(toalReportPrice) + Number(report.categorys[j].works[i].price)
-							toalReportCost = Number(toalReportCost) + Number(report.categorys[j].works[i].cost)
+							for (let h=0; h<Inputcategorys.length;h++){
+								for (let g=0; g<Inputcategorys[h].works.length;g++){
+									if(Inputcategorys[h].works[g].name == report.categorys[j].works[i].name && Inputcategorys[h].categoryname == report.categorys[j].categoryname){
+										Inputcategorys[h].works[g].price = Number(works[g].price) + Number(report.categorys[j].works[i].price * report.categorys[j].works[i].num)
+										Inputcategorys[h].works[g].cost = Number(works[g].cost) + Number(report.categorys[j].works[i].cost * report.categorys[j].works[i].num)
+									}else{
+										Inputcategorys.push(
+											categoryname = report.categorys[j].categoryname,
+											works = [
+												{
+													name:report.categorys[j].works[i].name,
+													price:Number(report.categorys[j].works[i].price * report.categorys[j].works[i].num),
+													cost: Number(report.categorys[j].works[i].cost * report.categorys[j].works[i].num),
+												
+												}
+											]
+										)
+									}
+								}
+							}
+							//toalReportPrice = Number(toalReportPrice) + Number(report.categorys[j].works[i].price * report.categorys[j].works[i].num)
+							//toalReportCost = Number(toalReportCost) + Number(report.categorys[j].works[i].cost * report.categorys[j].works[i].num)
 						}
 					}
 				}
 			}
 			totalReportProfit = toalReportPrice - toalReportCost
-            
-            
-            // if(`${year}_${month}` in data.aporeport){
-            //      const aporeport = data.aporeport[`${this.datetime.year}_${this.datetime.month}`]
-            //      for (let j=0; j<aporeport.categorys.length;j++){
-            //         for (let i=0; i<aporeport.categorys[j].works.length;i++){
-            //             toalAporeportPrice = toalAporeportPrice + (aporeport.categorys[j].works[i].price * aporeport.categorys[j].works[i].num)
-            //             toalAporeportCost = toalAporeportCost + (aporeport.categorys[j].works[i].cost * aporeport.categorys[j].works[i].num)
-            //         }
-            //     }
-            //     totalAporeportProfit = toalAporeportPrice - toalAporeportCost
+			
+			//アポレポート
+			for (let k=1; k<32;k++){
+				if(`${year}_${month}_${k}` in data.aporeport){
+					const aporeport = data.aporeport[`${year}_${month}_${k}`]
+					console.log(data.aporeport) 
+					for (let j=0; j<aporeport.categorys.length;j++){
+						if(aporeport.categorys[j].ordertype == "受注"){
+							totalOrder = totalOrder + 1
+						}else if (aporeport.categorys[j].ordertype == "失注") {
+							totalLost = totalLost + 1
+						}else{
+							totalonCsideration = totalonCsideration + 1
+						}
+					}
 
-            // }
+					sumCount = totalOrder + totalLost + totalonCsideration
+				}
+			}
             
             this.sale = `${toalReportPrice}/${toalGoalPrice}`
             this.price = `${toalReportCost}/${toalGoalCost}`
@@ -527,6 +591,114 @@ export default {
 		onDialogNo(){
 			this.dialog = false
 		},
+
+		async submit(){
+			//TODO: テキストをデータからいい感じに作成	
+			this.load = true
+			const formatter = new Intl.NumberFormat('ja-JP');	
+			let subject = "行動計画:"	
+			let subject2 = "アポイント:"
+			let textMessage
+			let toalPrice = 0
+			let toalCost = 0
+			let profit = 0
+			let message = `${this.datetime.year}年${this.datetime.month}月の売上、利益目標 \n\n`
+
+			for (let j=0; j<this.categorys.length;j++){
+				for (let i=0; i<this.categorys[j].works.length;i++){
+					toalPrice = toalPrice + (this.categorys[j].works[i].price * this.categorys[j].works[i].num)
+					toalCost = toalCost + (this.categorys[j].works[i].cost * this.categorys[j].works[i].num)
+				}
+			}
+
+			profit = toalPrice - toalCost
+
+			message =  message + `【売上】${formatter.format(toalPrice)}円 \n` + 
+								 `【経費】${formatter.format(toalCost)}円 \n` +
+								 `【営業利益】${formatter.format(profit)}円 \n\n` +
+								 `■売上と利益それぞれの内訳 \n\n` 
+							
+								
+			for (let j=0; j<this.categorys.length;j++){
+				//message =  message +`【${this.categorys[j].categoryname}】\n` 
+				
+				for (let i=0; i<this.categorys[j].works.length;i++){
+					message =  message +`□${this.categorys[j].works[i].name}\n` +
+										`売上...${formatter.format(this.categorys[j].works[i].price)}円 × ${formatter.format(this.categorys[j].works[i].num)}件 = ${formatter.format(this.categorys[j].works[i].price * this.categorys[j].works[i].num)}円 \n` +
+										`経費...${formatter.format(this.categorys[j].works[i].cost)}円 × ${formatter.format(this.categorys[j].works[i].num)}件 = ${formatter.format(this.categorys[j].works[i].cost  * this.categorys[j].works[i].num)}円 \n\n` 
+										//`営業利益...(${this.works[i].price}円 - ${this.works[i].cost}円) ×  ${this.works[i].num}件 = ${(this.works[i].price - this.works[i].cost) * this.works[i].num} 円 \n\n`
+										
+				}
+			}
+
+			message = message + `■アポイント${formatter.format(this.count)}件 \n\n` +
+								`■アポイントの根拠 \n` 
+
+			for (const [key, value] of Object.entries(this.checkboxItems)) {
+				if(value !== false){
+					message =  message + `${value}\n`
+				}
+			}
+			
+			message =  message + `\n ■SNS` 
+
+			for (let i=0; i<this.socials.length;i++){
+				message =  message + `\n【${this.socials[i].snsType}】\n` + 
+									 `アカウント名 ${this.socials[i].accountName} \n` +
+									 `フォロワー数 ${formatter.format(this.socials[i].follower)} \n` +
+									 `目標フォロワー数 ${formatter.format(this.socials[i].targetFollower)} \n`
+									 
+			}
+
+			message =  message + ` \n ■紹介営業・関係構築 \n`
+
+			for (let i=0; i<this.connections.length;i++){
+				message =  message + `${this.connections[i].introduce} \n` 
+								
+			}
+
+			message =  message + `\n ■今月の課題 \n` 
+
+			for (let i=0; i<this.connections.length;i++){
+				message =  message +`${this.tasks[i].name} \n` 
+									 
+			}
+
+			const date = `${this.datetime.year}_${this.datetime.month}`
+			const goal = {}
+			goal[date] = {
+				categorys:this.categorys,
+				count:this.count,
+				checkboxItems:this.checkboxItems,
+				socials:this.socials,
+				connections:this.connections,
+				tasks:this.tasks
+			}
+			const db = this.$firebase.firestore();
+			db.doc("users/" + this.userProfile.userId).set({
+				"goal":goal
+			},{merge:true}).then(()=>{
+				this.load = false
+				//alert("save")
+			})
+
+			//alert(message);
+			
+			liff.sendMessages([
+				{
+					type:'text',
+					text:message
+				}
+			])
+			.then(() => {
+				
+				//alert('message sent');
+			})
+			.catch((err) => {
+				//alert(err);
+			});
+			
+		}
 
 	
 	},
