@@ -624,6 +624,9 @@ export default {
 			const date = `${this.datetime.year}_${this.datetime.month}`
 			const goal = {}
 			goal[date] = {
+				profit: profit,
+				price: toalPrice,
+				cost:toalCost,
 				categorys:this.categorys,
 				count:this.count,
 				checkboxItems:this.checkboxItems,
