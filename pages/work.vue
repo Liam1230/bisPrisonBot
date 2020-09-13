@@ -730,7 +730,7 @@ export default {
 				message =  message + `総フォロワー... ${formatter.format(this.socials[i].sumfollower)} \n` +
 									 `追加フォロワー... ${formatter.format(this.socials[i].addfollower)} \n` +
 									 `増加フォロワー... ${formatter.format(this.socials[i].increasefollower)} \n` +
-									 `フォロパ率... ${formatter.format(this.socials[i].followerrate)} \n` +
+									 `フォロパ率... ${this.socials[i].followerrate} \n` +
 									 `仕事に繋がった件数... ${formatter.format(this.socials[i].followertowork)} \n\n` 
 									 
 			}
