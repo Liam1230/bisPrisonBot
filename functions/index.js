@@ -89,6 +89,18 @@ exports.creatRichMenu = functions.https.onRequest(async(request, response) => {
    						uri:"https://liff.line.me/1654259536-81GaYZ20"
 					}
 				},
+				{
+					bounds: {
+						x: 466,
+						y: 237,
+						width: 268,
+						height: 268
+					},
+					action: {
+						type:"uri",
+   						uri:"https://liff.line.me/1654259536-WdOEYoBX"
+					}
+				},
 				
 			]
 		}

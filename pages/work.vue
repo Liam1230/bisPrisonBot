@@ -792,7 +792,7 @@ export default {
 
 		console.log(liff)
 		await liff.init({
-			liffId:"1654259536-9QolwByP"
+			liffId:"1654259536-WdOEYoBX"
 		})
 		try{
 			this.userProfile = await liff.getProfile()
