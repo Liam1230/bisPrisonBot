@@ -514,8 +514,6 @@ export default {
 				this.tasks = goal.tasks
 			}
 
-			
-            
             //受注レポート
 			for (let k=1; k<32;k++){
 				if(`${year}_${month}_${k}` in data.report){
@@ -523,68 +521,47 @@ export default {
 					//console.log(data.report) 
 					for (let j=0; j<report.categorys.length;j++){
 						for (let i=0; i<report.categorys[j].works.length;i++){
-							InputcategorysCnt = Inputcategorys.length
-							for (let h=0; h<InputcategorysCnt;h++){
-								//console.log("length:" + Inputcategorys[h].works.length)
-								categorynameCnt = Inputcategorys[h].works.length
-								for (let g=0; g<categorynameCnt;g++){
-									//console.log("配列:" + Inputcategorys.length)
-									if(Inputcategorys[h].works[g].name == report.categorys[j].works[i].name && Inputcategorys[h].categoryname == report.categorys[j].categoryname){
-										console.log("プラス:" + cntplus)
 
-										//console.log("name:" + Inputcategorys[h].works[g].name)
-										//console.log("name2:" + report.categorys[j].works[i].name)
-										cntplus ++
-										Inputcategorys[h].works[g].price = Number(Inputcategorys[h].works[g].price) + Number(report.categorys[j].works[i].price * report.categorys[j].works[i].num)
-										Inputcategorys[h].works[g].cost = Number(Inputcategorys[h].works[g].cost) + Number(report.categorys[j].works[i].cost * report.categorys[j].works[i].num)
-										break
-									}else{
-										if(!Inputcategorys[0].categoryname){
-											console.log("1回目")
-											Inputcategorys = []
-											Inputcategorys.push({
-												categoryname:report.categorys[j].categoryname,
-												works:[
-													{
-														name:report.categorys[j].works[i].name,
-														price:Number(report.categorys[j].works[i].price * report.categorys[j].works[i].num),
-														cost: Number(report.categorys[j].works[i].cost * report.categorys[j].works[i].num),
-													}
-												]
-											})
-										}else{
-											// console.log("追加:" + cntadd)
-											// console.log("カテゴリ名１:" + Inputcategorys[h].categoryname)
-											// console.log("カテゴリ名２:" + report.categorys[j].categoryname)
-											// console.log("名前１:" + Inputcategorys[h].works[g].name)
-											// console.log("名前２:" + report.categorys[j].works[i].name)
-											let judgment = true
-											for (let f=0; f<Inputcategorys.length;f++){
-												for (let e=0; e<Inputcategorys[f].works.length;e++){
-													console.log(report.categorys[j].works[i].name)
-													if(Inputcategorys[f].works[e].name == report.categorys[j].works[i].name){
-														judgment = false
-														console.log(judgment)
-													}
-												}
-											}
-
-											if(judgment){
-												console.log("追加:" + cntadd)
-												cntadd ++
-												Inputcategorys.push({
-													categoryname:report.categorys[j].categoryname,
-													works:[
-														{
-															name:report.categorys[j].works[i].name,
-															price:Number(report.categorys[j].works[i].price * report.categorys[j].works[i].num),
-															cost: Number(report.categorys[j].works[i].cost * report.categorys[j].works[i].num),
-														}
-													]
-												})
-											}
+							if(!Inputcategorys[0].categoryname){
+								console.log("1回目")
+								Inputcategorys = []
+								Inputcategorys.push({
+									categoryname:report.categorys[j].categoryname,
+									works:[
+										{
+											name:report.categorys[j].works[i].name,
+											price:Number(report.categorys[j].works[i].price * report.categorys[j].works[i].num),
+											cost: Number(report.categorys[j].works[i].cost * report.categorys[j].works[i].num),
+										}
+									]
+								})
+							}else{
+								let judgment = true
+								for (let f=0; f<Inputcategorys.length;f++){
+									for (let e=0; e<Inputcategorys[f].works.length;e++){
+										console.log(report.categorys[j].works[i].name)
+										if(Inputcategorys[f].works[e].name == report.categorys[j].works[i].name){
+											judgment = false
+											console.log(judgment)
+											Inputcategorys[f].works[e].price = Number(Inputcategorys[f].works[e].price) + Number(report.categorys[j].works[i].price * report.categorys[j].works[i].num)
+											Inputcategorys[f].works[e].cost = Number(Inputcategorys[f].works[e].cost) + Number(report.categorys[j].works[i].cost * report.categorys[j].works[i].num)
 										}
 									}
+								}
+
+								if(judgment){
+									console.log("追加:" + cntadd)
+									cntadd ++
+									Inputcategorys.push({
+										categoryname:report.categorys[j].categoryname,
+										works:[
+											{
+												name:report.categorys[j].works[i].name,
+												price:Number(report.categorys[j].works[i].price * report.categorys[j].works[i].num),
+												cost: Number(report.categorys[j].works[i].cost * report.categorys[j].works[i].num),
+											}
+										]
+									})
 								}
 							}
 							toalReportPrice = Number(toalReportPrice) + Number(report.categorys[j].works[i].price * report.categorys[j].works[i].num)
