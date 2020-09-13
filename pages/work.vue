@@ -63,7 +63,7 @@
 		</v-card>
 		
 		<template v-for="(category,idx) in categorys">	
-			<v-card class="mb-3 px-3　pt-5 mt-5" :key="idx">
+			<v-card outlined class="px-3 mb-3" v-for="(social,idx) in socials" :key="idx">
                 <h3 align="center">
                     内訳
                 </h3>
@@ -264,55 +264,76 @@
 			</v-container>
 		</v-card>
 
-        <v-card outlined style="padding: 10px" class="mb-3 px-3　pt-5 mt-5">
-            <h3 align="center">
-                SNS
-            </h3>
+		
+		<v-card outlined class="px-3 mb-3" v-for="(social,idx3) in socials" :key="idx3+'sns'">  
+			<h3 align="center">
+				SNS
+			</h3>
 			<v-container>
 				<template>
-					<v-row>
+					<v-row :key="idx3+'sns'" >
+						<v-col cols="2" md="2" class="d-flex align-center">
+							<v-btn color="primary" fab x-small dark @click="onRemoveSnsButton(idx3)">
+								<v-icon>mdi-minus</v-icon>
+							</v-btn>
+						</v-col>
+						<v-col cols="3" md="3">
+							<v-text-field
+								v-model="social.sumfollower"
+								label="総フォロワー"
+							></v-text-field>
+						</v-col>
+						<v-col cols="3" md="3">
+							<v-text-field
+								v-model="social.addfollower"
+								label="追加フォロワー"
+							></v-text-field>
+						</v-col>
+						<v-col cols="3" md="3">
+							<v-text-field
+								v-model="social.increasefollower"
+								label="増加フォロワー"
+							></v-text-field>
+						</v-col>
+						<v-col cols="1" md="1">
+						</v-col>
+						<v-col cols="2" md="2">
+						</v-col>
+						<v-col cols="3" md="3">
+							<v-text-field
+								v-model="social.followerrate"
+								label="フォロパ率"
+							></v-text-field>
+						</v-col>
+						<v-col cols="3" md="3">
+							<v-text-field
+								v-model="social.followertowork"
+								label="仕事に繋がった件数"
+							></v-text-field>
+						</v-col>
 						<v-col cols="4" md="4">
-                            <v-text-field
-                                v-model="sumfollower"
-                                label="総フォロワー"
-                            ></v-text-field>
-                        </v-col>
-                        <v-col cols="4" md="4">
-                            <v-text-field
-                                v-model="addfollower"
-                                label="追加フォロワー"
-                            ></v-text-field>
-                        </v-col>
-						<v-col cols="4" md="4">
-                            <v-text-field
-                                v-model="increasefollower"
-                                label="増加フォロワー"
-                            ></v-text-field>
-                        </v-col>
-                        <v-col cols="4" md="4">
-                            <v-text-field
-                                v-model="followerrate"
-                                label="フォロパ率"
-                            ></v-text-field>
-                        </v-col>
-                        <v-col cols="4" md="4">
-                            <v-text-field
-                                v-model="followertowork"
-                                label="仕事に繋がった件数"
-                            ></v-text-field>
-                        </v-col>
+						</v-col>
 					</v-row>
 				</template>
 			</v-container>
 		</v-card>
+	
+		
+		<v-row> 
+			<v-layout justify-center style="padding: 10px">
+				<v-btn color="error" fab x-small dark @click="onAddSnsButton()">
+					<v-icon>mdi-plus</v-icon>
+				</v-btn>
+			</v-layout>
+		</v-row>
 
 		<v-card outlined class="pt-5 mt-5">
 			<h3 align="center">
 				今月の課題
 			</h3>
 			<v-container>
-				<template v-for="(task,idx) in tasks">
-					<v-row :key="idx">
+				<template v-for="(task,idx4) in tasks">
+					<v-row :key="idx4">
 						<v-col cols="1" md="1">
 						</v-col>
 						<v-col cols="10" md="10">
@@ -408,14 +429,7 @@ export default {
 				name:null
 			}
 		],
-		socials:[
-			{
-				snsType:null,
-				accountName:null,
-				follower:0,
-				targetFollower:0
-			}
-		],
+		
 		connections:[
 			{
 				introduce: null
@@ -424,8 +438,16 @@ export default {
 		datetime:{
 			year:null,
 			month:null
-		}
-		,
+		},
+		socials:[
+			{
+				sumfollower:null,
+				addfollower:null,
+				increasefollower:null,
+				followerrate:null,
+				followertowork:null,
+			}
+		],
 		years:[],
 		months:[],
 		count:0,
@@ -448,11 +470,6 @@ export default {
 		introdctioin:null,
 		introdctioinApo:null,
 		introdctioinDecision:null,
-		sumfollower:null,
-		addfollower:null,
-		increasefollower:null,
-		followerrate:null,
-		followertowork:null,
 		  
 
 	}),
@@ -600,7 +617,7 @@ export default {
             this.sale = `${toalReportPrice}/${toalGoalPrice}`
             this.price = `${toalReportCost}/${toalGoalCost}`
             this.profit = `${totalReportProfit}/${totalGoalProfit}`
-			this.achievement = Math.round((toalReportPrice / toalGoalPrice) * 100) + "%"
+			this.achievement = Math.round((totalReportProfit / totalGoalProfit) * 100 * 10) / 10 + "%"
         },
         
 		async onDialogYes(){
@@ -615,7 +632,7 @@ export default {
 			this.categorys = current.categorys
 			this.count = current.count
 			this.checkboxItems = current.checkboxItems
-			this.socials = current.socials
+			//this.socials = current.socials
 			this.connections = current.connections
 			this.tasks = current.tasks
 
@@ -626,6 +643,20 @@ export default {
         
 		onDialogNo(){
 			this.dialog = false
+		},
+
+		onRemoveSnsButton(idx3){
+			this.socials.splice(idx3,1)
+		},
+
+		onAddSnsButton(){
+			this.socials.push({
+				sumfollower:null,
+				addfollower:null,
+				increasefollower:null,
+				followerrate:null,
+				followertowork:null,
+			})
 		},
 
 		async submit(){
@@ -667,27 +698,35 @@ export default {
 			}
 
 			message = message + `■達成率:${this.achievement} \n\n` 
-								
 
 			message = message + `【アポ件数】\n` +
 								`受注...${this.ordercount}\n` +
 								`失注...${this.lostcount}\n` +
 								`検討...${this.considerationcount}\n` +
-								`合計...${this.sumcount}\n\n` 
-
-			for (let i=0; i<this.socials.length;i++){
-				message =  message + `\n【${this.socials[i].snsType}】\n` + 
-									 `アカウント名 ${this.socials[i].accountName} \n` +
-									 `フォロワー数 ${formatter.format(this.socials[i].follower)} \n` +
-									 `目標フォロワー数 ${formatter.format(this.socials[i].targetFollower)} \n`
-									 
-			}
-
-			message =  message + ` \n ■紹介営業・関係構築 \n`
-
-			for (let i=0; i<this.connections.length;i++){
-				message =  message + `${this.connections[i].introduce} \n` 
+								`合計...${this.sumcount}\n\n`
 								
+			message = message + `【交流会・セミナー】\n` +
+								`交流会...${this.exchangeMeeting}\n` +
+								`アポ数...${this.exchangeMeetingApo}\n` +
+								`決定率...${this.exchangeMeetingDecision}\n` +
+								`セミナー...${this.seminar}\n` +
+								`アポ数...${this.seminarApo}\n` +
+								`決定率...${this.seminarDecision}\n\n` 
+
+            message =  message + `■紹介営業・関係構築 \n` +
+								`紹介営業...${this.introdctioin}\n` +
+								`アポ数...${this.introdctioinApo}\n` +
+								`決定率...${this.introdctioinDecision}\n`
+
+			message = message + `\n【SNS】\n`   
+								
+			for (let i=0; i<this.socials.length;i++){
+				message =  message + `総フォロワー... ${formatter.format(this.socials[i].sumfollower)} \n` +
+									 `追加フォロワー... ${formatter.format(this.socials[i].addfollower)} \n` +
+									 `増加フォロワー... ${formatter.format(this.socials[i].increasefollower)} \n` +
+									 `フォロパ率... ${formatter.format(this.socials[i].followerrate)} \n` +
+									 `仕事に繋がった件数... ${formatter.format(this.socials[i].followertowork)} \n\n` 
+									 
 			}
 
 			message =  message + `\n ■今月の課題 \n` 
@@ -718,11 +757,7 @@ export default {
 				introdctioin:this.introdctioin,
 				introdctioinApo:this.introdctioinApo,
 				introdctioinDecision:this.introdctioinDecision,
-				sumfollower:this.sumfollower,
-				addfollower:this.addfollower,
-				increasefollower:this.increasefollower,
-				followerrate:this.followerrate,
-				followertowork:this.followertowork,
+				socials:this.socials,
 				tasks:this.tasks
 			}
 			const db = this.$firebase.firestore();
