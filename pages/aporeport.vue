@@ -2,12 +2,9 @@
 	<div>
 		<h1 align="center" class="white-text">アポレポート</h1>
 
-		<v-card outlined class="pt-5 mt-5">
-			<h3 align="center">
-				アポイント
-			</h3>
-		</v-card>
-		
+		<h3 align="center" class="mt-5 white--text">
+			アポイント
+		</h3>
 		<template v-for="(category,idx) in categorys">	
 			<v-card class="mb-3 px-3" :key="idx">
 				<v-row :key="idx" align-content="center" justify="center">
@@ -152,31 +149,28 @@
 							-->
 						</template>
 						<v-row> 
-							<v-layout justify-center style="padding: 10px">
-								<v-btn color="error" fab x-small dark @click="onAddCostButton(idx)">
-									<v-icon>mdi-plus</v-icon>
+							<v-layout justify-center>
+								<v-btn color="error" small dark @click="onAddCostButton(idx)">
+									費用を追加<v-icon>mdi-plus</v-icon>
 								</v-btn>
 							</v-layout>
 						</v-row>
-
-					
 					</v-container>
 				</v-row>
 			</v-card>
-			<v-divider :key="'hr-'+idx"></v-divider>
 		</template>
 		<v-row> 
-			<v-layout justify-center style="padding: 10px">
-				<v-btn color="error" fab x-small dark @click="onAddCategoryButton()">
-					<v-icon>mdi-plus</v-icon>
+			<v-layout justify-center>
+				<v-btn color="error" small dark @click="onAddCategoryButton()">
+					アポイントを追加<v-icon>mdi-plus</v-icon>
 				</v-btn>
 			</v-layout>
 		</v-row>
 
 		<div>
-			<v-layout justify-center style="padding: 10px">
-				<v-btn align="center" @click="submit()">
-					Submit
+			<v-layout justify-center class="py-5">
+				<v-btn align="center" block color="primary" @click="submit()">
+					送信
 				</v-btn>
 				{{lineId}}
 			</v-layout>

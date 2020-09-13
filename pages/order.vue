@@ -125,7 +125,7 @@
 		</v-row>
 
 		<div>
-			<v-layout justify-center style="padding: 10px">
+			<v-layout justify-center class="my-5">
 				<v-btn align="center" color="primary" block @click="submit()">
 					送信
 				</v-btn>
