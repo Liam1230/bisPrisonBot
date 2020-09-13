@@ -287,12 +287,14 @@
 							<v-text-field
 								v-model="social.addfollower"
 								label="追加フォロワー"
+								@change="onClacProfit(idx3)"
 							></v-text-field>
 						</v-col>
 						<v-col cols="3" md="3">
 							<v-text-field
 								v-model="social.increasefollower"
 								label="増加フォロワー"
+								@change="onClacProfit(idx3)"
 							></v-text-field>
 						</v-col>
 						<v-col cols="1" md="1">
@@ -659,6 +661,10 @@ export default {
 			})
 		},
 
+		onClacProfit(idx3){
+			this.socials[idx3].followerrate = Math.round((this.socials[idx3].increasefollower / this.socials[idx3].addfollower) * 100 * 10) / 10 + "%"
+		},
+
 		async submit(){
 			//TODO: テキストをデータからいい感じに作成	
 			this.load = true
@@ -671,8 +677,8 @@ export default {
 
 			for (let j=0; j<this.categorys.length;j++){
 				for (let i=0; i<this.categorys[j].works.length;i++){
-					toalPrice = toalPrice + (this.categorys[j].works[i].price * this.categorys[j].works[i].num)
-					toalCost = toalCost + (this.categorys[j].works[i].cost * this.categorys[j].works[i].num)
+					toalPrice = toalPrice + this.categorys[j].works[i].price
+					toalCost = toalCost + this.categorys[j].works[i].cost
 				}
 			}
 
@@ -724,12 +730,12 @@ export default {
 				message =  message + `総フォロワー... ${formatter.format(this.socials[i].sumfollower)} \n` +
 									 `追加フォロワー... ${formatter.format(this.socials[i].addfollower)} \n` +
 									 `増加フォロワー... ${formatter.format(this.socials[i].increasefollower)} \n` +
-									 `フォロパ率... ${formatter.format(this.socials[i].followerrate)} \n` +
+									 `フォロパ率... ${this.socials[i].followerrate} \n` +
 									 `仕事に繋がった件数... ${formatter.format(this.socials[i].followertowork)} \n\n` 
 									 
 			}
 
-			message =  message + `\n ■今月の課題 \n` 
+			message =  message + `■今月の課題 \n` 
 
 			for (let i=0; i<this.connections.length;i++){
 				message =  message +`${this.tasks[i].name} \n` 
@@ -792,7 +798,7 @@ export default {
 
 		console.log(liff)
 		await liff.init({
-			liffId:"1654259536-9QolwByP"
+			liffId:"1654259536-WdOEYoBX"
 		})
 		try{
 			this.userProfile = await liff.getProfile()
