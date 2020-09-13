@@ -521,7 +521,6 @@ export default {
 					//console.log(data.report) 
 					for (let j=0; j<report.categorys.length;j++){
 						for (let i=0; i<report.categorys[j].works.length;i++){
-
 							if(!Inputcategorys[0].categoryname){
 								console.log("1回目")
 								Inputcategorys = []
@@ -601,7 +600,7 @@ export default {
             this.sale = `${toalReportPrice}/${toalGoalPrice}`
             this.price = `${toalReportCost}/${toalGoalCost}`
             this.profit = `${totalReportProfit}/${totalGoalProfit}`
-			
+			this.achievement = Math.round((toalReportPrice / toalGoalPrice) * 100) + "%"
         },
         
 		async onDialogYes(){
@@ -632,9 +631,7 @@ export default {
 		async submit(){
 			//TODO: テキストをデータからいい感じに作成	
 			this.load = true
-			const formatter = new Intl.NumberFormat('ja-JP');	
-			let subject = "行動計画:"	
-			let subject2 = "アポイント:"
+			const formatter = new Intl.NumberFormat('ja-JP');		
 			let textMessage
 			let toalPrice = 0
 			let toalCost = 0
@@ -655,12 +652,13 @@ export default {
 								 `【営業利益】${formatter.format(profit)}円 \n\n` +
 								 `■売上と利益それぞれの内訳 \n\n` 
 							
-								
+						
 			for (let j=0; j<this.categorys.length;j++){
 				//message =  message +`【${this.categorys[j].categoryname}】\n` 
 				
 				for (let i=0; i<this.categorys[j].works.length;i++){
-					message =  message +`□${this.categorys[j].works[i].name}\n` +
+					message =  message +`□${this.categorys[j].categoryname}\n` +
+					                    `案件名...${this.categorys[j].works[i].name}\n` +
 										`売上...${formatter.format(this.categorys[j].works[i].price)}円 × ${formatter.format(this.categorys[j].works[i].num)}件 = ${formatter.format(this.categorys[j].works[i].price * this.categorys[j].works[i].num)}円 \n` +
 										`経費...${formatter.format(this.categorys[j].works[i].cost)}円 × ${formatter.format(this.categorys[j].works[i].num)}件 = ${formatter.format(this.categorys[j].works[i].cost  * this.categorys[j].works[i].num)}円 \n\n` 
 										//`営業利益...(${this.works[i].price}円 - ${this.works[i].cost}円) ×  ${this.works[i].num}件 = ${(this.works[i].price - this.works[i].cost) * this.works[i].num} 円 \n\n`
@@ -668,16 +666,14 @@ export default {
 				}
 			}
 
-			message = message + `■アポイント${formatter.format(this.count)}件 \n\n` +
-								`■アポイントの根拠 \n` 
+			message = message + `■達成率:${this.achievement} \n\n` 
+								
 
-			for (const [key, value] of Object.entries(this.checkboxItems)) {
-				if(value !== false){
-					message =  message + `${value}\n`
-				}
-			}
-			
-			message =  message + `\n ■SNS` 
+			message = message + `【アポ件数】\n` +
+								`受注...${this.ordercount}\n` +
+								`失注...${this.lostcount}\n` +
+								`検討...${this.considerationcount}\n` +
+								`合計...${this.sumcount}\n\n` 
 
 			for (let i=0; i<this.socials.length;i++){
 				message =  message + `\n【${this.socials[i].snsType}】\n` + 
@@ -702,18 +698,36 @@ export default {
 			}
 
 			const date = `${this.datetime.year}_${this.datetime.month}`
-			const goal = {}
-			goal[date] = {
+			const work = {}
+			work[date] = {
 				categorys:this.categorys,
-				count:this.count,
-				checkboxItems:this.checkboxItems,
-				socials:this.socials,
-				connections:this.connections,
+				sale:this.sale,
+				price:this.price,
+				profit:this.profit,
+				achievement:this.achievement,
+				ordercount:this.ordercount,
+				lostcount:this.lostcount,
+				considerationcount:this.considerationcount,
+				sumcount:this.sumcount,
+				exchangeMeeting:this.exchangeMeeting,
+				exchangeMeetingApo:this.exchangeMeetingApo,
+				exchangeMeetingDecision:this.exchangeMeetingDecision,
+				seminar:this.seminar,
+				seminarApo:this.seminarApo,
+				seminarDecision:this.seminarDecision,
+				introdctioin:this.introdctioin,
+				introdctioinApo:this.introdctioinApo,
+				introdctioinDecision:this.introdctioinDecision,
+				sumfollower:this.sumfollower,
+				addfollower:this.addfollower,
+				increasefollower:this.increasefollower,
+				followerrate:this.followerrate,
+				followertowork:this.followertowork,
 				tasks:this.tasks
 			}
 			const db = this.$firebase.firestore();
 			db.doc("users/" + this.userProfile.userId).set({
-				"goal":goal
+				"work":work
 			},{merge:true}).then(()=>{
 				this.load = false
 				//alert("save")
