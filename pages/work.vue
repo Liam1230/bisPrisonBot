@@ -484,15 +484,21 @@ export default {
 			let totalonCsideration = 0
 			let sumCount = 0
 			let Inputcategorys = [
-					categoryname=null,
-					works=[
-						{
-							name:null,
-							price:null,
-							cost: null,
-						},
-					]
+					{
+						categoryname:null,
+						works:[
+							{
+								name:null,
+								price:null,
+								cost: null,
+							}
+						]
+					}
 				]
+			let cntplus = 0
+			let cntadd = 0
+			let InputcategorysCnt = 0
+			let categorynameCnt = 0
 
             //目標
 			if(`${year}_${month}` in data.goal){
@@ -504,43 +510,92 @@ export default {
                         toalGoalCost = toalGoalCost + (goal.categorys[j].works[i].cost * goal.categorys[j].works[i].num)
                     }
                 }
-                totalGoalProfit = toalGoalPrice - toalGoalCost
-            }
+				totalGoalProfit = toalGoalPrice - toalGoalCost
+				this.tasks = goal.tasks
+			}
+
+			
             
             //受注レポート
 			for (let k=1; k<32;k++){
 				if(`${year}_${month}_${k}` in data.report){
 					const report = data.report[`${year}_${month}_${k}`]
-					console.log(data.report) 
+					//console.log(data.report) 
 					for (let j=0; j<report.categorys.length;j++){
 						for (let i=0; i<report.categorys[j].works.length;i++){
-							for (let h=0; h<Inputcategorys.length;h++){
-								for (let g=0; g<Inputcategorys[h].works.length;g++){
+							InputcategorysCnt = Inputcategorys.length
+							for (let h=0; h<InputcategorysCnt;h++){
+								//console.log("length:" + Inputcategorys[h].works.length)
+								categorynameCnt = Inputcategorys[h].works.length
+								for (let g=0; g<categorynameCnt;g++){
+									//console.log("配列:" + Inputcategorys.length)
 									if(Inputcategorys[h].works[g].name == report.categorys[j].works[i].name && Inputcategorys[h].categoryname == report.categorys[j].categoryname){
-										Inputcategorys[h].works[g].price = Number(works[g].price) + Number(report.categorys[j].works[i].price * report.categorys[j].works[i].num)
-										Inputcategorys[h].works[g].cost = Number(works[g].cost) + Number(report.categorys[j].works[i].cost * report.categorys[j].works[i].num)
+										console.log("プラス:" + cntplus)
+
+										//console.log("name:" + Inputcategorys[h].works[g].name)
+										//console.log("name2:" + report.categorys[j].works[i].name)
+										cntplus ++
+										Inputcategorys[h].works[g].price = Number(Inputcategorys[h].works[g].price) + Number(report.categorys[j].works[i].price * report.categorys[j].works[i].num)
+										Inputcategorys[h].works[g].cost = Number(Inputcategorys[h].works[g].cost) + Number(report.categorys[j].works[i].cost * report.categorys[j].works[i].num)
+										break
 									}else{
-										Inputcategorys.push(
-											categoryname = report.categorys[j].categoryname,
-											works = [
-												{
-													name:report.categorys[j].works[i].name,
-													price:Number(report.categorys[j].works[i].price * report.categorys[j].works[i].num),
-													cost: Number(report.categorys[j].works[i].cost * report.categorys[j].works[i].num),
-												
+										if(!Inputcategorys[0].categoryname){
+											console.log("1回目")
+											Inputcategorys = []
+											Inputcategorys.push({
+												categoryname:report.categorys[j].categoryname,
+												works:[
+													{
+														name:report.categorys[j].works[i].name,
+														price:Number(report.categorys[j].works[i].price * report.categorys[j].works[i].num),
+														cost: Number(report.categorys[j].works[i].cost * report.categorys[j].works[i].num),
+													}
+												]
+											})
+										}else{
+											// console.log("追加:" + cntadd)
+											// console.log("カテゴリ名１:" + Inputcategorys[h].categoryname)
+											// console.log("カテゴリ名２:" + report.categorys[j].categoryname)
+											// console.log("名前１:" + Inputcategorys[h].works[g].name)
+											// console.log("名前２:" + report.categorys[j].works[i].name)
+											let judgment = true
+											for (let f=0; f<Inputcategorys.length;f++){
+												for (let e=0; e<Inputcategorys[f].works.length;e++){
+													console.log(report.categorys[j].works[i].name)
+													if(Inputcategorys[f].works[e].name == report.categorys[j].works[i].name){
+														judgment = false
+														console.log(judgment)
+													}
 												}
-											]
-										)
+											}
+
+											if(judgment){
+												console.log("追加:" + cntadd)
+												cntadd ++
+												Inputcategorys.push({
+													categoryname:report.categorys[j].categoryname,
+													works:[
+														{
+															name:report.categorys[j].works[i].name,
+															price:Number(report.categorys[j].works[i].price * report.categorys[j].works[i].num),
+															cost: Number(report.categorys[j].works[i].cost * report.categorys[j].works[i].num),
+														}
+													]
+												})
+											}
+										}
 									}
 								}
 							}
-							//toalReportPrice = Number(toalReportPrice) + Number(report.categorys[j].works[i].price * report.categorys[j].works[i].num)
-							//toalReportCost = Number(toalReportCost) + Number(report.categorys[j].works[i].cost * report.categorys[j].works[i].num)
+							toalReportPrice = Number(toalReportPrice) + Number(report.categorys[j].works[i].price * report.categorys[j].works[i].num)
+							toalReportCost = Number(toalReportCost) + Number(report.categorys[j].works[i].cost * report.categorys[j].works[i].num)
 						}
 					}
 				}
 			}
+
 			totalReportProfit = toalReportPrice - toalReportCost
+			this.categorys = Inputcategorys
 			
 			//アポレポート
 			for (let k=1; k<32;k++){
@@ -560,7 +615,12 @@ export default {
 					sumCount = totalOrder + totalLost + totalonCsideration
 				}
 			}
-            
+			
+			this.ordercount = totalOrder
+			this.lostcount = totalLost
+			this.considerationcount = totalonCsideration
+			this.sumcount = sumCount
+
             this.sale = `${toalReportPrice}/${toalGoalPrice}`
             this.price = `${toalReportCost}/${toalGoalCost}`
             this.profit = `${totalReportProfit}/${totalGoalProfit}`
