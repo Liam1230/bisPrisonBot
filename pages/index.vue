@@ -2,10 +2,10 @@
 	<div>
 		<h1 align="center" class="white-text">行動計画</h1>
 
+		<h3 align="center" class="mt-5 white-text">
+			活動年月
+		</h3>
 		<v-card outlined style="padding: 10px">
-			<h3 align="center">
-				活動年月
-			</h3>
 			<v-container>
 				<template>
 					<v-row>
@@ -20,100 +20,95 @@
 			</v-container>
 		</v-card>
 
-		<v-card outlined class="pt-5 mt-5">
-			<h3 align="center">
-				売上・利益目標
-			</h3>
-		</v-card>
+		<h3 align="center" class="mt-5 white--text">
+			売上・利益目標
+		</h3>
 		
 		<template v-for="(category,idx) in categorys">	
-			<v-card class="mb-3" :key="idx">
+			<v-card class="mb-3 px-3" :key="idx">
 				<v-row :key="idx">
-					<v-col cols="1" md="1">
+					<v-col cols="1" md="1" class="d-flex align-center mr-3">
 						<v-btn color="primary" fab x-small dark @click="onRemoveCategoryButton(idx)">
 							<v-icon>mdi-minus</v-icon>
 						</v-btn>
 					</v-col>
-					<v-col cols="11" md="10">
+					<v-col cols="10" md="10">
 						<v-text-field
 							v-model="category.categoryname"
 							label="カテゴリ名"
 						></v-text-field>
 					</v-col>
-					<v-container>
-						<template v-for="(work,idx2) in category.works">
-							<v-row :key="idx2">
-								<v-col cols="1" md="1">
-								</v-col>
-								<v-col cols="1" md="1">
-									<v-btn color="primary" fab x-small dark @click="onRemoveProjectButton(idx,idx2)">
-										<v-icon>mdi-minus</v-icon>
-									</v-btn>
-								</v-col>
-								<v-col cols="4" md="3">
-									<v-text-field
-										v-model="work.name"
-										label="案件名"
-									></v-text-field>
-								</v-col>
-								<v-col cols="3" md="3">
-									<v-text-field
-										v-model="work.price"
-										label="売上"
-										type="number"
-									></v-text-field>
-								</v-col>
-								<v-col cols="3" md="3">
-									<v-text-field
-										v-model="work.cost"
-										label="費用"
-										type="number"
-									></v-text-field>
-								</v-col>
-								<v-col cols="2" md="2">
-								</v-col>	
-								<v-col cols="3" md="3">
-									<v-text-field
-										v-model="work.num"
-										label="受注数"
-										type="number"
-									></v-text-field>
-								</v-col>
-								<v-col cols="3" md="3">
-									<v-select
-										:items="selectItems"
-										label="CVR"
-										v-model="work.cvr"
-									></v-select>
-								</v-col>
-							</v-row>
-							<v-divider :key="'hr-'+idx2"></v-divider>
-						</template>
-						<v-row> 
-							<v-layout justify-center style="padding: 10px">
-								<v-btn color="error" fab x-small dark @click="onAddProjectButton(idx)">
-									<v-icon>mdi-plus</v-icon>
+				</v-row>
+				<v-row>
+					<v-divider class="mx-3"></v-divider>
+					<template v-for="(work,idx2) in category.works">
+						<v-row :key="idx2">
+							<v-col cols="1" md="1" class="ml-3 mr-3 d-flex align-center">
+								<v-btn color="primary" fab x-small dark @click="onRemoveProjectButton(idx,idx2)">
+									<v-icon>mdi-minus</v-icon>
 								</v-btn>
-							</v-layout>
+							</v-col>
+							<v-col cols="4" md="3" >
+								<v-text-field
+									v-model="work.name"
+									label="案件名"
+								></v-text-field>
+							</v-col>
+							<v-col cols="3" md="3">
+								<v-text-field
+									v-model="work.price"
+									label="売上"
+									type="number"
+								></v-text-field>
+							</v-col>
+							<v-col cols="3" md="3">
+								<v-text-field
+									v-model="work.cost"
+									label="費用"
+									type="number"
+								></v-text-field>
+							</v-col>
+							<v-col cols="2" md="2">
+							</v-col>	
+							<v-col cols="3" md="3">
+								<v-text-field
+									v-model="work.num"
+									label="受注数"
+									type="number"
+								></v-text-field>
+							</v-col>
+							<v-col cols="3" md="3">
+								<v-select
+									:items="selectItems"
+									label="CVR"
+									v-model="work.cvr"
+								></v-select>
+							</v-col>
 						</v-row>
-					</v-container>
+						<v-divider class="mx-3" :key="'hr-'+idx2"></v-divider>
+					</template>
+				</v-row>
+				<v-row> 
+					<v-layout justify-center style="padding: 10px">
+						<v-btn color="error" small dark @click="onAddProjectButton(idx)">
+							案件を追加<v-icon>mdi-plus</v-icon>
+						</v-btn>
+					</v-layout>
 				</v-row>
 			</v-card>
-			<v-divider :key="'hr-'+idx"></v-divider>
 		</template>
 		<v-row> 
-			<v-layout justify-center style="padding: 10px">
-				<v-btn color="error" fab x-small dark @click="onAddCategoryButton()">
-					<v-icon>mdi-plus</v-icon>
+			<v-layout justify-center style="">
+				<v-btn color="error" small dark @click="onAddCategoryButton()">
+					カテゴリを追加<v-icon>mdi-plus</v-icon>
 				</v-btn>
 			</v-layout>
 		</v-row>
 		
-		
-		<v-card outlined class="pt-5 mt-5">
-			<h3 align="center">
-				アポイント
-			</h3>
+		<h3 align="center" class="white--text mt-5">
+			アポイント
+		</h3>
+		<v-card outlined class="px-3">
 			<v-container>
 				<v-row>
 					<v-col cols="12" class="pt-0">
@@ -212,74 +207,66 @@
 			</v-container>
 		</v-card>
 
-		<v-card outlined class="pt-5 mt-5">
-			<h3 align="center">
-				SNS
-			</h3>
-			<v-container>
-				<template v-for="(social,idx) in socials">
-					<v-row :key="idx">
-						<v-col cols="2" md="2">
-							<v-btn color="primary" fab x-small dark @click="onRemoveSnsButton(idx)">
-								<v-icon>mdi-minus</v-icon>
-							</v-btn>
-						</v-col>
+		<h3 align="center" class="white--text mt-5">
+			SNS
+		</h3>
+		<v-card outlined class="px-3 mb-3" v-for="(social,idx) in socials" :key="idx">
+			<v-row>
+				<v-col cols="2" md="2" class="d-flex align-center">
+					<v-btn color="primary" fab x-small dark @click="onRemoveSnsButton(idx)">
+						<v-icon>mdi-minus</v-icon>
+					</v-btn>
+				</v-col>
 
-						<v-col cols="9" md="9">
-							<v-select
-								:items="selectBoxItems"
-								label="SNS"
-								v-model="social.snsType"
-								
-							></v-select>
-						</v-col>
+				<v-col cols="9" md="9">
+					<v-select
+						:items="selectBoxItems"
+						label="SNS"
+						v-model="social.snsType"
+						
+					></v-select>
+				</v-col>
 
-						<v-col cols="12" md="12"> 
-							<v-text-field
-								v-model="social.accountName"
-								label="アカウント名"
-							></v-text-field>
-						</v-col>
+				<v-col cols="12" md="12"> 
+					<v-text-field
+						v-model="social.accountName"
+						label="アカウント名"
+					></v-text-field>
+				</v-col>
 
-						<v-col cols="6" md="6">
-							<v-text-field
-								v-model="social.follower"
-								label="フォロワー数"
-								type="number"
-							></v-text-field>
-						</v-col>
+				<v-col cols="6" md="6">
+					<v-text-field
+						v-model="social.follower"
+						label="フォロワー数"
+						type="number"
+					></v-text-field>
+				</v-col>
 
-						<v-col cols="6" md="6">
-							<v-text-field
-								v-model="social.targetFollower"
-								label="目標フォロワー数"
-								type="number"
-							></v-text-field>
-						</v-col>
-
-						<v-col cols="12" md="12">
-							<v-divider :key="'hr-'+idx"></v-divider>
-						</v-col>
-					</v-row>
-				</template>
-				<v-row> 
-					<v-layout justify-center style="padding: 10px">
-						<v-btn color="error" fab x-small dark @click="onAddSnsButton()">
-							<v-icon>mdi-plus</v-icon>
-						</v-btn>
-					</v-layout>
-				</v-row>
-			</v-container>
+				<v-col cols="6" md="6">
+					<v-text-field
+						v-model="social.targetFollower"
+						label="目標フォロワー数"
+						type="number"
+					></v-text-field>
+				</v-col>
+			</v-row>
 		</v-card>
+		<v-row> 
+			<v-layout justify-center>
+				<v-btn color="error" small dark @click="onAddSnsButton()">
+					アカウントを追加<v-icon>mdi-plus</v-icon>
+				</v-btn>
+			</v-layout>
+		</v-row>
 
-		<v-card outlined class="pt-5 mt-5">
-			<h3 align="center">
-				紹介営業・関係構築
-			</h3>
+		<h3 align="center" class="mt-5 white--text">
+			紹介営業・関係構築
+		</h3>
+		<v-card outlined class="">
 			<v-container>
 				<template v-for="(connection,idx) in connections">
 					<v-row :key="idx">
-						<v-col cols="2" md="2">
+						<v-col cols="2" md="2" class="d-flex align-center">
 							<v-btn color="primary" fab x-small dark @click="onRemoveConnectButton(idx)">
 								<v-icon>mdi-minus</v-icon>
 							</v-btn>
@@ -295,7 +282,7 @@
 					</v-row>
 				</template>
 				<v-row> 
-					<v-layout justify-center style="padding: 10px">
+					<v-layout justify-center>
 						<v-btn color="error" fab x-small dark @click="onAddConnectButton()">
 							<v-icon>mdi-plus</v-icon>
 						</v-btn>
@@ -304,10 +291,10 @@
 			</v-container>
 		</v-card>
 
-		<v-card outlined class="pt-5 mt-5">
-			<h3 align="center">
-				今月の課題
-			</h3>
+		<h3 align="center" class="mt-5 white--text">
+			今月の課題
+		</h3>
+		<v-card outlined class="">
 			<v-container>
 				<template v-for="(task,idx) in tasks">
 					<v-row :key="idx">
@@ -327,7 +314,7 @@
 					</v-row>
 				</template>
 				<v-row> 
-					<v-layout justify-center style="padding: 10px">
+					<v-layout justify-center>
 						<v-btn color="error" fab x-small dark @click="onAddTaskButton()">
 							<v-icon>mdi-plus</v-icon>
 						</v-btn>
@@ -337,9 +324,9 @@
 		</v-card>
 
 		<div>
-			<v-layout justify-center style="padding: 10px">
-				<v-btn align="center" @click="submit()">
-					Submit
+			<v-layout justify-center class="mt-5">
+				<v-btn color="primary" block align="center" @click="submit()">
+					送信
 				</v-btn>
 				{{lineId}}
 			</v-layout>

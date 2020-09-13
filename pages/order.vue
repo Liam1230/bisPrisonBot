@@ -2,10 +2,10 @@
 	<div>
 		<h1 align="center" class="white-text">受注レポート</h1>
 
-		<v-card outlined style="padding: 10px">
-		<h3 align="center">
+		<h3 align="center" class="mt-5 white--text">
 			年月日
 		</h3>
+		<v-card outlined style="padding: 10px">
 			<v-container>
 				<template>
 					<v-row>
@@ -23,22 +23,19 @@
 			</v-container>
 		</v-card>
 
-		<v-card outlined class="pt-5 mt-5">
-			<h3 align="center">
-				受注
-			</h3>
-		</v-card>
-		
-		<template v-for="(category,idx) in categorys">	
-			<v-card class="mb-3" :key="idx">
+		<h3 align="center" class="mt-5 white--text">
+			受注
+		</h3>
+		<!-- <template v-for="(category,idx) in categorys">	 -->
+			<v-card class="mb-3 px-3" :key="idx" v-for="(category,idx) in categorys">
 				<v-row :key="idx">
-					<v-col cols="1" md="1">
+					<v-col cols="1" md="1" class="d-flex align-center mr-3">
 						<v-btn color="primary" fab x-small dark @click="onRemoveCategoryButton(idx)">
 							<v-icon>mdi-minus</v-icon>
 						</v-btn>
 					</v-col>
 
-					<v-col cols="11" md="10">
+					<v-col cols="10" md="10">
 						<v-select :items="selectItemsCategoryname" label="カテゴリ名" v-model="category.nameselect" ></v-select>
 					</v-col>
 					
@@ -48,33 +45,27 @@
 							label="カテゴリ名"
 						></v-text-field>
 					</v-col>
-
+				</v-row>
+				<v-divider></v-divider>
+				<v-row>
 					<v-container>
 						<template v-for="(work,idx2) in category.works">
 							<v-row :key="idx2+'work1'" >
-								<v-col cols="1" md="1">
-								</v-col>
-								<v-col cols="1" md="1">
+								<v-col cols="1" md="1" class="d-flex align-center mr-3">
 									<v-btn color="primary" fab x-small dark @click="onRemoveProjectButton(idx,idx2)">
 										<v-icon>mdi-minus</v-icon>
 									</v-btn>
 								</v-col>
-								<v-col cols="5" md="5">
+								<v-col cols="10" md="10">
 									<v-select :items="selectItemsWorksname" label="案件名" v-model="work.nameselect" ></v-select>
 								</v-col>
-								<v-col cols="5" md="5" v-if="work.nameselect === '自由入力'">
+								<v-col cols="10" md="10" class="ml-5" v-if="work.nameselect === '自由入力'">
 									<v-text-field
 										v-model="work.name"
 										label="案件名"
 									></v-text-field>
 								</v-col>
-								<v-col cols="5" md="5" v-else>
-								</v-col>
-							
-							
-								<v-col cols="2" md="2">
-								</v-col>
-								<v-col cols="5" md="5">
+								<v-col cols="5" md="5" class="ml-5">
 									<v-text-field
 										v-model="work.price"
 										label="売上"
@@ -90,11 +81,7 @@
 										@change="onClacProfit(idx,idx2)"
 									></v-text-field>
 								</v-col>
-							
-							
-								<v-col cols="2" md="2">
-								</v-col>
-								<v-col cols="5" md="5">
+								<v-col cols="5" md="5" class="ml-5">
 									<v-text-field
 										v-model="work.profit"
 										label="粗利"
@@ -108,9 +95,7 @@
 										type="number"
 									></v-text-field>
 								</v-col>
-								<v-col cols="2" md="2">
-								</v-col>
-								<v-col cols="5" md="5">
+								<v-col cols="5" md="5" class="ml-5">
 									<v-text-field
 										v-model="work.num"
 										label="件数"
@@ -118,32 +103,31 @@
 									></v-text-field>
 								</v-col>
 							</v-row>
-							<v-divider :key="'hr-'+idx2"></v-divider>
 						</template>
 						<v-row> 
 							<v-layout justify-center style="padding: 10px">
-								<v-btn color="error" fab x-small dark @click="onAddProjectButton(idx)">
-									<v-icon>mdi-plus</v-icon>
+								<v-btn color="error" small dark @click="onAddProjectButton(idx)">
+									案件を追加<v-icon>mdi-plus</v-icon>
 								</v-btn>
 							</v-layout>
 						</v-row>
 					</v-container>
 				</v-row>
 			</v-card>
-			<v-divider :key="'hr-'+idx"></v-divider>
-		</template>
+			<!-- <v-divider :key="'hr-'+idx"></v-divider> -->
+		<!-- </template> -->
 		<v-row> 
 			<v-layout justify-center style="padding: 10px">
-				<v-btn color="error" fab x-small dark @click="onAddCategoryButton()">
-					<v-icon>mdi-plus</v-icon>
+				<v-btn color="error" small dark @click="onAddCategoryButton()">
+					カテゴリを追加<v-icon>mdi-plus</v-icon>
 				</v-btn>
 			</v-layout>
 		</v-row>
 
 		<div>
 			<v-layout justify-center style="padding: 10px">
-				<v-btn align="center" @click="submit()">
-					Submit
+				<v-btn align="center" color="primary" block @click="submit()">
+					送信
 				</v-btn>
 				{{lineId}}
 			</v-layout>
