@@ -532,25 +532,25 @@ export default {
 
 				for (let i=0; i<this.categorys[j].works.length;i++){
 
-					if(!this.categorys[j].works[i].name == null){
+					if(!this.categorys[j].works[i].name){
 						errorMessages.push("案件名は必須です。")
 					}
 
 					if(!this.categorys[j].works[i].price){
 						errorMessages.push("売上は必須です。")
-					}else if(String(this.categorys[j].works[i].price).match(patternNumber) == null){
+					}else if(!(String(this.categorys[j].works[i].price).match(patternNumber))){
 						errorMessages.push("売上が正しくありません。")
 					}
 
 					if(!this.categorys[j].works[i].cost){
 						errorMessages.push("費用は必須です。")
-					}else if(String(this.categorys[j].works[i].cost).match(patternNumber) == null){
+					}else if(!(String(this.categorys[j].works[i].cost).match(patternNumber))){
 						errorMessages.push("費用が正しくありません。")	
 					}
 
 					if(!this.categorys[j].works[i].num){
 						errorMessages.push("受注数は必須です。")
-					}else if(String(this.categorys[j].works[i].num).match(patternNumber) == null){
+					}else if(!(String(this.categorys[j].works[i].num).match(patternNumber))){
 						errorMessages.push("受注数が正しくありません。")
 					}
 				}
@@ -558,7 +558,7 @@ export default {
 
 			if(!this.count){
 				errorMessages.push("アポイントの件数は必須です。")
-			}else if(String(this.count).match(patternNumber) == null){
+			}else if(!(String(this.count).match(patternNumber))){
 				errorMessages.push("アポイントの件数が正しくありません。")
 			}
 

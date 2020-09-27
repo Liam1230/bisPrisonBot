@@ -286,25 +286,25 @@ export default {
 
 					if(!this.categorys[j].works[i].price){
 						errorMessages.push("売上は必須です。")
-					}else if(String(this.categorys[j].works[i].price).match(patternNumber) == null){
+					}else if(!(String(this.categorys[j].works[i].price).match(patternNumber))){
 						errorMessages.push("売上が正しくありません。")
 					}
 
 					if(!this.categorys[j].works[i].cost){
 						errorMessages.push("費用は必須です。")
-					}else if(String(this.categorys[j].works[i].cost).match(patternNumber) == null){
+					}else if(!(String(this.categorys[j].works[i].cost).match(patternNumber))){
 						errorMessages.push("費用が正しくありません。") 
 					}
 
 					if(!this.categorys[j].works[i].num){
 						errorMessages.push("件数は必須です。")
-					}else if(String(this.categorys[j].works[i].num).match(patternNumber) == null){
+					}else if(!(String(this.categorys[j].works[i].num).match(patternNumber))){
 						errorMessages.push("件数が正しくありません。")
 					}
 
-					if(this.categorys[j].works[i].income == null){
+					if(!this.categorys[j].works[i].income){
 						errorMessages.push("営業利益は必須です。")
-					}else if(String(this.categorys[j].works[i].income).match(patternNumber) == null){
+					}else if(!(String(this.categorys[j].works[i].income).match(patternNumber))){
 						errorMessages.push("営業利益が正しくありません。")
 					}
 				}

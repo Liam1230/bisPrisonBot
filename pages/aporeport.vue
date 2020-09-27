@@ -427,13 +427,11 @@ export default {
 
 					if(!this.categorys[j].sales[i].product){
 						errorMessages.push("費目は必須です。")
-					}else if(this.categorys[j].sales[i].product.match(patternText) == null){
-						errorMessages.push("費目が正しくありません。")
 					}
 
 					if(!this.categorys[j].sales[i].price){
 						errorMessages.push("費用は必須です。")
-					}else if(String(this.categorys[j].sales[i].price).match(patternNumber) == null){
+					}else if(!(String(this.categorys[j].sales[i].price).match(patternNumber))){
 						errorMessages.push("費用が正しくありません。")
 					}
 
