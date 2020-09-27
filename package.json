@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@nuxtjs/axios": "^5.3.6",
+    "dr-vue-echarts": "^1.0.13",
     "firebase": "^7.15.2",
     "nuxt": "^2.0.0"
   },

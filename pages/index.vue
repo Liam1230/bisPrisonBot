@@ -692,6 +692,7 @@ export default {
 
 				message =  message + `\n ■今月の課題 \n` 
 
+
 				for (let i=0; i<this.connections.length;i++){
 					message =  message +`${this.tasks[i].name} \n` 
 										
@@ -700,6 +701,9 @@ export default {
 				const date = `${this.datetime.year}_${this.datetime.month}`
 				const goal = {}
 				goal[date] = {
+					profit: profit,
+					price: toalPrice,
+					cost:toalCost,
 					categorys:this.categorys,
 					count:this.count,
 					checkboxItems:this.checkboxItems,
@@ -714,7 +718,7 @@ export default {
 					this.load = false
 					//alert("save")
 				})
-
+				
 				//alert(message);
 				
 				liff.sendMessages([
