@@ -373,6 +373,89 @@ export default {
 		onDialogNo(){
 			this.dialog = false
 		},
+
+		checkSubmit(){
+			const errorMessages = []
+			const patternText = /^.+$/;
+			const patternNumber = /^[1-9]|[1-9][0-9]+$/;
+			const patternYear = /^[2][0-9][0-9][0-9]$/;
+			const patternMonth = /^[1-9]|[1][0-2]$/;
+			const patternDay = /^[1-9]|[1-3][0-9]+$/;
+			const patternTime = /^[1-9]|[1-2][0-9]+$/;
+			const patternMinute = /^[0-5]|[0-5][0-5]+$/;
+			//const result = target.match(pattern)
+
+			for (let j=0; j<this.categorys.length;j++){
+
+				if(this.categorys[j].companyname == null){
+					errorMessages.push("訪問先名は必須です。")
+				}else{
+					if(this.categorys[j].companyname.match(patternText) == null){
+						errorMessages.push("訪問先名が正しくありません。")
+					}
+				}
+
+				if(this.categorys[j].ordertype == null){
+					errorMessages.push("状況は必須です。")
+				}
+
+				if(this.categorys[j].year == null){
+					errorMessages.push("年は必須です。")
+				}
+
+				if(this.categorys[j].month == null){
+					errorMessages.push("月は必須です。")
+				}
+
+				if(this.categorys[j].date == null){
+					errorMessages.push("日は必須です。")
+				}
+
+				if(this.categorys[j].timefrom == null){
+					errorMessages.push("時は必須です。")
+				}
+
+				if(this.categorys[j].timeto == null){
+					errorMessages.push("時は必須です。")
+				}
+				
+				if(this.categorys[j].minutefrom == null){
+					errorMessages.push("分は必須です。")
+				}
+
+				if(this.categorys[j].miniteto == null){
+					errorMessages.push("分は必須です。")
+				}
+
+				for (let i=0; i<this.categorys[j].sales.length;i++){
+
+					if(this.categorys[j].sales[i].product == null){
+						errorMessages.push("費目は必須です。")
+					}else{
+						if(this.categorys[j].sales[i].product.match(patternText) == null){
+							errorMessages.push("費目が正しくありません。")
+						}
+					}
+
+					if(this.categorys[j].sales[i].price == null){
+						errorMessages.push("費用は必須です。")
+					}else{
+						if(String(this.categorys[j].sales[i].price).match(patternNumber) == null){
+							errorMessages.push("費用が正しくありません。")
+						}
+					}
+
+				}
+			}
+
+			if (errorMessages.length != 0) {
+				alert(errorMessages.join('\n'));
+				return false;
+			}
+
+			return true
+
+		},
 		
 		async submit(){
 			//TODO: テキストをデータからいい感じに作成	
@@ -380,65 +463,66 @@ export default {
 			const formatter = new Intl.NumberFormat('ja-JP');	
 			let textMessage
 			
-			for (let i=0; i<this.categorys.length;i++){
+			if(this.checkSubmit()){
+				for (let i=0; i<this.categorys.length;i++){
 
-				let toalPrice = 0
-				let toalCost = 0
-				let toalProfit = 0
-				let toalIncome = 0
-				let message = `${this.categorys[i].year}年${this.categorys[i].month}月${this.categorys[i].date}日のアポレポート \n\n`
+					let toalPrice = 0
+					let toalCost = 0
+					let toalProfit = 0
+					let toalIncome = 0
+					let message = `${this.categorys[i].year}年${this.categorys[i].month}月${this.categorys[i].date}日のアポレポート \n\n`
 
-				for (let j=0; j<this.categorys[i].costs.length;j++){
-					toalCost = toalCost + this.categorys[i].costs[j].price 
-				}
-				
-				for (let j=0; j<this.categorys[i].sales.length;j++){
-					toalPrice = toalPrice + this.categorys[i].sales[j].price 
-				}
-
-				message =  message + `【訪問先】${this.categorys[i].companyname}\n` + 
-									`【売上】${formatter.format(toalPrice)}円 \n` + 
-									`【費用】${formatter.format(toalCost)}円 \n\n` +
-									`■売上と費用それぞれの内訳 \n\n` 
-									
-				for (let j=0; j<this.categorys[i].costs.length;j++){
-					message =  message +　`費目: ${this.categorys[i].costs[j].name} ${formatter.format(this.categorys[i].costs[j].price)}円 \n` 				
-				}
-
-				for (let j=0; j<this.categorys[i].sales.length;j++){
-					message =  message +　`製品名: ${this.categorys[i].sales[j].product} ${formatter.format(this.categorys[i].sales[j].price)}円 \n` 			
-				}
-
-				const date = `${this.categorys[i].year}_${this.categorys[i].month}_${this.categorys[i].date}`
-				const aporeport = {}
-				aporeport[date] = {
-					categorys:this.categorys,
-				}
-				const db = this.$firebase.firestore();
-				db.doc("users/" + this.userProfile.userId).set({
-					"aporeport":aporeport
-				},{merge:true}).then(()=>{
-					this.load = false
-					//alert("save")
-				})
-
-				//alert(message);
-				
-				liff.sendMessages([
-					{
-						type:'text',
-						text:message
+					for (let j=0; j<this.categorys[i].costs.length;j++){
+						toalCost = toalCost + this.categorys[i].costs[j].price 
 					}
-				])
-				.then(() => {
 					
-					//alert('message sent');
-				})
-				.catch((err) => {
-					//alert(err);
-				});
-			}
+					for (let j=0; j<this.categorys[i].sales.length;j++){
+						toalPrice = toalPrice + this.categorys[i].sales[j].price 
+					}
 
+					message =  message + `【訪問先】${this.categorys[i].companyname}\n` + 
+										`【売上】${formatter.format(toalPrice)}円 \n` + 
+										`【費用】${formatter.format(toalCost)}円 \n\n` +
+										`■売上と費用それぞれの内訳 \n\n` 
+										
+					for (let j=0; j<this.categorys[i].costs.length;j++){
+						message =  message +　`費目: ${this.categorys[i].costs[j].name} ${formatter.format(this.categorys[i].costs[j].price)}円 \n` 				
+					}
+
+					for (let j=0; j<this.categorys[i].sales.length;j++){
+						message =  message +　`製品名: ${this.categorys[i].sales[j].product} ${formatter.format(this.categorys[i].sales[j].price)}円 \n` 			
+					}
+
+					const date = `${this.categorys[i].year}_${this.categorys[i].month}_${this.categorys[i].date}`
+					const aporeport = {}
+					aporeport[date] = {
+						categorys:this.categorys,
+					}
+					const db = this.$firebase.firestore();
+					db.doc("users/" + this.userProfile.userId).set({
+						"aporeport":aporeport
+					},{merge:true}).then(()=>{
+						this.load = false
+						//alert("save")
+					})
+
+					//alert(message);
+					
+					liff.sendMessages([
+						{
+							type:'text',
+							text:message
+						}
+					])
+					.then(() => {
+						
+						//alert('message sent');
+					})
+					.catch((err) => {
+						//alert(err);
+					});
+				}
+			}
 			
 		}
 	},

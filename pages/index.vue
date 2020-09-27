@@ -52,11 +52,12 @@
 								label="案件名"
 							></v-text-field>
 						</v-col>
-						<v-col cols="3" md="3">
+						<v-col cols="3" md="3" align="right">
 							<v-text-field
 								v-model="work.price"
 								label="売上"
 								type="number"
+								align="right"
 							></v-text-field>
 						</v-col>
 						<v-col cols="3" md="3">
@@ -112,6 +113,7 @@
 						<v-text-field
 							v-model="count"
 							label="件数"
+							type="number"
 						></v-text-field>
 					</v-col>
 				</v-row>
@@ -384,18 +386,18 @@ export default {
 				categoryname:null,
 				works:[
 					{
-						name:"testName",
-						price:100000,
-						cost: 50000,
-						num: 5,
-						cvr: 25
+						name:null,
+						price:null,
+						cost: null,
+						num: null,
+						cvr: null
 					},
 					{
-						name:"testName2",
-						price:200000,
-						cost: 30000,
-						num: 3,
-						cvr: 20
+						name:null,
+						price:null,
+						cost: null,
+						num: null,
+						cvr: null
 					}
 				]
 			}
@@ -503,15 +505,89 @@ export default {
 				categoryname:null,
 				works:[
 					{
-						name:"testName",
-						price:100000,
-						cost: 50000,
-						num: 5,
-						cvr: 25
+						name:null,
+						price:null,
+						cost: null,
+						num: null,
+						cvr: null
 					}
 				]
 			})
 		},
+		async checkSubmit(){
+			const errorMessages = []
+			const patternText = /^.+$/;
+			const patternNumber = /^[0-9]|[1-9][0-9]+$/;
+			let target = null
+			let result = null
+
+			for (let j=0; j<this.categorys.length;j++){
+				//target = await this.categorys[j].categoryname
+				//result = await target.match(patternText)
+				
+				if(this.categorys[j].categoryname === null){
+					console.log("未入力")
+					errorMessages.push("カテゴリ名は必須です。")
+				}else{
+					console.log("入力あり")
+					if(this.categorys[j].categoryname.match(patternText) == null){
+						errorMessages.push("カテゴリ名が正しくありません。")
+					}
+				}
+
+				for (let i=0; i<this.categorys[j].works.length;i++){
+
+					if(this.categorys[j].works[i].name == null){
+						errorMessages.push("案件名は必須です。")
+					}else{
+						if(this.categorys[j].works[i].name.match(patternText) == null){
+							errorMessages.push("案件名が正しくありません。")
+						}
+					}
+
+					if(this.categorys[j].works[i].price == null){
+						errorMessages.push("売上は必須です。")
+					}else{
+						if(String(this.categorys[j].works[i].price).match(patternNumber) == null){
+							errorMessages.push("売上が正しくありません。")
+						}
+					}
+
+					if(this.categorys[j].works[i].cost == null){
+						errorMessages.push("費用は必須です。")
+					}else{
+						if(String(this.categorys[j].works[i].cost).match(patternNumber) == null){
+							errorMessages.push("費用が正しくありません。")
+						}
+					}
+
+					if(this.categorys[j].works[i].num == null){
+						errorMessages.push("受注数は必須です。")
+					}else{
+						if(String(this.categorys[j].works[i].num).match(patternNumber) == null){
+							errorMessages.push("受注数が正しくありません。")
+						}
+					}
+				}
+			}
+
+			if(this.count == null){
+				errorMessages.push("アポイントの件数は必須です。")
+			}else{
+				if(String(this.count).match(patternNumber) == null){
+					errorMessages.push("アポイントの件数が正しくありません。")
+				}
+			}
+
+			if (errorMessages.length != 0) {
+				alert(errorMessages.join('\n'));
+				return false;
+			}
+
+			return true
+
+		},
+
 		async onChangeInput(year,month){
 			this.load = true
 			const db = this.$firebase.firestore();
@@ -560,102 +636,103 @@ export default {
 			let toalCost = 0
 			let profit = 0
 			let message = `${this.datetime.year}年${this.datetime.month}月の売上、利益目標 \n\n`
-
-			for (let j=0; j<this.categorys.length;j++){
-				for (let i=0; i<this.categorys[j].works.length;i++){
-					toalPrice = toalPrice + (this.categorys[j].works[i].price * this.categorys[j].works[i].num)
-					toalCost = toalCost + (this.categorys[j].works[i].cost * this.categorys[j].works[i].num)
+			if(this.checkSubmit()){
+				for (let j=0; j<this.categorys.length;j++){
+					for (let i=0; i<this.categorys[j].works.length;i++){
+						toalPrice = toalPrice + (this.categorys[j].works[i].price * this.categorys[j].works[i].num)
+						toalCost = toalCost + (this.categorys[j].works[i].cost * this.categorys[j].works[i].num)
+					}
 				}
-			}
 
-			profit = toalPrice - toalCost
+				profit = toalPrice - toalCost
 
-			message =  message + `【売上】${formatter.format(toalPrice)}円 \n` + 
-								 `【経費】${formatter.format(toalCost)}円 \n` +
-								 `【営業利益】${formatter.format(profit)}円 \n\n` +
-								 `■売上と利益それぞれの内訳 \n\n` 
-							
+				message =  message + `【売上】${formatter.format(toalPrice)}円 \n` + 
+									`【経費】${formatter.format(toalCost)}円 \n` +
+									`【営業利益】${formatter.format(profit)}円 \n\n` +
+									`■売上と利益それぞれの内訳 \n\n` 
 								
-			for (let j=0; j<this.categorys.length;j++){
-				message =  message +`【${this.categorys[j].categoryname}】\n` 
+									
+				for (let j=0; j<this.categorys.length;j++){
+					message =  message +`【${this.categorys[j].categoryname}】\n` 
+					
+					for (let i=0; i<this.categorys[j].works.length;i++){
+						message =  message +`□${this.categorys[j].works[i].name}\n` +
+											`売上...${formatter.format(this.categorys[j].works[i].price)}円 × ${formatter.format(this.categorys[j].works[i].num)}件 = ${formatter.format(this.categorys[j].works[i].price * this.categorys[j].works[i].num)}円 \n` +
+											`経費...${formatter.format(this.categorys[j].works[i].cost)}円 × ${formatter.format(this.categorys[j].works[i].num)}件 = ${formatter.format(this.categorys[j].works[i].cost  * this.categorys[j].works[i].num)}円 \n\n` 
+											//`営業利益...(${this.works[i].price}円 - ${this.works[i].cost}円) ×  ${this.works[i].num}件 = ${(this.works[i].price - this.works[i].cost) * this.works[i].num} 円 \n\n`
+											
+					}
+				}
+
+				message = message + `■アポイント${formatter.format(this.count)}件 \n\n` +
+									`■アポイントの根拠 \n` 
+
+				for (const [key, value] of Object.entries(this.checkboxItems)) {
+					if(value !== false){
+						message =  message + `${value}\n`
+					}
+				}
 				
-				for (let i=0; i<this.categorys[j].works.length;i++){
-					message =  message +`□${this.categorys[j].works[i].name}\n` +
-										`売上...${formatter.format(this.categorys[j].works[i].price)}円 × ${formatter.format(this.categorys[j].works[i].num)}件 = ${formatter.format(this.categorys[j].works[i].price * this.categorys[j].works[i].num)}円 \n` +
-										`経費...${formatter.format(this.categorys[j].works[i].cost)}円 × ${formatter.format(this.categorys[j].works[i].num)}件 = ${formatter.format(this.categorys[j].works[i].cost  * this.categorys[j].works[i].num)}円 \n\n` 
-										//`営業利益...(${this.works[i].price}円 - ${this.works[i].cost}円) ×  ${this.works[i].num}件 = ${(this.works[i].price - this.works[i].cost) * this.works[i].num} 円 \n\n`
+				message =  message + `\n ■SNS` 
+
+				for (let i=0; i<this.socials.length;i++){
+					message =  message + `\n【${this.socials[i].snsType}】\n` + 
+										`アカウント名 ${this.socials[i].accountName} \n` +
+										`フォロワー数 ${formatter.format(this.socials[i].follower)} \n` +
+										`目標フォロワー数 ${formatter.format(this.socials[i].targetFollower)} \n`
 										
 				}
-			}
 
-			message = message + `■アポイント${formatter.format(this.count)}件 \n\n` +
-								`■アポイントの根拠 \n` 
+				message =  message + ` \n ■紹介営業・関係構築 \n`
 
-			for (const [key, value] of Object.entries(this.checkboxItems)) {
-				if(value !== false){
-					message =  message + `${value}\n`
+				for (let i=0; i<this.connections.length;i++){
+					message =  message + `${this.connections[i].introduce} \n` 
+									
 				}
-			}
-			
-			message =  message + `\n ■SNS` 
 
-			for (let i=0; i<this.socials.length;i++){
-				message =  message + `\n【${this.socials[i].snsType}】\n` + 
-									 `アカウント名 ${this.socials[i].accountName} \n` +
-									 `フォロワー数 ${formatter.format(this.socials[i].follower)} \n` +
-									 `目標フォロワー数 ${formatter.format(this.socials[i].targetFollower)} \n`
-									 
-			}
+				message =  message + `\n ■今月の課題 \n` 
 
-			message =  message + ` \n ■紹介営業・関係構築 \n`
-
-			for (let i=0; i<this.connections.length;i++){
-				message =  message + `${this.connections[i].introduce} \n` 
-								
-			}
-
-			message =  message + `\n ■今月の課題 \n` 
-
-			for (let i=0; i<this.connections.length;i++){
-				message =  message +`${this.tasks[i].name} \n` 
-									 
-			}
-
-			const date = `${this.datetime.year}_${this.datetime.month}`
-			const goal = {}
-			goal[date] = {
-				categorys:this.categorys,
-				count:this.count,
-				checkboxItems:this.checkboxItems,
-				socials:this.socials,
-				connections:this.connections,
-				tasks:this.tasks
-			}
-			const db = this.$firebase.firestore();
-			db.doc("users/" + this.userProfile.userId).set({
-				"goal":goal
-			},{merge:true}).then(()=>{
-				this.load = false
-				//alert("save")
-			})
-
-			//alert(message);
-			
-			liff.sendMessages([
-				{
-					type:'text',
-					text:message
+				for (let i=0; i<this.connections.length;i++){
+					message =  message +`${this.tasks[i].name} \n` 
+										
 				}
-			])
-			.then(() => {
+
+				const date = `${this.datetime.year}_${this.datetime.month}`
+				const goal = {}
+				goal[date] = {
+					categorys:this.categorys,
+					count:this.count,
+					checkboxItems:this.checkboxItems,
+					socials:this.socials,
+					connections:this.connections,
+					tasks:this.tasks
+				}
+				const db = this.$firebase.firestore();
+				db.doc("users/" + this.userProfile.userId).set({
+					"goal":goal
+				},{merge:true}).then(()=>{
+					this.load = false
+					//alert("save")
+				})
+
+				//alert(message);
 				
-				//alert('message sent');
-			})
-			.catch((err) => {
-				//alert(err);
-			});
+				liff.sendMessages([
+					{
+						type:'text',
+						text:message
+					}
+				])
+				.then(() => {
+					
+					//alert('message sent');
+				})
+				.catch((err) => {
+					//alert(err);
+				});
 
-			
+			}
+		
 		}
 	},
 	mounted: async function(){

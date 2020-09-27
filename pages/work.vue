@@ -32,7 +32,6 @@
                         </v-col>
                         <v-col cols="11" md="11">
                             <v-text-field
-                                
                                 v-model="sale"
                                 label="実績/目標"
                             ></v-text-field>
@@ -42,7 +41,6 @@
                         </v-col>
                         <v-col cols="11" md="11">
                             <v-text-field
-                               
                                 v-model="price"
                                 label="実績/目標"
                             ></v-text-field>
@@ -52,7 +50,6 @@
                         </v-col>
                         <v-col cols="11" md="11">
                             <v-text-field
-                                
                                 v-model="profit"
                                 label="実績/目標"
                             ></v-text-field>
@@ -69,7 +66,6 @@
                 </h3>
 				<v-row :key="idx">
 					<v-col cols="1" md="1">
-                        
 					</v-col>
 					<v-col cols="11" md="10">
 						<v-text-field

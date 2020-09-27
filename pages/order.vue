@@ -266,6 +266,75 @@ export default {
 			this.categorys[idx].works[idx2].profit = this.categorys[idx].works[idx2].price - this.categorys[idx].works[idx2].cost
 		},
 
+		checkSubmit(){
+			const errorMessages = []
+			const patternText = /^.+$/;
+			const patternNumber = /^[0-9]|[1-9][0-9]+$/;
+			//const result = target.match(pattern)
+
+			for (let j=0; j<this.categorys.length;j++){
+
+				if(this.categorys[j].categoryname == null){
+					errorMessages.push("カテゴリ名は必須。")
+				}else{
+					if(this.categorys[j].categoryname.match(patternText) == null){
+						errorMessages.push("カテゴリ名が正しくありません。")
+					}
+				}
+
+				for (let i=0; i<this.categorys[j].works.length;i++){
+
+					if(this.categorys[j].works[i].name == null){
+						errorMessages.push("案件名は必須です。")
+					}else{
+						if(this.categorys[j].works[i].name.match(patternText) == null){
+							errorMessages.push("案件名が正しくありません。")
+						}
+					}
+
+					if(this.categorys[j].works[i].price == null){
+						errorMessages.push("売上は必須です。")
+					}else{
+						if(String(this.categorys[j].works[i].price).match(patternNumber) == null){
+							errorMessages.push("売上が正しくありません。")
+						}
+					}
+
+					if(this.categorys[j].works[i].cost == null){
+						errorMessages.push("費用は必須です。")
+					}else{
+						if(String(this.categorys[j].works[i].cost).match(patternNumber) == null){
+							errorMessages.push("費用が正しくありません。")
+						}
+					}
+
+					if(this.categorys[j].works[i].num == null){
+						errorMessages.push("件数は必須です。")
+					}else{
+						if(String(this.categorys[j].works[i].num).match(patternNumber) == null){
+							errorMessages.push("件数が正しくありません。")
+						}
+					}
+
+					if(this.categorys[j].works[i].income == null){
+						errorMessages.push("営業利益は必須です。")
+					}else{
+						if(String(this.categorys[j].works[i].income).match(patternNumber) == null){
+							errorMessages.push("営業利益が正しくありません。")
+						}
+					}
+				}
+			}
+
+			if (errorMessages.length != 0) {
+				alert(errorMessages.join('\n'));
+				return false;
+			}
+
+			return true;
+
+		},
+
 		async onChangeInput(year,month){
 		
 			const db = this.$firebase.firestore();
@@ -359,65 +428,66 @@ export default {
 			let toalIncome = 0
 			let message = `${this.datetime.year}年${this.datetime.month}月${this.datetime.date}日の受注レポート \n\n`
 
-			for (let j=0; j<this.categorys.length;j++){
-				for (let i=0; i<this.categorys[j].works.length;i++){
-					toalPrice = toalPrice + (this.categorys[j].works[i].price * this.categorys[j].works[i].num)
-					toalCost = toalCost + (this.categorys[j].works[i].cost) * this.categorys[j].works[i].num
-					toalProfit = toalProfit + (this.categorys[j].works[i].profit * this.categorys[j].works[i].num)
-					toalIncome = toalIncome + (this.categorys[j].works[i].income * this.categorys[j].works[i].num)
+			if(this.checkSubmit()){
+				for (let j=0; j<this.categorys.length;j++){
+					for (let i=0; i<this.categorys[j].works.length;i++){
+						toalPrice = toalPrice + (this.categorys[j].works[i].price * this.categorys[j].works[i].num)
+						toalCost = toalCost + (this.categorys[j].works[i].cost) * this.categorys[j].works[i].num
+						toalProfit = toalProfit + (this.categorys[j].works[i].profit * this.categorys[j].works[i].num)
+						toalIncome = toalIncome + (this.categorys[j].works[i].income * this.categorys[j].works[i].num)
+					}
 				}
-			}
 
-			message =  message + `【売上】${formatter.format(toalPrice)}円 \n` + 
-								 `【原価】${formatter.format(toalCost)}円 \n` +
-								 `【粗利】${formatter.format(toalProfit)}円 \n` +
-								 `【営業利益】${formatter.format(toalIncome)}円 \n\n` +
-								 `■売上と利益それぞれの内訳 \n\n` 
-							
+				message =  message + `【売上】${formatter.format(toalPrice)}円 \n` + 
+									`【原価】${formatter.format(toalCost)}円 \n` +
+									`【粗利】${formatter.format(toalProfit)}円 \n` +
+									`【営業利益】${formatter.format(toalIncome)}円 \n\n` +
+									`■売上と利益それぞれの内訳 \n\n` 
 								
-			for (let j=0; j<this.categorys.length;j++){
-				message =  message +`【${this.categorys[j].categoryname}】\n` 
-				
-				for (let i=0; i<this.categorys[j].works.length;i++){
-					message =  message +`□${this.categorys[j].works[i].name}\n` +
-										`売上...${formatter.format(this.categorys[j].works[i].price)}円 × ${formatter.format(this.categorys[j].works[i].num)}件 = ${formatter.format(this.categorys[j].works[i].price * this.categorys[j].works[i].num)}円 \n` +
-										`経費...${formatter.format(this.categorys[j].works[i].cost)}円 × ${formatter.format(this.categorys[j].works[i].num)}件 = ${formatter.format(this.categorys[j].works[i].cost * this.categorys[j].works[i].num)}円 \n` +
-										`粗利...${formatter.format(this.categorys[j].works[i].profit)}円 × ${formatter.format(this.categorys[j].works[i].num)}件 = ${formatter.format(this.categorys[j].works[i].profit * this.categorys[j].works[i].num)}円 \n` +
-										`営業利益...${formatter.format(this.categorys[j].works[i].income)}円 × ${formatter.format(this.categorys[j].works[i].num)}件 = ${formatter.format(this.categorys[j].works[i].income * this.categorys[j].works[i].num)}円 \n\n` 
-										//`営業利益...(${this.works[i].price}円 - ${this.works[i].cost}円) ×  ${this.works[i].num}件 = ${(this.works[i].price - this.works[i].cost) * this.works[i].num} 円 \n\n`
-										
+									
+				for (let j=0; j<this.categorys.length;j++){
+					message =  message +`【${this.categorys[j].categoryname}】\n` 
+					
+					for (let i=0; i<this.categorys[j].works.length;i++){
+						message =  message +`□${this.categorys[j].works[i].name}\n` +
+											`売上...${formatter.format(this.categorys[j].works[i].price)}円 × ${formatter.format(this.categorys[j].works[i].num)}件 = ${formatter.format(this.categorys[j].works[i].price * this.categorys[j].works[i].num)}円 \n` +
+											`経費...${formatter.format(this.categorys[j].works[i].cost)}円 × ${formatter.format(this.categorys[j].works[i].num)}件 = ${formatter.format(this.categorys[j].works[i].cost * this.categorys[j].works[i].num)}円 \n` +
+											`粗利...${formatter.format(this.categorys[j].works[i].profit)}円 × ${formatter.format(this.categorys[j].works[i].num)}件 = ${formatter.format(this.categorys[j].works[i].profit * this.categorys[j].works[i].num)}円 \n` +
+											`営業利益...${formatter.format(this.categorys[j].works[i].income)}円 × ${formatter.format(this.categorys[j].works[i].num)}件 = ${formatter.format(this.categorys[j].works[i].income * this.categorys[j].works[i].num)}円 \n\n` 
+											//`営業利益...(${this.works[i].price}円 - ${this.works[i].cost}円) ×  ${this.works[i].num}件 = ${(this.works[i].price - this.works[i].cost) * this.works[i].num} 円 \n\n`
+											
+					}
 				}
-			}
 
-			const date = `${this.datetime.year}_${this.datetime.month}_${this.datetime.date}`
-			const report = {}
-			report[date] = {
-				categorys:this.categorys,
-			}
-			const db = this.$firebase.firestore();
-			db.doc("users/" + this.userProfile.userId).set({
-				"report":report
-			},{merge:true}).then(()=>{
-				this.load = false
-				//alert("save")
-			})
-
-			//alert(message);
-			
-			liff.sendMessages([
-				{
-					type:'text',
-					text:message
+				const date = `${this.datetime.year}_${this.datetime.month}_${this.datetime.date}`
+				const report = {}
+				report[date] = {
+					categorys:this.categorys,
 				}
-			])
-			.then(() => {
-				
-				//alert('message sent');
-			})
-			.catch((err) => {
-				//alert(err);
-			});
+				const db = this.$firebase.firestore();
+				db.doc("users/" + this.userProfile.userId).set({
+					"report":report
+				},{merge:true}).then(()=>{
+					this.load = false
+					//alert("save")
+				})
 
+				//alert(message);
+				
+				liff.sendMessages([
+					{
+						type:'text',
+						text:message
+					}
+				])
+				.then(() => {
+					
+					//alert('message sent');
+				})
+				.catch((err) => {
+					//alert(err);
+				});
+			}
 			
 		}
 	},
