@@ -101,6 +101,30 @@ exports.creatRichMenu = functions.https.onRequest(async(request, response) => {
    						uri:"https://liff.line.me/1654259536-WdOEYoBX"
 					}
 				},
+				{
+					bounds: {
+						x: 466,
+						y: 506,
+						width: 268,
+						height: 268
+					},
+					action: {
+						type:"message",
+            			text:"現在対応していません。"
+					}
+				},
+				{
+					bounds: {
+						x: 776,
+						y: 506,
+						width: 268,
+						height: 268
+					},
+					action: {
+						type:"message",
+            			text:"現在対応していません。"
+					}
+				},
 				
 			]
 		}
