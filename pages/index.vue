@@ -445,7 +445,7 @@ export default {
 		selectBoxItems:["instagram","twitter"],
 		years:[],
 		months:[],
-		count:0,
+		count:null,
 		dialog: false,
 		load: false
       
@@ -506,9 +506,9 @@ export default {
 				works:[
 					{
 						name:null,
-						price:null,
-						cost: null,
-						num: null,
+						price:0,
+						cost: 0,
+						num: 0,
 						cvr: null
 					}
 				]
@@ -560,6 +560,20 @@ export default {
 				errorMessages.push("アポイントの件数は必須です。")
 			}else if(!(String(this.count).match(patternNumber))){
 				errorMessages.push("アポイントの件数が正しくありません。")
+			}
+
+			for (let i=0; i<this.socials.length;i++){
+				if(this.socials[i].follower){
+					if(!(String(his.socials[i].follower).match(patternNumber))){
+						errorMessages.push("フォロワー数が正しくありません。")
+					}
+				}
+
+				if(this.socials[i].targetFollower){
+					if(!(String(his.socials[i].targetFollower).match(patternNumber))){
+						errorMessages.push("目標フォロワー数が正しくありません。")
+					}
+				}
 			}
 
 			if (errorMessages.length != 0) {

@@ -492,7 +492,7 @@ export default {
 					db.doc("users/" + this.userProfile.userId).set({
 						"aporeport":aporeport
 					},{merge:true}).then(()=>{
-						this.load = false
+						//this.load = false
 						//alert("save")
 					})
 
@@ -513,6 +513,8 @@ export default {
 					});
 				}
 			}
+
+			this.load = false
 			
 		}
 	},

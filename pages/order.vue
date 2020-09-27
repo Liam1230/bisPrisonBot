@@ -452,7 +452,7 @@ export default {
 				db.doc("users/" + this.userProfile.userId).set({
 					"report":report
 				},{merge:true}).then(()=>{
-					this.load = false
+					//this.load = false
 					//alert("save")
 				})
 
@@ -472,6 +472,8 @@ export default {
 					//alert(err);
 				});
 			}
+
+			this.load = false
 			
 		}
 	},
