@@ -387,62 +387,54 @@ export default {
 
 			for (let j=0; j<this.categorys.length;j++){
 
-				if(this.categorys[j].companyname == null){
+				if(!this.categorys[j].companyname){
 					errorMessages.push("訪問先名は必須です。")
-				}else{
-					if(this.categorys[j].companyname.match(patternText) == null){
-						errorMessages.push("訪問先名が正しくありません。")
-					}
 				}
 
-				if(this.categorys[j].ordertype == null){
+				if(!this.categorys[j].ordertype){
 					errorMessages.push("状況は必須です。")
 				}
 
-				if(this.categorys[j].year == null){
+				if(!this.categorys[j].year){
 					errorMessages.push("年は必須です。")
 				}
 
-				if(this.categorys[j].month == null){
+				if(!this.categorys[j].month){
 					errorMessages.push("月は必須です。")
 				}
 
-				if(this.categorys[j].date == null){
+				if(!this.categorys[j].date){
 					errorMessages.push("日は必須です。")
 				}
 
-				if(this.categorys[j].timefrom == null){
+				if(!this.categorys[j].timefrom){
 					errorMessages.push("時は必須です。")
 				}
 
-				if(this.categorys[j].timeto == null){
+				if(!this.categorys[j].timeto){
 					errorMessages.push("時は必須です。")
 				}
 				
-				if(this.categorys[j].minutefrom == null){
+				if(!this.categorys[j].minutefrom){
 					errorMessages.push("分は必須です。")
 				}
 
-				if(this.categorys[j].miniteto == null){
+				if(!this.categorys[j].miniteto){
 					errorMessages.push("分は必須です。")
 				}
 
 				for (let i=0; i<this.categorys[j].sales.length;i++){
 
-					if(this.categorys[j].sales[i].product == null){
+					if(!this.categorys[j].sales[i].product){
 						errorMessages.push("費目は必須です。")
-					}else{
-						if(this.categorys[j].sales[i].product.match(patternText) == null){
-							errorMessages.push("費目が正しくありません。")
-						}
+					}else if(this.categorys[j].sales[i].product.match(patternText) == null){
+						errorMessages.push("費目が正しくありません。")
 					}
 
-					if(this.categorys[j].sales[i].price == null){
+					if(!this.categorys[j].sales[i].price){
 						errorMessages.push("費用は必須です。")
-					}else{
-						if(String(this.categorys[j].sales[i].price).match(patternNumber) == null){
-							errorMessages.push("費用が正しくありません。")
-						}
+					}else if(String(this.categorys[j].sales[i].price).match(patternNumber) == null){
+						errorMessages.push("費用が正しくありません。")
 					}
 
 				}
@@ -462,8 +454,8 @@ export default {
 			this.load = true
 			const formatter = new Intl.NumberFormat('ja-JP');	
 			let textMessage
-			
-			if(this.checkSubmit()){
+			let blCheck = await this.checkSubmit()
+			if(blCheck == true){
 				for (let i=0; i<this.categorys.length;i++){
 
 					let toalPrice = 0

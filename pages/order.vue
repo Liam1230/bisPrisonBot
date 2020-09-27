@@ -274,54 +274,38 @@ export default {
 
 			for (let j=0; j<this.categorys.length;j++){
 
-				if(this.categorys[j].categoryname == null){
+				if(!this.categorys[j].categoryname){
 					errorMessages.push("カテゴリ名は必須。")
-				}else{
-					if(this.categorys[j].categoryname.match(patternText) == null){
-						errorMessages.push("カテゴリ名が正しくありません。")
-					}
 				}
 
 				for (let i=0; i<this.categorys[j].works.length;i++){
 
-					if(this.categorys[j].works[i].name == null){
+					if(!this.categorys[j].works[i].name){
 						errorMessages.push("案件名は必須です。")
-					}else{
-						if(this.categorys[j].works[i].name.match(patternText) == null){
-							errorMessages.push("案件名が正しくありません。")
-						}
 					}
 
-					if(this.categorys[j].works[i].price == null){
+					if(!this.categorys[j].works[i].price){
 						errorMessages.push("売上は必須です。")
-					}else{
-						if(String(this.categorys[j].works[i].price).match(patternNumber) == null){
-							errorMessages.push("売上が正しくありません。")
-						}
+					}else if(String(this.categorys[j].works[i].price).match(patternNumber) == null){
+						errorMessages.push("売上が正しくありません。")
 					}
 
-					if(this.categorys[j].works[i].cost == null){
+					if(!this.categorys[j].works[i].cost){
 						errorMessages.push("費用は必須です。")
-					}else{
-						if(String(this.categorys[j].works[i].cost).match(patternNumber) == null){
-							errorMessages.push("費用が正しくありません。")
-						}
+					}else if(String(this.categorys[j].works[i].cost).match(patternNumber) == null){
+						errorMessages.push("費用が正しくありません。") 
 					}
 
-					if(this.categorys[j].works[i].num == null){
+					if(!this.categorys[j].works[i].num){
 						errorMessages.push("件数は必須です。")
-					}else{
-						if(String(this.categorys[j].works[i].num).match(patternNumber) == null){
-							errorMessages.push("件数が正しくありません。")
-						}
+					}else if(String(this.categorys[j].works[i].num).match(patternNumber) == null){
+						errorMessages.push("件数が正しくありません。")
 					}
 
 					if(this.categorys[j].works[i].income == null){
 						errorMessages.push("営業利益は必須です。")
-					}else{
-						if(String(this.categorys[j].works[i].income).match(patternNumber) == null){
-							errorMessages.push("営業利益が正しくありません。")
-						}
+					}else if(String(this.categorys[j].works[i].income).match(patternNumber) == null){
+						errorMessages.push("営業利益が正しくありません。")
 					}
 				}
 			}
@@ -427,8 +411,8 @@ export default {
 			let toalProfit = 0
 			let toalIncome = 0
 			let message = `${this.datetime.year}年${this.datetime.month}月${this.datetime.date}日の受注レポート \n\n`
-
-			if(this.checkSubmit()){
+			let blCheck = await this.checkSubmit()
+			if(blCheck == true){
 				for (let j=0; j<this.categorys.length;j++){
 					for (let i=0; i<this.categorys[j].works.length;i++){
 						toalPrice = toalPrice + (this.categorys[j].works[i].price * this.categorys[j].works[i].num)
